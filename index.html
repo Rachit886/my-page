@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A Story For You</title>
+  <title>A Story Under the Moon</title>
   <style>
     * {
       margin: 0;
@@ -17,11 +17,97 @@
     }
 
     body {
-      background: #0b0c16;
+      background: radial-gradient(circle at 85% 20%, #151932 0%, #080911 70%, #030408 100%);
       color: #ffffff;
       font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
       overflow-x: hidden;
       min-height: 100vh;
+      position: relative;
+    }
+
+    /* --- BEAUTIFUL GLOWING MOON --- */
+    .moon-wrapper {
+      position: fixed;
+      top: 10%;
+      right: 7%;
+      width: 240px;
+      height: 240px;
+      z-index: 1;
+      pointer-events: none;
+      transition: transform 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
+    }
+
+    .moon {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fffdf0 0%, #ece5c8 30%, #b8b093 75%, #595343 100%);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 
+        0 0 35px rgba(255, 250, 220, 0.45),
+        0 0 80px rgba(255, 240, 190, 0.25),
+        0 0 140px rgba(180, 200, 255, 0.15);
+      animation: moonFloat 7s ease-in-out infinite alternate;
+    }
+
+    /* Moon Craters & Texture */
+    .moon::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 62% 40%, rgba(60, 55, 45, 0.18) 0%, transparent 18%),
+        radial-gradient(circle at 45% 65%, rgba(60, 55, 45, 0.22) 0%, transparent 22%),
+        radial-gradient(circle at 25% 42%, rgba(60, 55, 45, 0.15) 0%, transparent 14%),
+        radial-gradient(circle at 75% 70%, rgba(60, 55, 45, 0.16) 0%, transparent 12%),
+        radial-gradient(circle at 38% 28%, rgba(60, 55, 45, 0.12) 0%, transparent 10%);
+      border-radius: 50%;
+      filter: blur(1.5px);
+    }
+
+    /* Ambient Outer Halo */
+    .moon-halo {
+      position: absolute;
+      top: -30%;
+      left: -30%;
+      width: 160%;
+      height: 160%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 250, 225, 0.12) 0%, rgba(255, 250, 225, 0.03) 45%, transparent 70%);
+      pointer-events: none;
+      animation: pulseHalo 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes moonFloat {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-16px) rotate(3deg); }
+    }
+
+    @keyframes pulseHalo {
+      0% { opacity: 0.7; transform: scale(0.96); }
+      100% { opacity: 1; transform: scale(1.04); }
+    }
+
+    /* Subtle Twinkling Stars in Background */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: transparent;
+      box-shadow: 
+        120px 200px #ffffff44, 250px 80px #ffffff55, 400px 300px #ffffff33,
+        700px 150px #ffffff66, 950px 280px #ffffff44, 1150px 100px #ffffff55,
+        1350px 420px #ffffff33, 1500px 220px #ffffff66, 300px 650px #ffffff44,
+        800px 750px #ffffff55, 1250px 850px #ffffff33, 160px 880px #ffffff55;
+      border-radius: 50%;
+      width: 2px;
+      height: 2px;
+      z-index: 0;
     }
 
     /* Side Timeline Progress Bar */
@@ -45,40 +131,40 @@
     }
 
     .timeline-dot.active {
-      background: #ff4b72;
+      background: #ffd768;
       transform: scale(1.6);
-      box-shadow: 0 0 12px #ff4b72;
+      box-shadow: 0 0 12px #ffd768;
     }
 
     /* Scroll Containers */
     .scroll-container {
       position: relative;
       width: 100%;
+      z-index: 2;
     }
 
     .section {
       min-height: 100vh;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
-      padding: 20px;
+      padding: 20px 8%;
       perspective: 1000px;
     }
 
-    /* Card styling with scroll entrance animations */
+    /* Left-aligned Glassmorphic Card */
     .card {
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(18, 20, 36, 0.55);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 24px;
-      padding: 40px 30px;
-      max-width: 520px;
+      padding: 42px 34px;
+      max-width: 500px;
       width: 100%;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.55);
       opacity: 0;
-      transform: translateY(60px) rotateX(15deg) scale(0.92);
+      transform: translateY(60px) rotateX(12deg) scale(0.94);
       transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: transform, opacity;
     }
@@ -95,28 +181,27 @@
       font-size: 0.75rem;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      background: rgba(255, 75, 114, 0.15);
-      color: #ff6b8b;
+      background: rgba(255, 225, 125, 0.14);
+      color: #ffd768;
       margin-bottom: 18px;
     }
 
     h2 {
-      font-size: 1.9rem;
+      font-size: 2rem;
       font-weight: 600;
       line-height: 1.35;
       margin-bottom: 14px;
-      color: #f1f2f6;
+      color: #f7f8fc;
     }
 
     p {
-      color: #a4b0be;
-      font-size: 1rem;
-      line-height: 1.6;
+      color: #b3b9c9;
+      font-size: 1.05rem;
+      line-height: 1.65;
     }
 
     .btn-container {
       display: flex;
-      justify-content: center;
       gap: 16px;
       margin-top: 26px;
     }
@@ -132,14 +217,14 @@
     }
 
     .btn-yes {
-      background: linear-gradient(135deg, #ff4b72, #ff758c);
-      color: #fff;
-      box-shadow: 0 0 20px rgba(255, 75, 114, 0.4);
+      background: linear-gradient(135deg, #ffd768, #ff9f43);
+      color: #12131c;
+      box-shadow: 0 0 22px rgba(255, 215, 104, 0.4);
     }
 
     .btn-yes:hover {
       transform: scale(1.08);
-      box-shadow: 0 0 30px rgba(255, 75, 114, 0.7);
+      box-shadow: 0 0 32px rgba(255, 215, 104, 0.7);
     }
 
     .btn-no {
@@ -149,21 +234,21 @@
     }
 
     .btn-no:hover {
-      background: rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.15);
     }
 
-    /* Floating glowing cursor & trails */
+    /* Glowing Cursor & Particle Trail */
     #cursor-dot {
       position: fixed;
       top: 0;
       left: 0;
       width: 14px;
       height: 14px;
-      background: #ff4b72;
+      background: #ffd768;
       border-radius: 50%;
       pointer-events: none;
       transform: translate(-50%, -50%);
-      box-shadow: 0 0 15px #ff4b72, 0 0 30px #ff4b72;
+      box-shadow: 0 0 15px #ffd768, 0 0 30px #ffd768;
       z-index: 9999;
     }
 
@@ -172,7 +257,7 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #ff85a1;
+      background: #ffeaa7;
       pointer-events: none;
       transform: translate(-50%, -50%);
       animation: fadeOut 0.5s linear forwards;
@@ -180,12 +265,34 @@
     }
 
     @keyframes fadeOut {
-      0% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+      0% { opacity: 0.85; transform: translate(-50%, -50%) scale(1); }
       100% { opacity: 0; transform: translate(-50%, -50%) scale(0.1); }
+    }
+
+    @media (max-width: 768px) {
+      .moon-wrapper {
+        width: 160px;
+        height: 160px;
+        right: 4%;
+        top: 6%;
+      }
+      .section {
+        padding: 20px 5%;
+        justify-content: center;
+      }
     }
   </style>
 </head>
 <body>
+
+  <!-- Background Stars -->
+  <div class="stars"></div>
+
+  <!-- Smooth Floating Moon in Side -->
+  <div class="moon-wrapper" id="moonWrapper">
+    <div class="moon-halo"></div>
+    <div class="moon"></div>
+  </div>
 
   <!-- Side Navigation Dots -->
   <div class="timeline">
@@ -196,39 +303,35 @@
   </div>
 
   <div class="scroll-container">
-    <!-- Chapter 1 -->
     <section class="section">
       <div class="card visible">
         <span class="badge">Chapter 01</span>
-        <h2>It Started With A Thought</h2>
-        <p>Some moments leave a mark before you even realize they happened. Scroll down to see where this is going.</p>
+        <h2>Under the Quiet Moonlight</h2>
+        <p>Some moments leave a mark before you even realize they happened. Scroll down to see where this journey leads.</p>
       </div>
     </section>
 
-    <!-- Chapter 2 -->
     <section class="section">
       <div class="card">
         <span class="badge">Chapter 02</span>
         <h2>Every Little Detail</h2>
-        <p>From the random conversations to the silent smiles, everything gradually started making complete sense.</p>
+        <p>From late-night thoughts to the gentlest smiles, everything gradually started making complete sense.</p>
       </div>
     </section>
 
-    <!-- Chapter 3 -->
     <section class="section">
       <div class="card">
         <span class="badge">Chapter 03</span>
         <h2>One Honest Question</h2>
-        <p>No long paragraphs, no complicated words—just a simple, genuine feeling waiting for an answer.</p>
+        <p>No heavy words, no complicated thoughts—just a simple, genuine feeling waiting under the stars.</p>
       </div>
     </section>
 
-    <!-- Chapter 4: Proposal / Action -->
     <section class="section">
       <div class="card">
         <span class="badge">The Decision</span>
         <h2>Will you say yes?</h2>
-        <p>Take your time, but remember... some answers bring the best adventures.</p>
+        <p>Take your time, but remember... the best adventures start with a single yes.</p>
         <div class="btn-container">
           <button class="btn-yes" id="yesBtn">Yes</button>
           <button class="btn-no" id="noBtn">Maybe</button>
@@ -240,8 +343,15 @@
   <div id="cursor-dot"></div>
 
   <script>
-    // Smooth Scroll Observer for Cards & Side Dots
-    const cards = document.querySelectorAll('.card');
+    // Parallax Scroll for the Moon
+    const moonWrapper = document.getElementById('moonWrapper');
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      // Scroll karne par moon halke se smoothly move aur scale hota hai
+      moonWrapper.style.transform = `translateY(${scrollY * 0.12}px) scale(${1 + scrollY * 0.00015})`;
+    });
+
+    // Intersection Observer for Cards and Timeline
     const sections = document.querySelectorAll('.section');
     const dots = document.querySelectorAll('.timeline-dot');
 
@@ -251,7 +361,6 @@
           const card = entry.target.querySelector('.card');
           if (card) card.classList.add('visible');
 
-          // Update active dot in side timeline
           const index = Array.from(sections).indexOf(entry.target);
           dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
         }
@@ -260,7 +369,7 @@
 
     sections.forEach(sec => observer.observe(sec));
 
-    // Custom Smooth Cursor & Particles
+    // Smooth Cursor and Particle Trails
     const dot = document.getElementById('cursor-dot');
     let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
     let curX = mouseX, curY = mouseY;
@@ -296,9 +405,9 @@
     }
     animateCursor();
 
-    // Button interactions
+    // Button actions
     document.getElementById('yesBtn').addEventListener('click', () => {
-      alert('❤️ Best decision ever!');
+      alert('✨ Best decision under the stars!');
     });
 
     const noBtn = document.getElementById('noBtn');
