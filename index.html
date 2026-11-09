@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A Story Under the Moon</title>
+  <title>System Diagnostic</title>
   <style>
     * {
       margin: 0;
@@ -17,21 +17,21 @@
     }
 
     body {
-      background: radial-gradient(circle at 85% 20%, #151932 0%, #080911 70%, #030408 100%);
-      color: #ffffff;
-      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #05070e;
+      color: #00ffcc;
+      font-family: 'Courier New', Courier, monospace;
       overflow-x: hidden;
       min-height: 100vh;
       position: relative;
     }
 
-    /* --- BEAUTIFUL GLOWING MOON --- */
+    /* Floating Moon with Cyber Aura */
     .moon-wrapper {
       position: fixed;
       top: 10%;
       right: 7%;
-      width: 240px;
-      height: 240px;
+      width: 220px;
+      height: 220px;
       z-index: 1;
       pointer-events: none;
       transition: transform 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
@@ -41,33 +41,27 @@
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #fffdf0 0%, #ece5c8 30%, #b8b093 75%, #595343 100%);
+      background: radial-gradient(circle at 35% 35%, #e6ffff 0%, #7fe5d9 30%, #205055 75%, #081d20 100%);
       position: relative;
       overflow: hidden;
       box-shadow: 
-        0 0 35px rgba(255, 250, 220, 0.45),
-        0 0 80px rgba(255, 240, 190, 0.25),
-        0 0 140px rgba(180, 200, 255, 0.15);
+        0 0 35px rgba(0, 255, 204, 0.3),
+        0 0 80px rgba(0, 255, 204, 0.15);
       animation: moonFloat 7s ease-in-out infinite alternate;
     }
 
-    /* Moon Craters & Texture */
     .moon::before {
       content: '';
       position: absolute;
       width: 100%;
       height: 100%;
       background-image: 
-        radial-gradient(circle at 62% 40%, rgba(60, 55, 45, 0.18) 0%, transparent 18%),
-        radial-gradient(circle at 45% 65%, rgba(60, 55, 45, 0.22) 0%, transparent 22%),
-        radial-gradient(circle at 25% 42%, rgba(60, 55, 45, 0.15) 0%, transparent 14%),
-        radial-gradient(circle at 75% 70%, rgba(60, 55, 45, 0.16) 0%, transparent 12%),
-        radial-gradient(circle at 38% 28%, rgba(60, 55, 45, 0.12) 0%, transparent 10%);
+        radial-gradient(circle at 62% 40%, rgba(0, 40, 40, 0.3) 0%, transparent 18%),
+        radial-gradient(circle at 45% 65%, rgba(0, 40, 40, 0.3) 0%, transparent 22%),
+        radial-gradient(circle at 25% 42%, rgba(0, 40, 40, 0.2) 0%, transparent 14%);
       border-radius: 50%;
-      filter: blur(1.5px);
     }
 
-    /* Ambient Outer Halo */
     .moon-halo {
       position: absolute;
       top: -30%;
@@ -75,7 +69,7 @@
       width: 160%;
       height: 160%;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 250, 225, 0.12) 0%, rgba(255, 250, 225, 0.03) 45%, transparent 70%);
+      background: radial-gradient(circle, rgba(0, 255, 204, 0.12) 0%, transparent 70%);
       pointer-events: none;
       animation: pulseHalo 5s ease-in-out infinite alternate;
     }
@@ -90,27 +84,7 @@
       100% { opacity: 1; transform: scale(1.04); }
     }
 
-    /* Subtle Twinkling Stars in Background */
-    .stars {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      background: transparent;
-      box-shadow: 
-        120px 200px #ffffff44, 250px 80px #ffffff55, 400px 300px #ffffff33,
-        700px 150px #ffffff66, 950px 280px #ffffff44, 1150px 100px #ffffff55,
-        1350px 420px #ffffff33, 1500px 220px #ffffff66, 300px 650px #ffffff44,
-        800px 750px #ffffff55, 1250px 850px #ffffff33, 160px 880px #ffffff55;
-      border-radius: 50%;
-      width: 2px;
-      height: 2px;
-      z-index: 0;
-    }
-
-    /* Side Timeline Progress Bar */
+    /* Timeline Dots */
     .timeline {
       position: fixed;
       right: 24px;
@@ -126,14 +100,14 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.25);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      background: rgba(0, 255, 204, 0.2);
+      transition: all 0.4s ease;
     }
 
     .timeline-dot.active {
-      background: #ffd768;
+      background: #00ffcc;
       transform: scale(1.6);
-      box-shadow: 0 0 12px #ffd768;
+      box-shadow: 0 0 12px #00ffcc;
     }
 
     /* Scroll Containers */
@@ -152,52 +126,52 @@
       perspective: 1000px;
     }
 
-    /* Left-aligned Glassmorphic Card */
     .card {
-      background: rgba(18, 20, 36, 0.55);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 24px;
-      padding: 42px 34px;
-      max-width: 500px;
+      background: rgba(8, 14, 26, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 255, 204, 0.25);
+      border-radius: 12px;
+      padding: 40px 32px;
+      max-width: 520px;
       width: 100%;
-      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.55);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
       opacity: 0;
-      transform: translateY(60px) rotateX(12deg) scale(0.94);
-      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: transform, opacity;
+      transform: translateY(60px) rotateX(10deg);
+      transition: opacity 0.8s ease, transform 0.8s ease;
     }
 
     .card.visible {
       opacity: 1;
-      transform: translateY(0) rotateX(0deg) scale(1);
+      transform: translateY(0) rotateX(0deg);
     }
 
     .badge {
       display: inline-block;
-      padding: 6px 14px;
-      border-radius: 20px;
+      padding: 4px 12px;
+      border-radius: 4px;
       font-size: 0.75rem;
-      letter-spacing: 1.5px;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      background: rgba(255, 225, 125, 0.14);
-      color: #ffd768;
-      margin-bottom: 18px;
+      background: rgba(0, 255, 204, 0.1);
+      border: 1px solid rgba(0, 255, 204, 0.3);
+      color: #00ffcc;
+      margin-bottom: 16px;
     }
 
     h2 {
-      font-size: 2rem;
-      font-weight: 600;
+      font-size: 1.8rem;
+      font-weight: 700;
       line-height: 1.35;
       margin-bottom: 14px;
-      color: #f7f8fc;
+      color: #ffffff;
+      font-family: inherit;
     }
 
     p {
-      color: #b3b9c9;
-      font-size: 1.05rem;
-      line-height: 1.65;
+      color: #94a3b8;
+      font-size: 1rem;
+      line-height: 1.6;
     }
 
     .btn-container {
@@ -207,57 +181,55 @@
     }
 
     button {
-      padding: 12px 32px;
-      font-size: 1.05rem;
-      font-weight: 600;
-      border-radius: 30px;
+      padding: 12px 28px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 6px;
       border: none;
       cursor: none;
+      font-family: inherit;
+      letter-spacing: 1px;
       transition: all 0.3s ease;
     }
 
     .btn-yes {
-      background: linear-gradient(135deg, #ffd768, #ff9f43);
-      color: #12131c;
-      box-shadow: 0 0 22px rgba(255, 215, 104, 0.4);
+      background: #00ffcc;
+      color: #05070e;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
     }
 
     .btn-yes:hover {
-      transform: scale(1.08);
-      box-shadow: 0 0 32px rgba(255, 215, 104, 0.7);
+      box-shadow: 0 0 30px rgba(0, 255, 204, 0.8);
+      transform: scale(1.05);
     }
 
     .btn-no {
-      background: rgba(255, 255, 255, 0.08);
-      color: #ced6e0;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: transparent;
+      color: #ff4b72;
+      border: 1px solid rgba(255, 75, 114, 0.4);
     }
 
-    .btn-no:hover {
-      background: rgba(255, 255, 255, 0.15);
-    }
-
-    /* Glowing Cursor & Particle Trail */
+    /* Cursor */
     #cursor-dot {
       position: fixed;
       top: 0;
       left: 0;
-      width: 14px;
-      height: 14px;
-      background: #ffd768;
+      width: 12px;
+      height: 12px;
+      background: #00ffcc;
       border-radius: 50%;
       pointer-events: none;
       transform: translate(-50%, -50%);
-      box-shadow: 0 0 15px #ffd768, 0 0 30px #ffd768;
+      box-shadow: 0 0 15px #00ffcc;
       z-index: 9999;
     }
 
     .trail {
       position: fixed;
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
-      background: #ffeaa7;
+      background: #00ffcc;
       pointer-events: none;
       transform: translate(-50%, -50%);
       animation: fadeOut 0.5s linear forwards;
@@ -265,19 +237,19 @@
     }
 
     @keyframes fadeOut {
-      0% { opacity: 0.85; transform: translate(-50%, -50%) scale(1); }
+      0% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
       100% { opacity: 0; transform: translate(-50%, -50%) scale(0.1); }
     }
 
     @media (max-width: 768px) {
       .moon-wrapper {
-        width: 160px;
-        height: 160px;
+        width: 140px;
+        height: 140px;
         right: 4%;
-        top: 6%;
+        top: 5%;
       }
       .section {
-        padding: 20px 5%;
+        padding: 20px 6%;
         justify-content: center;
       }
     }
@@ -285,16 +257,12 @@
 </head>
 <body>
 
-  <!-- Background Stars -->
-  <div class="stars"></div>
-
-  <!-- Smooth Floating Moon in Side -->
+  <!-- Cyber Moon -->
   <div class="moon-wrapper" id="moonWrapper">
     <div class="moon-halo"></div>
     <div class="moon"></div>
   </div>
 
-  <!-- Side Navigation Dots -->
   <div class="timeline">
     <div class="timeline-dot active"></div>
     <div class="timeline-dot"></div>
@@ -303,38 +271,42 @@
   </div>
 
   <div class="scroll-container">
+    <!-- Card 1 -->
     <section class="section">
       <div class="card visible">
-        <span class="badge">Chapter 01</span>
-        <h2>Under the Quiet Moonlight</h2>
-        <p>Some moments leave a mark before you even realize they happened. Scroll down to see where this journey leads.</p>
+        <span class="badge">[ NFC_AUTH_SUCCESS ]</span>
+        <h2>INITIALIZING SCAN...</h2>
+        <p>Target device detected. Extracting user data from the chip... Please scroll down to continue calibration.</p>
       </div>
     </section>
 
+    <!-- Card 2 -->
     <section class="section">
       <div class="card">
-        <span class="badge">Chapter 02</span>
-        <h2>Every Little Detail</h2>
-        <p>From late-night thoughts to the gentlest smiles, everything gradually started making complete sense.</p>
+        <span class="badge">[ ANALYSIS_REPORT ]</span>
+        <h2>BRAIN CELLS: NOT FOUND</h2>
+        <p>Sensors ran an automated IQ check on the current scanner. Status: 98% drama, 2% logic. System recommends eating almonds.</p>
       </div>
     </section>
 
+    <!-- Card 3 -->
     <section class="section">
       <div class="card">
-        <span class="badge">Chapter 03</span>
-        <h2>One Honest Question</h2>
-        <p>No heavy words, no complicated thoughts—just a simple, genuine feeling waiting under the stars.</p>
+        <span class="badge">[ SYSTEM_LOGS ]</span>
+        <h2>INCOMING TRANSMISSION</h2>
+        <p>The tag didn't hold secret coordinates. It was strictly placed here to remind you that you lose every argument by default.</p>
       </div>
     </section>
 
+    <!-- Card 4 -->
     <section class="section">
       <div class="card">
-        <span class="badge">The Decision</span>
-        <h2>Will you say yes?</h2>
-        <p>Take your time, but remember... the best adventures start with a single yes.</p>
+        <span class="badge">[ PROTOCOL_TERMINATION ]</span>
+        <h2>CLOSE DIAGNOSTIC?</h2>
+        <p>Acknowledge that scanning this tag was a mistake, or try clicking the red escape button.</p>
         <div class="btn-container">
-          <button class="btn-yes" id="yesBtn">Yes</button>
-          <button class="btn-no" id="noBtn">Maybe</button>
+          <button class="btn-yes" id="yesBtn">I ADMIT IT</button>
+          <button class="btn-no" id="noBtn">DISMISS</button>
         </div>
       </div>
     </section>
@@ -343,15 +315,14 @@
   <div id="cursor-dot"></div>
 
   <script>
-    // Parallax Scroll for the Moon
+    // Moon parallax
     const moonWrapper = document.getElementById('moonWrapper');
     window.addEventListener('scroll', () => {
       const scrollY = window.scrollY;
-      // Scroll karne par moon halke se smoothly move aur scale hota hai
       moonWrapper.style.transform = `translateY(${scrollY * 0.12}px) scale(${1 + scrollY * 0.00015})`;
     });
 
-    // Intersection Observer for Cards and Timeline
+    // Intersection observer
     const sections = document.querySelectorAll('.section');
     const dots = document.querySelectorAll('.timeline-dot');
 
@@ -369,7 +340,7 @@
 
     sections.forEach(sec => observer.observe(sec));
 
-    // Smooth Cursor and Particle Trails
+    // Cursor tracking
     const dot = document.getElementById('cursor-dot');
     let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
     let curX = mouseX, curY = mouseY;
@@ -405,15 +376,19 @@
     }
     animateCursor();
 
-    // Button actions
+    // Buttons
     document.getElementById('yesBtn').addEventListener('click', () => {
-      alert('✨ Best decision under the stars!');
+      alert('[SYSTEM SHUTDOWN]: Log recorded. Now go do your homework.');
     });
 
     const noBtn = document.getElementById('noBtn');
-    noBtn.addEventListener('mouseover', () => {
-      noBtn.style.transform = `translate(${Math.random() * 80 - 40}px, ${Math.random() * 40 - 20}px)`;
-    });
+    const dodge = () => {
+      const x = Math.random() * 120 - 60;
+      const y = Math.random() * 80 - 40;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    };
+    noBtn.addEventListener('mouseover', dodge);
+    noBtn.addEventListener('touchstart', dodge);
   </script>
 </body>
 </html>
