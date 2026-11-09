@@ -2,148 +2,309 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Letter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Story For You</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      /* default cursor hide karke custom cursor dikhane ke liye */
       cursor: none;
     }
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: radial-gradient(circle at center, #1a1a2e, #0f0f1b);
-      color: #fff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      overflow: hidden;
+    html {
+      scroll-behavior: smooth;
     }
 
-    h1 {
-      margin-bottom: 25px;
-      font-size: 2.2rem;
-      letter-spacing: 1px;
+    body {
+      background: #0b0c16;
+      color: #ffffff;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Side Timeline Progress Bar */
+    .timeline {
+      position: fixed;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      z-index: 100;
+    }
+
+    .timeline-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .timeline-dot.active {
+      background: #ff4b72;
+      transform: scale(1.6);
+      box-shadow: 0 0 12px #ff4b72;
+    }
+
+    /* Scroll Containers */
+    .scroll-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .section {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      perspective: 1000px;
+    }
+
+    /* Card styling with scroll entrance animations */
+    .card {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 40px 30px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      transform: translateY(60px) rotateX(15deg) scale(0.92);
+      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, opacity;
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0) rotateX(0deg) scale(1);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      background: rgba(255, 75, 114, 0.15);
+      color: #ff6b8b;
+      margin-bottom: 18px;
+    }
+
+    h2 {
+      font-size: 1.9rem;
+      font-weight: 600;
+      line-height: 1.35;
+      margin-bottom: 14px;
+      color: #f1f2f6;
+    }
+
+    p {
+      color: #a4b0be;
+      font-size: 1rem;
+      line-height: 1.6;
     }
 
     .btn-container {
       display: flex;
-      gap: 15px;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 26px;
     }
 
     button {
-      padding: 12px 28px;
-      font-size: 1.1rem;
+      padding: 12px 32px;
+      font-size: 1.05rem;
       font-weight: 600;
-      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 30px;
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      backdrop-filter: blur(10px);
-      transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+      border: none;
       cursor: none;
+      transition: all 0.3s ease;
     }
 
-    button:hover {
-      background: #ff4b72;
-      border-color: #ff4b72;
+    .btn-yes {
+      background: linear-gradient(135deg, #ff4b72, #ff758c);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(255, 75, 114, 0.4);
+    }
+
+    .btn-yes:hover {
       transform: scale(1.08);
-      box-shadow: 0 0 20px rgba(255, 75, 114, 0.6);
+      box-shadow: 0 0 30px rgba(255, 75, 114, 0.7);
     }
 
-    /* Main Smooth Cursor Dot */
+    .btn-no {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ced6e0;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-no:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    /* Floating glowing cursor & trails */
     #cursor-dot {
       position: fixed;
       top: 0;
       left: 0;
-      width: 18px;
-      height: 18px;
+      width: 14px;
+      height: 14px;
       background: #ff4b72;
       border-radius: 50%;
       pointer-events: none;
       transform: translate(-50%, -50%);
-      box-shadow: 0 0 12px #ff4b72, 0 0 25px #ff4b72;
+      box-shadow: 0 0 15px #ff4b72, 0 0 30px #ff4b72;
       z-index: 9999;
-      will-change: transform;
     }
 
-    /* Trailing Effect Particle */
     .trail {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: #ff85a1;
       pointer-events: none;
       transform: translate(-50%, -50%);
-      animation: fadeOut 0.6s linear forwards;
+      animation: fadeOut 0.5s linear forwards;
       z-index: 9998;
     }
 
     @keyframes fadeOut {
-      0% {
-        opacity: 0.9;
-        transform: translate(-50%, -50%) scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.1);
-      }
+      0% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(0.1); }
     }
   </style>
 </head>
 <body>
 
-  <h1>Dear you, say yes?</h1>
-  <div class="btn-container">
-    <button>Yes</button>
-    <button>No</button>
+  <!-- Side Navigation Dots -->
+  <div class="timeline">
+    <div class="timeline-dot active"></div>
+    <div class="timeline-dot"></div>
+    <div class="timeline-dot"></div>
+    <div class="timeline-dot"></div>
   </div>
 
-  <!-- Custom Cursor Element -->
+  <div class="scroll-container">
+    <!-- Chapter 1 -->
+    <section class="section">
+      <div class="card visible">
+        <span class="badge">Chapter 01</span>
+        <h2>It Started With A Thought</h2>
+        <p>Some moments leave a mark before you even realize they happened. Scroll down to see where this is going.</p>
+      </div>
+    </section>
+
+    <!-- Chapter 2 -->
+    <section class="section">
+      <div class="card">
+        <span class="badge">Chapter 02</span>
+        <h2>Every Little Detail</h2>
+        <p>From the random conversations to the silent smiles, everything gradually started making complete sense.</p>
+      </div>
+    </section>
+
+    <!-- Chapter 3 -->
+    <section class="section">
+      <div class="card">
+        <span class="badge">Chapter 03</span>
+        <h2>One Honest Question</h2>
+        <p>No long paragraphs, no complicated words—just a simple, genuine feeling waiting for an answer.</p>
+      </div>
+    </section>
+
+    <!-- Chapter 4: Proposal / Action -->
+    <section class="section">
+      <div class="card">
+        <span class="badge">The Decision</span>
+        <h2>Will you say yes?</h2>
+        <p>Take your time, but remember... some answers bring the best adventures.</p>
+        <div class="btn-container">
+          <button class="btn-yes" id="yesBtn">Yes</button>
+          <button class="btn-no" id="noBtn">Maybe</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
   <div id="cursor-dot"></div>
 
   <script>
+    // Smooth Scroll Observer for Cards & Side Dots
+    const cards = document.querySelectorAll('.card');
+    const sections = document.querySelectorAll('.section');
+    const dots = document.querySelectorAll('.timeline-dot');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const card = entry.target.querySelector('.card');
+          if (card) card.classList.add('visible');
+
+          // Update active dot in side timeline
+          const index = Array.from(sections).indexOf(entry.target);
+          dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+        }
+      });
+    }, { threshold: 0.45 });
+
+    sections.forEach(sec => observer.observe(sec));
+
+    // Custom Smooth Cursor & Particles
     const dot = document.getElementById('cursor-dot');
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let currentX = mouseX;
-    let currentY = mouseY;
+    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+    let curX = mouseX, curY = mouseY;
+
+    const spawnTrail = (x, y) => {
+      const trail = document.createElement('div');
+      trail.className = 'trail';
+      trail.style.left = `${x}px`;
+      trail.style.top = `${y}px`;
+      document.body.appendChild(trail);
+      setTimeout(() => trail.remove(), 500);
+    };
 
     window.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-
-      // Cursor trail particle generate karna
-      const trail = document.createElement('div');
-      trail.className = 'trail';
-      trail.style.left = `${e.clientX}px`;
-      trail.style.top = `${e.clientY}px`;
-      document.body.appendChild(trail);
-
-      setTimeout(() => {
-        trail.remove();
-      }, 600);
+      spawnTrail(e.clientX, e.clientY);
     });
 
-    // Smooth physics/damping animation loop
-    function animate() {
-      // 0.15 smoothing factor hai (jitna kam utna smooth/heavy follow)
-      currentX += (mouseX - currentX) * 0.15;
-      currentY += (mouseY - currentY) * 0.15;
+    window.addEventListener('touchmove', (e) => {
+      const touch = e.touches[0];
+      mouseX = touch.clientX;
+      mouseY = touch.clientY;
+      spawnTrail(touch.clientX, touch.clientY);
+    });
 
-      dot.style.left = `${currentX}px`;
-      dot.style.top = `${currentY}px`;
-
-      requestAnimationFrame(animate);
+    function animateCursor() {
+      curX += (mouseX - curX) * 0.16;
+      curY += (mouseY - curY) * 0.16;
+      dot.style.left = `${curX}px`;
+      dot.style.top = `${curY}px`;
+      requestAnimationFrame(animateCursor);
     }
-    animate();
+    animateCursor();
+
+    // Button interactions
+    document.getElementById('yesBtn').addEventListener('click', () => {
+      alert('❤️ Best decision ever!');
+    });
+
+    const noBtn = document.getElementById('noBtn');
+    noBtn.addEventListener('mouseover', () => {
+      noBtn.style.transform = `translate(${Math.random() * 80 - 40}px, ${Math.random() * 40 - 20}px)`;
+    });
   </script>
 </body>
 </html>
