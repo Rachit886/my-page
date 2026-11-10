@@ -28,7 +28,7 @@
       position: relative;
     }
 
-    /* Ambient Warm Glow behind the moon */
+    /* Ambient Warm Glow */
     .ambient-glow {
       position: fixed;
       top: -10%;
@@ -102,7 +102,7 @@
       100% { opacity: 1; transform: scale(1.04); }
     }
 
-    /* Cute Floating Background Figures */
+    /* Floating Figures */
     .cute-figure {
       position: fixed;
       pointer-events: none;
@@ -167,13 +167,13 @@
     }
 
     .card {
-      background: rgba(30, 18, 38, 0.55);
+      background: rgba(30, 18, 38, 0.6);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 200, 221, 0.18);
       border-radius: 26px;
       padding: 44px 36px;
-      max-width: 480px;
+      max-width: 500px;
       width: 100%;
       box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45);
       opacity: 0;
@@ -204,7 +204,7 @@
       font-size: 2.1rem;
       font-weight: 600;
       line-height: 1.3;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       color: #fff0f5;
     }
 
@@ -215,46 +215,12 @@
     }
 
     p {
-      color: #d8c4d4;
-      font-size: 1.05rem;
-      line-height: 1.65;
+      color: #e5d4e1;
+      font-size: 1.1rem;
+      line-height: 1.7;
     }
 
-    .btn-container {
-      display: flex;
-      gap: 16px;
-      margin-top: 26px;
-    }
-
-    button {
-      padding: 12px 30px;
-      font-size: 1rem;
-      font-weight: 600;
-      border-radius: 30px;
-      border: none;
-      cursor: none;
-      transition: all 0.3s ease;
-      font-family: inherit;
-    }
-
-    .btn-yes {
-      background: linear-gradient(135deg, #ff85a1, #ffafcc);
-      color: #2b0d1e;
-      box-shadow: 0 0 20px rgba(255, 133, 161, 0.4);
-    }
-
-    .btn-yes:hover {
-      transform: scale(1.08);
-      box-shadow: 0 0 30px rgba(255, 133, 161, 0.7);
-    }
-
-    .btn-no {
-      background: rgba(255, 255, 255, 0.08);
-      color: #f7d6e0;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-
-    /* Soft Glow Cursor */
+    /* Glow Cursor */
     #cursor-dot {
       position: fixed;
       top: 0;
@@ -310,7 +276,7 @@
     <div class="moon"></div>
   </div>
 
-  <!-- Cute Floating Moving Figures -->
+  <!-- Cute Floating Figures -->
   <div class="cute-figure fig-1" data-speed="0.08">☁️</div>
   <div class="cute-figure fig-2" data-speed="-0.06">✨</div>
   <div class="cute-figure fig-3" data-speed="0.12">🌸</div>
@@ -321,47 +287,33 @@
     <div class="timeline-dot active"></div>
     <div class="timeline-dot"></div>
     <div class="timeline-dot"></div>
-    <div class="timeline-dot"></div>
   </div>
 
   <div class="scroll-container">
     <!-- Chapter 1 -->
     <section class="section">
       <div class="card visible">
-        <span class="badge">little note</span>
+        <span class="badge">A small effort</span>
         <h2>hello <span class="handwriting">&lt;3</span></h2>
-        <p>I put together this small corner of the internet just for you. Take your time and scroll down slowly.</p>
+        <p>Dekho, I tried my best to give efforts. I know I can do more, but I really wanted to build something special for you.</p>
       </div>
     </section>
 
     <!-- Chapter 2 -->
     <section class="section">
       <div class="card">
-        <span class="badge">gentle reminder</span>
-        <h2>Just in case...</h2>
-        <p>In case today was long, or you forgot: you're doing amazing, and having you around always makes the world feel a little lighter.</p>
+        <span class="badge">Unsaid thoughts</span>
+        <h2>To be honest...</h2>
+        <p>Ever since I started talking to you, I haven't spoken about it directly. I've always been indirect, and sometimes it looks obvious.</p>
       </div>
     </section>
 
     <!-- Chapter 3 -->
     <section class="section">
       <div class="card">
-        <span class="badge">one little wish</span>
-        <h2>Keep smiling 🌷</h2>
-        <p>Good days, messy days, or random days like this one—I hope you know you're always appreciated more than words say.</p>
-      </div>
-    </section>
-
-    <!-- Chapter 4 -->
-    <section class="section">
-      <div class="card">
-        <span class="badge">treat pass</span>
-        <h2>Did this bring a smile?</h2>
-        <p>No wrong answers, but tapping the right one guarantees a cup of coffee or your favorite snack on me.</p>
-        <div class="btn-container">
-          <button class="btn-yes" id="yesBtn">Yes, always &lt;3</button>
-          <button class="btn-no" id="noBtn">Maybe</button>
-        </div>
+        <span class="badge">Just one thing ✨</span>
+        <h2>Finally saying it</h2>
+        <p>I like you soooooooooooo muchhhhhh. Haven't said this ever... and there are more surprises to come.</p>
       </div>
     </section>
   </div>
@@ -369,17 +321,14 @@
   <div id="cursor-dot"></div>
 
   <script>
-    // Smooth Scroll Parallax for Moon & Floating Figures
+    // Smooth Scroll Parallax
     const moonWrapper = document.getElementById('moonWrapper');
     const figures = document.querySelectorAll('.cute-figure');
 
     window.addEventListener('scroll', () => {
       const scrollY = window.scrollY;
-      
-      // Moon movement
       moonWrapper.style.transform = `translateY(${scrollY * 0.12}px) scale(${1 + scrollY * 0.00015})`;
-      
-      // Figures move dynamically at different scroll speeds
+
       figures.forEach(fig => {
         const speed = parseFloat(fig.getAttribute('data-speed'));
         fig.style.transform = `translateY(${scrollY * speed * 2}px) rotate(${scrollY * speed * 0.5}deg)`;
@@ -439,20 +388,6 @@
       requestAnimationFrame(animateCursor);
     }
     animateCursor();
-
-    // Button interactions
-    document.getElementById('yesBtn').addEventListener('click', () => {
-      alert('🌸 Mission accomplished! Treat unlocked.');
-    });
-
-    const noBtn = document.getElementById('noBtn');
-    const dodge = () => {
-      const x = Math.random() * 100 - 50;
-      const y = Math.random() * 60 - 30;
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
-    };
-    noBtn.addEventListener('mouseover', dodge);
-    noBtn.addEventListener('touchstart', dodge);
   </script>
 </body>
 </html>
