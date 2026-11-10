@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>System Diagnostic</title>
+  <title>hello &lt;3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -17,37 +20,52 @@
     }
 
     body {
-      background: #05070e;
-      color: #00ffcc;
-      font-family: 'Courier New', Courier, monospace;
+      background: radial-gradient(circle at 85% 15%, #241429 0%, #150d1e 45%, #0b0712 100%);
+      color: #fffafc;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
       min-height: 100vh;
       position: relative;
     }
 
-    /* Floating Moon with Cyber Aura */
+    /* Ambient Warm Glow behind the moon */
+    .ambient-glow {
+      position: fixed;
+      top: -10%;
+      right: -10%;
+      width: 50vw;
+      height: 50vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 142, 175, 0.15) 0%, rgba(255, 182, 193, 0.05) 50%, transparent 70%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Soft Pastel Moon */
     .moon-wrapper {
       position: fixed;
-      top: 10%;
+      top: 8%;
       right: 7%;
       width: 220px;
       height: 220px;
       z-index: 1;
       pointer-events: none;
-      transition: transform 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
+      transition: transform 0.25s cubic-bezier(0.1, 0.9, 0.2, 1);
     }
 
     .moon {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #e6ffff 0%, #7fe5d9 30%, #205055 75%, #081d20 100%);
+      background: radial-gradient(circle at 35% 35%, #fff5f8 0%, #fed8e4 35%, #d89fb5 75%, #7a4f65 100%);
       position: relative;
       overflow: hidden;
       box-shadow: 
-        0 0 35px rgba(0, 255, 204, 0.3),
-        0 0 80px rgba(0, 255, 204, 0.15);
-      animation: moonFloat 7s ease-in-out infinite alternate;
+        0 0 35px rgba(254, 216, 228, 0.5),
+        0 0 90px rgba(255, 175, 204, 0.25),
+        0 0 160px rgba(186, 131, 168, 0.18);
+      animation: moonFloat 8s ease-in-out infinite alternate;
     }
 
     .moon::before {
@@ -56,9 +74,9 @@
       width: 100%;
       height: 100%;
       background-image: 
-        radial-gradient(circle at 62% 40%, rgba(0, 40, 40, 0.3) 0%, transparent 18%),
-        radial-gradient(circle at 45% 65%, rgba(0, 40, 40, 0.3) 0%, transparent 22%),
-        radial-gradient(circle at 25% 42%, rgba(0, 40, 40, 0.2) 0%, transparent 14%);
+        radial-gradient(circle at 62% 40%, rgba(130, 70, 95, 0.15) 0%, transparent 18%),
+        radial-gradient(circle at 45% 65%, rgba(130, 70, 95, 0.18) 0%, transparent 22%),
+        radial-gradient(circle at 25% 42%, rgba(130, 70, 95, 0.12) 0%, transparent 14%);
       border-radius: 50%;
     }
 
@@ -69,14 +87,14 @@
       width: 160%;
       height: 160%;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(0, 255, 204, 0.12) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255, 200, 221, 0.16) 0%, transparent 70%);
       pointer-events: none;
-      animation: pulseHalo 5s ease-in-out infinite alternate;
+      animation: pulseHalo 6s ease-in-out infinite alternate;
     }
 
     @keyframes moonFloat {
       0% { transform: translateY(0px) rotate(0deg); }
-      100% { transform: translateY(-16px) rotate(3deg); }
+      100% { transform: translateY(-14px) rotate(3deg); }
     }
 
     @keyframes pulseHalo {
@@ -84,7 +102,29 @@
       100% { opacity: 1; transform: scale(1.04); }
     }
 
-    /* Timeline Dots */
+    /* Cute Floating Background Figures */
+    .cute-figure {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.75;
+      font-size: 1.8rem;
+      user-select: none;
+      filter: drop-shadow(0 0 10px rgba(255, 182, 193, 0.4));
+      will-change: transform;
+    }
+
+    .fig-1 { top: 18%; left: 12%; animation: gentleBob 6s ease-in-out infinite alternate; }
+    .fig-2 { top: 48%; right: 18%; animation: gentleBob 7s ease-in-out infinite alternate-reverse; }
+    .fig-3 { top: 72%; left: 8%; animation: gentleBob 5.5s ease-in-out infinite alternate; }
+    .fig-4 { top: 32%; left: 45%; animation: gentleBob 8s ease-in-out infinite alternate-reverse; }
+
+    @keyframes gentleBob {
+      0% { transform: translateY(0px) rotate(-6deg); }
+      100% { transform: translateY(-22px) rotate(6deg); }
+    }
+
+    /* Side Progress Dots */
     .timeline {
       position: fixed;
       right: 24px;
@@ -92,25 +132,25 @@
       transform: translateY(-50%);
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 16px;
       z-index: 100;
     }
 
     .timeline-dot {
-      width: 10px;
-      height: 10px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
-      background: rgba(0, 255, 204, 0.2);
-      transition: all 0.4s ease;
+      background: rgba(255, 255, 255, 0.2);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .timeline-dot.active {
-      background: #00ffcc;
-      transform: scale(1.6);
-      box-shadow: 0 0 12px #00ffcc;
+      background: #ff85a1;
+      transform: scale(1.7);
+      box-shadow: 0 0 14px #ff85a1;
     }
 
-    /* Scroll Containers */
+    /* Sections & Cards */
     .scroll-container {
       position: relative;
       width: 100%;
@@ -127,51 +167,57 @@
     }
 
     .card {
-      background: rgba(8, 14, 26, 0.75);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(0, 255, 204, 0.25);
-      border-radius: 12px;
-      padding: 40px 32px;
-      max-width: 520px;
+      background: rgba(30, 18, 38, 0.55);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 200, 221, 0.18);
+      border-radius: 26px;
+      padding: 44px 36px;
+      max-width: 480px;
       width: 100%;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45);
       opacity: 0;
-      transform: translateY(60px) rotateX(10deg);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transform: translateY(60px) scale(0.95);
+      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .card.visible {
       opacity: 1;
-      transform: translateY(0) rotateX(0deg);
+      transform: translateY(0) scale(1);
     }
 
     .badge {
       display: inline-block;
-      padding: 4px 12px;
-      border-radius: 4px;
+      padding: 6px 14px;
+      border-radius: 20px;
       font-size: 0.75rem;
-      letter-spacing: 2px;
+      letter-spacing: 1.2px;
       text-transform: uppercase;
-      background: rgba(0, 255, 204, 0.1);
-      border: 1px solid rgba(0, 255, 204, 0.3);
-      color: #00ffcc;
-      margin-bottom: 16px;
+      font-weight: 600;
+      background: rgba(255, 133, 161, 0.15);
+      color: #ffb3c6;
+      border: 1px solid rgba(255, 133, 161, 0.25);
+      margin-bottom: 18px;
     }
 
     h2 {
-      font-size: 1.8rem;
-      font-weight: 700;
-      line-height: 1.35;
+      font-size: 2.1rem;
+      font-weight: 600;
+      line-height: 1.3;
       margin-bottom: 14px;
-      color: #ffffff;
-      font-family: inherit;
+      color: #fff0f5;
+    }
+
+    .handwriting {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #ffccd5;
     }
 
     p {
-      color: #94a3b8;
-      font-size: 1rem;
-      line-height: 1.6;
+      color: #d8c4d4;
+      font-size: 1.05rem;
+      line-height: 1.65;
     }
 
     .btn-container {
@@ -181,55 +227,54 @@
     }
 
     button {
-      padding: 12px 28px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      border-radius: 6px;
+      padding: 12px 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 30px;
       border: none;
       cursor: none;
-      font-family: inherit;
-      letter-spacing: 1px;
       transition: all 0.3s ease;
+      font-family: inherit;
     }
 
     .btn-yes {
-      background: #00ffcc;
-      color: #05070e;
-      box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+      background: linear-gradient(135deg, #ff85a1, #ffafcc);
+      color: #2b0d1e;
+      box-shadow: 0 0 20px rgba(255, 133, 161, 0.4);
     }
 
     .btn-yes:hover {
-      box-shadow: 0 0 30px rgba(0, 255, 204, 0.8);
-      transform: scale(1.05);
+      transform: scale(1.08);
+      box-shadow: 0 0 30px rgba(255, 133, 161, 0.7);
     }
 
     .btn-no {
-      background: transparent;
-      color: #ff4b72;
-      border: 1px solid rgba(255, 75, 114, 0.4);
+      background: rgba(255, 255, 255, 0.08);
+      color: #f7d6e0;
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
-    /* Cursor */
+    /* Soft Glow Cursor */
     #cursor-dot {
       position: fixed;
       top: 0;
       left: 0;
-      width: 12px;
-      height: 12px;
-      background: #00ffcc;
+      width: 14px;
+      height: 14px;
+      background: #ff85a1;
       border-radius: 50%;
       pointer-events: none;
       transform: translate(-50%, -50%);
-      box-shadow: 0 0 15px #00ffcc;
+      box-shadow: 0 0 16px #ff85a1, 0 0 32px #ffafcc;
       z-index: 9999;
     }
 
     .trail {
       position: fixed;
-      width: 5px;
-      height: 5px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background: #00ffcc;
+      background: #ffc2d1;
       pointer-events: none;
       transform: translate(-50%, -50%);
       animation: fadeOut 0.5s linear forwards;
@@ -237,14 +282,14 @@
     }
 
     @keyframes fadeOut {
-      0% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+      0% { opacity: 0.85; transform: translate(-50%, -50%) scale(1); }
       100% { opacity: 0; transform: translate(-50%, -50%) scale(0.1); }
     }
 
     @media (max-width: 768px) {
       .moon-wrapper {
-        width: 140px;
-        height: 140px;
+        width: 150px;
+        height: 150px;
         right: 4%;
         top: 5%;
       }
@@ -257,12 +302,21 @@
 </head>
 <body>
 
-  <!-- Cyber Moon -->
+  <div class="ambient-glow"></div>
+
+  <!-- Soft Pink Moon -->
   <div class="moon-wrapper" id="moonWrapper">
     <div class="moon-halo"></div>
     <div class="moon"></div>
   </div>
 
+  <!-- Cute Floating Moving Figures -->
+  <div class="cute-figure fig-1" data-speed="0.08">☁️</div>
+  <div class="cute-figure fig-2" data-speed="-0.06">✨</div>
+  <div class="cute-figure fig-3" data-speed="0.12">🌸</div>
+  <div class="cute-figure fig-4" data-speed="-0.1">🤍</div>
+
+  <!-- Timeline Dots -->
   <div class="timeline">
     <div class="timeline-dot active"></div>
     <div class="timeline-dot"></div>
@@ -271,42 +325,42 @@
   </div>
 
   <div class="scroll-container">
-    <!-- Card 1 -->
+    <!-- Chapter 1 -->
     <section class="section">
       <div class="card visible">
-        <span class="badge">[ NFC_AUTH_SUCCESS ]</span>
-        <h2>INITIALIZING SCAN...</h2>
-        <p>Target device detected. Extracting user data from the chip... Please scroll down to continue calibration.</p>
+        <span class="badge">little note</span>
+        <h2>hello <span class="handwriting">&lt;3</span></h2>
+        <p>I put together this small corner of the internet just for you. Take your time and scroll down slowly.</p>
       </div>
     </section>
 
-    <!-- Card 2 -->
+    <!-- Chapter 2 -->
     <section class="section">
       <div class="card">
-        <span class="badge">[ ANALYSIS_REPORT ]</span>
-        <h2>BRAIN CELLS: NOT FOUND</h2>
-        <p>Sensors ran an automated IQ check on the current scanner. Status: 98% drama, 2% logic. System recommends eating almonds.</p>
+        <span class="badge">gentle reminder</span>
+        <h2>Just in case...</h2>
+        <p>In case today was long, or you forgot: you're doing amazing, and having you around always makes the world feel a little lighter.</p>
       </div>
     </section>
 
-    <!-- Card 3 -->
+    <!-- Chapter 3 -->
     <section class="section">
       <div class="card">
-        <span class="badge">[ SYSTEM_LOGS ]</span>
-        <h2>INCOMING TRANSMISSION</h2>
-        <p>The tag didn't hold secret coordinates. It was strictly placed here to remind you that you lose every argument by default.</p>
+        <span class="badge">one little wish</span>
+        <h2>Keep smiling 🌷</h2>
+        <p>Good days, messy days, or random days like this one—I hope you know you're always appreciated more than words say.</p>
       </div>
     </section>
 
-    <!-- Card 4 -->
+    <!-- Chapter 4 -->
     <section class="section">
       <div class="card">
-        <span class="badge">[ PROTOCOL_TERMINATION ]</span>
-        <h2>CLOSE DIAGNOSTIC?</h2>
-        <p>Acknowledge that scanning this tag was a mistake, or try clicking the red escape button.</p>
+        <span class="badge">treat pass</span>
+        <h2>Did this bring a smile?</h2>
+        <p>No wrong answers, but tapping the right one guarantees a cup of coffee or your favorite snack on me.</p>
         <div class="btn-container">
-          <button class="btn-yes" id="yesBtn">I ADMIT IT</button>
-          <button class="btn-no" id="noBtn">DISMISS</button>
+          <button class="btn-yes" id="yesBtn">Yes, always &lt;3</button>
+          <button class="btn-no" id="noBtn">Maybe</button>
         </div>
       </div>
     </section>
@@ -315,14 +369,24 @@
   <div id="cursor-dot"></div>
 
   <script>
-    // Moon parallax
+    // Smooth Scroll Parallax for Moon & Floating Figures
     const moonWrapper = document.getElementById('moonWrapper');
+    const figures = document.querySelectorAll('.cute-figure');
+
     window.addEventListener('scroll', () => {
       const scrollY = window.scrollY;
+      
+      // Moon movement
       moonWrapper.style.transform = `translateY(${scrollY * 0.12}px) scale(${1 + scrollY * 0.00015})`;
+      
+      // Figures move dynamically at different scroll speeds
+      figures.forEach(fig => {
+        const speed = parseFloat(fig.getAttribute('data-speed'));
+        fig.style.transform = `translateY(${scrollY * speed * 2}px) rotate(${scrollY * speed * 0.5}deg)`;
+      });
     });
 
-    // Intersection observer
+    // Observer for Cards and Timeline
     const sections = document.querySelectorAll('.section');
     const dots = document.querySelectorAll('.timeline-dot');
 
@@ -340,7 +404,7 @@
 
     sections.forEach(sec => observer.observe(sec));
 
-    // Cursor tracking
+    // Smooth Cursor and Particle Trail
     const dot = document.getElementById('cursor-dot');
     let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
     let curX = mouseX, curY = mouseY;
@@ -376,15 +440,15 @@
     }
     animateCursor();
 
-    // Buttons
+    // Button interactions
     document.getElementById('yesBtn').addEventListener('click', () => {
-      alert('[SYSTEM SHUTDOWN]: Log recorded. Now go do your homework.');
+      alert('🌸 Mission accomplished! Treat unlocked.');
     });
 
     const noBtn = document.getElementById('noBtn');
     const dodge = () => {
-      const x = Math.random() * 120 - 60;
-      const y = Math.random() * 80 - 40;
+      const x = Math.random() * 100 - 50;
+      const y = Math.random() * 60 - 30;
       noBtn.style.transform = `translate(${x}px, ${y}px)`;
     };
     noBtn.addEventListener('mouseover', dodge);
