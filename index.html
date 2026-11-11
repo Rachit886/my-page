@@ -41,7 +41,7 @@
       background-size: 3px 3px;
     }
 
-    /* --- REAL FLOWING WATERFALL SYSTEM (RIGHT SIDE) --- */
+    /* --- RIGHT SIDE WATERFALL PANEL --- */
     .waterfall-panel {
       position: fixed;
       top: 0;
@@ -54,7 +54,6 @@
       background: linear-gradient(180deg, #18002e 0%, #0d001a 60%, #05000d 100%);
     }
 
-    /* Multi-layered flowing water streams */
     .water-cascade {
       position: absolute;
       top: -100%;
@@ -91,7 +90,6 @@
       100% { transform: translateY(50%); }
     }
 
-    /* Water Splash Mist at Bottom */
     .water-mist {
       position: absolute;
       bottom: 0;
@@ -108,7 +106,6 @@
       100% { opacity: 1; transform: scaleY(1.15); }
     }
 
-    /* Seamless Gradient Blend into Dark Left Side */
     .waterfall-blend {
       position: absolute;
       top: 0;
@@ -119,7 +116,7 @@
       pointer-events: none;
     }
 
-    /* --- CLEAN SINGLE TV GIRL STAR --- */
+    /* --- CLEAN CENTER STAR (NO FLOWER ON TOP) --- */
     .star-anchor {
       position: fixed;
       top: 50%;
@@ -206,7 +203,7 @@
       100% { transform: translateY(-12px); }
     }
 
-    /* Blooming Flowers */
+    /* --- BLOOMING FLOWERS (POSITIONS UPDATED AWAY FROM STAR) --- */
     .flower-box {
       position: fixed;
       width: 100px;
@@ -216,10 +213,10 @@
       will-change: transform;
     }
 
-    .fl-1 { top: 14%; left: 4%; }
-    .fl-2 { top: 60%; left: 5%; }
-    .fl-3 { top: 82%; right: 42%; }
-    .fl-4 { top: 38%; left: 48%; }
+    .fl-1 { top: 10%; left: 4%; }
+    .fl-2 { top: 78%; left: 4%; }
+    .fl-3 { top: 82%; right: 44%; }
+    .fl-4 { top: 12%; right: 44%; } /* Star ke upar se hata kar corner me shift kiya */
 
     .flower-svg {
       width: 100%;
@@ -392,7 +389,7 @@
 
   <div class="grain-overlay"></div>
 
-  <!-- Real Multi-layer Flowing Waterfall -->
+  <!-- Waterfall Flow -->
   <div class="waterfall-panel">
     <div class="water-cascade"></div>
     <div class="water-cascade layer-fast"></div>
@@ -401,7 +398,7 @@
     <div class="waterfall-blend"></div>
   </div>
 
-  <!-- Center Locked Star -->
+  <!-- Centered Clear Star -->
   <div class="star-anchor" id="starAnchor">
     <div class="star-glow"></div>
     <div class="tv-star-single"></div>
@@ -412,7 +409,7 @@
     <div class="real-moon"></div>
   </div>
 
-  <!-- Blooming Flowers -->
+  <!-- Flowers -->
   <div class="flower-box fl-1">
     <svg class="flower-svg" viewBox="0 0 100 100">
       <g class="petals-group">
@@ -524,7 +521,7 @@
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
-      // Star stays vertically in center
+      // Star locked in screen center
       starAnchor.style.transform = `translate(-50%, -50%) rotate(${progress * 55}deg) scale(${1 + progress * 0.15})`;
 
       // Moon subtle displacement
