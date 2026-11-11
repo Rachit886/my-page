@@ -19,17 +19,18 @@
       scroll-behavior: smooth;
     }
 
+    /* Authentic TV Girl Ink Canvas */
     body {
-      background: #06040f;
-      color: #7ee8fa;
+      background: #0e0717;
+      color: #fce8f3;
       font-family: 'Courier Prime', monospace;
       overflow-x: hidden;
       min-height: 100vh;
       position: relative;
     }
 
-    /* Ambient Cyan/Purple Shimmer Vignette */
-    .ambient-shine {
+    /* 50/50 Duotone Color Screen Overlay */
+    .tv-duotone-layer {
       position: fixed;
       top: 0;
       left: 0;
@@ -37,13 +38,12 @@
       height: 100vh;
       pointer-events: none;
       z-index: 1;
-      background: radial-gradient(circle at 20% 30%, rgba(0, 240, 255, 0.12) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 80%, rgba(255, 42, 133, 0.14) 0%, transparent 60%);
-      mix-blend-mode: screen;
+      background: linear-gradient(135deg, rgba(224, 40, 116, 0.28) 0%, rgba(44, 229, 232, 0.28) 100%);
+      mix-blend-mode: color;
     }
 
-    /* Subtle Film Grain */
-    .grain-overlay {
+    /* Analog Vinyl Print Sheen & Grain */
+    .vinyl-sheen {
       position: fixed;
       top: 0;
       left: 0;
@@ -51,12 +51,30 @@
       height: 100vh;
       pointer-events: none;
       z-index: 10;
-      opacity: 0.1;
-      background-image: repeating-radial-gradient(#00f0ff 0 0.0001%, #ff3388 0 0.0002%);
+      opacity: 0.13;
+      background-image: repeating-radial-gradient(#e02874 0 0.0001%, #2ce5e8 0 0.0002%);
       background-size: 3px 3px;
     }
 
-    /* Waterfall Panel (Cyan/Deep Purple Water) */
+    /* Subdued CRT Scanlines */
+    .crt-lines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.12) 0px,
+        rgba(0, 0, 0, 0.12) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+    }
+
+    /* Waterfall Panel (Balanced French Exit Tint) */
     .waterfall-panel {
       position: fixed;
       top: 0;
@@ -72,8 +90,8 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      /* Balanced cool water lighting with soft violet contrast */
-      filter: hue-rotate(190deg) saturate(1.8) brightness(0.9) contrast(1.15);
+      /* Balanced duotone grade: neither too blue nor oversaturated pink */
+      filter: hue-rotate(220deg) saturate(2) brightness(0.8) contrast(1.2);
       transform: scale(1.02);
     }
 
@@ -83,11 +101,11 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, #06040f 0%, rgba(6, 4, 15, 0.5) 25%, transparent 70%);
+      background: linear-gradient(90deg, #0e0717 0%, rgba(14, 7, 23, 0.45) 30%, transparent 75%);
       pointer-events: none;
     }
 
-    /* --- SHINING TV GIRL CENTER STAR --- */
+    /* --- ICONIC TV GIRL CENTER STAR --- */
     .star-anchor {
       position: fixed;
       top: 50%;
@@ -100,59 +118,36 @@
       will-change: transform;
     }
 
-    /* Intense Electric Cyan Glow */
-    .star-glow-outer {
+    .star-back-shadow {
       position: absolute;
       width: 100%;
       height: 100%;
-      background: #00f0ff;
+      background: #2ce5e8;
       clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
-      filter: blur(28px);
-      opacity: 0.7;
-      animation: pulseShine 3s ease-in-out infinite alternate;
+      transform: translate(14px, 14px);
     }
 
-    /* Magenta Rim Shimmer */
-    .star-glow-inner {
+    .star-front {
       position: absolute;
       width: 100%;
       height: 100%;
-      background: #ff2a85;
+      background: #e02874;
       clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
-      filter: blur(12px);
-      opacity: 0.8;
-      transform: scale(0.96);
+      animation: starBreathe 4.5s ease-in-out infinite alternate;
     }
 
-    /* Main Star with Glossy Gradient */
-    .tv-star-single {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #00f0ff 0%, #ff2a85 55%, #180033 100%);
-      clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
-      box-shadow: 0 0 40px rgba(0, 240, 255, 0.8);
-      animation: breatheStar 4s ease-in-out infinite alternate;
+    @keyframes starBreathe {
+      0% { transform: scale(0.94); }
+      100% { transform: scale(1.04); }
     }
 
-    @keyframes breatheStar {
-      0% { transform: scale(0.92); filter: drop-shadow(0 0 15px #00f0ff); }
-      50% { transform: scale(1.05); filter: drop-shadow(0 0 35px #00f0ff) drop-shadow(0 0 15px #ff2a85); }
-      100% { transform: scale(0.95); filter: drop-shadow(0 0 15px #00f0ff); }
-    }
-
-    @keyframes pulseShine {
-      0% { opacity: 0.45; transform: scale(0.9); }
-      100% { opacity: 0.95; transform: scale(1.18); }
-    }
-
-    /* --- LUMINESCENT NATURAL MOON --- */
+    /* --- VINTAGE MOON --- */
     .real-moon-wrapper {
       position: fixed;
       top: 7%;
       right: 5%;
-      width: 130px;
-      height: 130px;
+      width: 120px;
+      height: 120px;
       z-index: 2;
       pointer-events: none;
       will-change: transform;
@@ -162,11 +157,10 @@
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #d8f8ff 35%, #92b8c9 70%, #2a3c48 100%);
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #ede8dc 40%, #a49e91 75%, #4f4b44 100%);
       box-shadow: 
-        0 0 30px rgba(0, 240, 255, 0.6),
-        0 0 70px rgba(0, 240, 255, 0.3),
-        0 0 120px rgba(255, 255, 255, 0.2);
+        0 0 25px rgba(237, 232, 220, 0.4),
+        0 0 60px rgba(44, 229, 232, 0.2);
       position: relative;
       overflow: hidden;
       animation: moonFloat 7s ease-in-out infinite alternate;
@@ -178,9 +172,9 @@
       width: 100%;
       height: 100%;
       background-image: 
-        radial-gradient(circle at 62% 40%, rgba(30, 60, 80, 0.3) 0%, transparent 18%),
-        radial-gradient(circle at 45% 65%, rgba(30, 60, 80, 0.35) 0%, transparent 22%),
-        radial-gradient(circle at 25% 42%, rgba(30, 60, 80, 0.25) 0%, transparent 14%);
+        radial-gradient(circle at 62% 40%, rgba(60, 55, 48, 0.25) 0%, transparent 18%),
+        radial-gradient(circle at 45% 65%, rgba(60, 55, 48, 0.3) 0%, transparent 22%),
+        radial-gradient(circle at 25% 42%, rgba(60, 55, 48, 0.2) 0%, transparent 14%);
       border-radius: 50%;
     }
 
@@ -189,14 +183,14 @@
       100% { transform: translateY(-12px); }
     }
 
-    /* --- FLOWERS (CYAN ACCENT WITH PINK TRIM) --- */
+    /* --- POP-ART BLOOMING FLOWERS (50/50 PINK & CYAN) --- */
     .flower-box {
       position: fixed;
-      width: 100px;
-      height: 100px;
+      width: 95px;
+      height: 95px;
       pointer-events: none;
       z-index: 2;
-      filter: drop-shadow(0 0 12px rgba(0, 240, 255, 0.5));
+      filter: drop-shadow(4px 4px 0px #0e0717);
       will-change: transform;
     }
 
@@ -212,23 +206,22 @@
     }
 
     .svg-petal {
-      fill: #00f0ff;
-      stroke: #ff2a85;
-      stroke-width: 2;
+      fill: #e02874;
+      stroke: #2ce5e8;
+      stroke-width: 2.2;
       transform-origin: 50px 50px;
       will-change: transform;
     }
 
     .svg-center {
-      fill: #ffffff;
-      stroke: #00f0ff;
+      fill: #2ce5e8;
+      stroke: #e02874;
       stroke-width: 2.5;
-      filter: drop-shadow(0 0 6px #ffffff);
       transform-origin: 50px 50px;
       will-change: transform;
     }
 
-    /* Timeline Dots */
+    /* Retro Timeline Indicators */
     .timeline {
       position: fixed;
       right: 18px;
@@ -241,20 +234,21 @@
     }
 
     .timeline-dot {
-      width: 10px;
-      height: 10px;
-      border: 2px solid #00f0ff;
-      background: #06040f;
+      width: 9px;
+      height: 9px;
+      border: 2px solid #2ce5e8;
+      background: #0e0717;
       transition: all 0.25s ease;
     }
 
     .timeline-dot.active {
-      background: #00f0ff;
-      box-shadow: 0 0 12px #00f0ff, 0 0 20px #ff2a85;
+      background: #e02874;
+      border-color: #e02874;
+      box-shadow: 3px 3px 0px #2ce5e8;
       transform: scale(1.6);
     }
 
-    /* Cards Layout */
+    /* Content Cards (Album Sleeve Box Style) */
     .scroll-container {
       position: relative;
       width: 100%;
@@ -270,10 +264,9 @@
     }
 
     .card {
-      background: rgba(10, 8, 22, 0.88);
-      border: 2px solid #00f0ff;
-      border-right: 4px solid #ff2a85;
-      box-shadow: 0 0 25px rgba(0, 240, 255, 0.25), 8px 8px 0px rgba(255, 42, 133, 0.6);
+      background: #130a1f;
+      border: 3px solid #e02874;
+      box-shadow: 10px 10px 0px #2ce5e8;
       padding: 40px 32px;
       max-width: 480px;
       width: 100%;
@@ -294,11 +287,10 @@
       font-size: 0.75rem;
       letter-spacing: 2px;
       font-weight: 700;
-      background: #00f0ff;
-      color: #06040f;
+      background: #2ce5e8;
+      color: #0e0717;
       margin-bottom: 16px;
       font-family: 'Oswald', sans-serif;
-      box-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
     }
 
     h2 {
@@ -309,30 +301,29 @@
       line-height: 1.15;
       margin-bottom: 14px;
       color: #ffffff;
-      text-shadow: 0 0 12px rgba(0, 240, 255, 0.8), 3px 3px 0px #ff2a85;
+      text-shadow: 3px 3px 0px #e02874;
     }
 
-    .cyan-text {
-      color: #00f0ff;
-      text-shadow: 0 0 14px #00f0ff;
+    .accent-cyan {
+      color: #2ce5e8;
+      text-shadow: 2px 2px 0px #e02874;
     }
 
     p {
-      color: #c0d8e8;
+      color: #e5d6e3;
       font-size: 1.05rem;
       line-height: 1.65;
     }
 
-    /* Glow Custom Cursor */
+    /* TV Girl Block Cursor */
     #cursor-dot {
       position: fixed;
       top: 0;
       left: 0;
       width: 12px;
       height: 12px;
-      background: #00f0ff;
-      border: 2px solid #ffffff;
-      box-shadow: 0 0 15px #00f0ff;
+      background: #2ce5e8;
+      border: 2px solid #e02874;
       pointer-events: none;
       transform: translate(-50%, -50%);
       z-index: 9999;
@@ -343,8 +334,7 @@
       position: fixed;
       width: 6px;
       height: 6px;
-      background: #00f0ff;
-      box-shadow: 0 0 8px #00f0ff;
+      background: #e02874;
       pointer-events: none;
       transform: translate(-50%, -50%);
       animation: fadeOut 0.4s linear forwards;
@@ -359,7 +349,7 @@
     @media (max-width: 768px) {
       .waterfall-panel {
         width: 100vw;
-        opacity: 0.35;
+        opacity: 0.3;
       }
       .star-anchor {
         width: 250px;
@@ -370,16 +360,20 @@
         justify-content: center;
       }
       .real-moon-wrapper {
-        width: 90px;
-        height: 90px;
+        width: 85px;
+        height: 85px;
+      }
+      .card {
+        box-shadow: 6px 6px 0px #2ce5e8;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="ambient-shine"></div>
-  <div class="grain-overlay"></div>
+  <div class="tv-duotone-layer"></div>
+  <div class="vinyl-sheen"></div>
+  <div class="crt-lines"></div>
 
   <!-- Waterfall Panel -->
   <div class="waterfall-panel">
@@ -389,14 +383,13 @@
     <div class="waterfall-blend"></div>
   </div>
 
-  <!-- Glowing Center Star -->
+  <!-- TV Girl Signature Hard-Edge Center Star -->
   <div class="star-anchor" id="starAnchor">
-    <div class="star-glow-outer"></div>
-    <div class="star-glow-inner"></div>
-    <div class="tv-star-single"></div>
+    <div class="star-back-shadow"></div>
+    <div class="star-front"></div>
   </div>
 
-  <!-- Shining Moon -->
+  <!-- Natural Moon -->
   <div class="real-moon-wrapper" id="realMoon">
     <div class="real-moon"></div>
   </div>
@@ -469,7 +462,7 @@
     <section class="section">
       <div class="card visible">
         <span class="badge">SIDE A • TRACK 01</span>
-        <h2>hello <span class="cyan-text"><3</span></h2>
+        <h2>hello <span class="accent-cyan"><3</span></h2>
         <p>Dekho, I tried my best to give efforts. I know I can do more, but I really wanted to build something special for you.</p>
       </div>
     </section>
@@ -513,10 +506,10 @@
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
-      // Star locked in screen center with subtle rotation
-      starAnchor.style.transform = `translate(-50%, -50%) rotate(${progress * 55}deg) scale(${1 + progress * 0.15})`;
+      // Center Star locked in place with pop-art scroll tilt
+      starAnchor.style.transform = `translate(-50%, -50%) rotate(${progress * 50}deg) scale(${1 + progress * 0.12})`;
 
-      // Moon displacement
+      // Moon subtle displacement
       realMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
 
       // Flowers bloom
