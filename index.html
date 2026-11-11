@@ -28,7 +28,7 @@
       position: relative;
     }
 
-    /* Xerox Grain Texture */
+    /* Grain Overlay */
     .grain-overlay {
       position: fixed;
       top: 0;
@@ -37,44 +37,48 @@
       height: 100vh;
       pointer-events: none;
       z-index: 10;
-      opacity: 0.14;
+      opacity: 0.12;
       background-image: repeating-radial-gradient(#ff3388 0 0.0001%, #00f0ff 0 0.0002%);
       background-size: 3px 3px;
     }
 
-    /* --- REAL FLOWING WATERFALL FROM INTERNET (RIGHT SIDE) --- */
+    /* --- REAL ASLI WATERFALL (NO BORDERS, NO LINES) --- */
     .waterfall-panel {
       position: fixed;
       top: 0;
       right: 0;
-      width: 38vw;
+      width: 50vw;
       height: 100vh;
       overflow: hidden;
       z-index: 0;
       pointer-events: none;
-      box-shadow: -20px 0 45px rgba(0, 0, 0, 0.95);
+      /* Line/Border completely removed */
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
     }
 
     .waterfall-video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      /* Flowing real waterfall footage tinted to match TV Girl purple/magenta */
-      filter: hue-rotate(250deg) saturate(2.3) brightness(0.8) contrast(1.25);
-      transform: scale(1.05);
+      /* Real flowing waterfall with purple tint */
+      filter: hue-rotate(250deg) saturate(2.4) brightness(0.8) contrast(1.2);
+      transform: scale(1.02);
     }
 
+    /* Seamless fade into background without any sharp cut or line */
     .waterfall-blend {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, #090011 0%, transparent 18%, transparent 85%, rgba(9, 0, 17, 0.75) 100%);
+      background: linear-gradient(90deg, #090011 0%, rgba(9, 0, 17, 0.4) 30%, transparent 70%);
       pointer-events: none;
     }
 
-    /* --- CLEAN SINGLE TV GIRL STAR (LOCKED AT CENTER) --- */
+    /* --- CENTER LOCKED TV GIRL STAR --- */
     .star-anchor {
       position: fixed;
       top: 50%;
@@ -119,7 +123,7 @@
       100% { opacity: 0.75; transform: scale(1.15); }
     }
 
-    /* --- NATURAL REALISTIC MOON --- */
+    /* --- NATURAL WHITE/SILVER MOON --- */
     .real-moon-wrapper {
       position: fixed;
       top: 7%;
@@ -292,7 +296,7 @@
       line-height: 1.65;
     }
 
-    /* Cursor */
+    /* Custom Cursor */
     #cursor-dot {
       position: fixed;
       top: 0;
@@ -347,7 +351,7 @@
 
   <div class="grain-overlay"></div>
 
-  <!-- Real Cascading Waterfall Video Stream (Right Side) -->
+  <!-- Real Natural Flowing Waterfall Footage -->
   <div class="waterfall-panel">
     <video class="waterfall-video" autoplay muted loop playsinline preload="auto">
       <source src="https://assets.mixkit.co/videos/preview/mixkit-waterfall-in-forest-2213-large.mp4" type="video/mp4">
@@ -355,13 +359,13 @@
     <div class="waterfall-blend"></div>
   </div>
 
-  <!-- Single Clean TV Girl Star (Centered) -->
+  <!-- Centered TV Girl Star -->
   <div class="star-anchor" id="starAnchor">
     <div class="star-glow"></div>
     <div class="tv-star-single"></div>
   </div>
 
-  <!-- Real Moon -->
+  <!-- Natural Moon -->
   <div class="real-moon-wrapper" id="realMoon">
     <div class="real-moon"></div>
   </div>
@@ -478,13 +482,13 @@
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
-      // Star strictly stays vertically in the center (-50%, -50%)
+      // Star locked in screen center
       starAnchor.style.transform = `translate(-50%, -50%) rotate(${progress * 55}deg) scale(${1 + progress * 0.15})`;
 
-      // Moon subtle displacement
+      // Moon displacement
       realMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
 
-      // Flower blooming
+      // Flower bloom
       const bloom = 0.08 + (progress * 1.05);
       const centerScale = 0.45 + (progress * 0.6);
 
