@@ -20,14 +20,29 @@
     }
 
     body {
-      background: #090011;
-      color: #ff3388;
+      background: #06040f;
+      color: #7ee8fa;
       font-family: 'Courier Prime', monospace;
       overflow-x: hidden;
       min-height: 100vh;
       position: relative;
     }
 
+    /* Ambient Cyan/Purple Shimmer Vignette */
+    .ambient-shine {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+      background: radial-gradient(circle at 20% 30%, rgba(0, 240, 255, 0.12) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(255, 42, 133, 0.14) 0%, transparent 60%);
+      mix-blend-mode: screen;
+    }
+
+    /* Subtle Film Grain */
     .grain-overlay {
       position: fixed;
       top: 0;
@@ -36,12 +51,12 @@
       height: 100vh;
       pointer-events: none;
       z-index: 10;
-      opacity: 0.12;
-      background-image: repeating-radial-gradient(#ff3388 0 0.0001%, #00f0ff 0 0.0002%);
+      opacity: 0.1;
+      background-image: repeating-radial-gradient(#00f0ff 0 0.0001%, #ff3388 0 0.0002%);
       background-size: 3px 3px;
     }
 
-    /* --- REAL NATURAL WATERFALL (RIGHT SIDE) --- */
+    /* Waterfall Panel (Cyan/Deep Purple Water) */
     .waterfall-panel {
       position: fixed;
       top: 0;
@@ -57,68 +72,81 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      /* Asli jharna with TV girl duotone lighting */
-      filter: hue-rotate(250deg) saturate(2.4) brightness(0.8) contrast(1.2);
+      /* Balanced cool water lighting with soft violet contrast */
+      filter: hue-rotate(190deg) saturate(1.8) brightness(0.9) contrast(1.15);
       transform: scale(1.02);
     }
 
-    /* Soft organic feathering on the left edge */
     .waterfall-blend {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, #090011 0%, rgba(9, 0, 17, 0.4) 25%, transparent 65%);
+      background: linear-gradient(90deg, #06040f 0%, rgba(6, 4, 15, 0.5) 25%, transparent 70%);
       pointer-events: none;
     }
 
-    /* --- CENTER TV GIRL STAR --- */
+    /* --- SHINING TV GIRL CENTER STAR --- */
     .star-anchor {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 350px;
-      height: 350px;
+      width: 360px;
+      height: 360px;
       pointer-events: none;
-      z-index: 1;
+      z-index: 2;
       will-change: transform;
     }
 
-    .star-glow {
+    /* Intense Electric Cyan Glow */
+    .star-glow-outer {
       position: absolute;
       width: 100%;
       height: 100%;
       background: #00f0ff;
       clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
-      filter: blur(16px);
-      opacity: 0.5;
-      animation: pulseOuter 3s ease-in-out infinite alternate;
+      filter: blur(28px);
+      opacity: 0.7;
+      animation: pulseShine 3s ease-in-out infinite alternate;
     }
 
+    /* Magenta Rim Shimmer */
+    .star-glow-inner {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #ff2a85;
+      clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
+      filter: blur(12px);
+      opacity: 0.8;
+      transform: scale(0.96);
+    }
+
+    /* Main Star with Glossy Gradient */
     .tv-star-single {
       position: absolute;
       width: 100%;
       height: 100%;
-      background: #ff3388;
+      background: linear-gradient(135deg, #00f0ff 0%, #ff2a85 55%, #180033 100%);
       clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
-      filter: drop-shadow(10px 10px 0px #00f0ff);
+      box-shadow: 0 0 40px rgba(0, 240, 255, 0.8);
       animation: breatheStar 4s ease-in-out infinite alternate;
     }
 
     @keyframes breatheStar {
-      0% { transform: scale(0.93); }
-      50% { transform: scale(1.04); }
-      100% { transform: scale(0.96); }
+      0% { transform: scale(0.92); filter: drop-shadow(0 0 15px #00f0ff); }
+      50% { transform: scale(1.05); filter: drop-shadow(0 0 35px #00f0ff) drop-shadow(0 0 15px #ff2a85); }
+      100% { transform: scale(0.95); filter: drop-shadow(0 0 15px #00f0ff); }
     }
 
-    @keyframes pulseOuter {
-      0% { opacity: 0.35; transform: scale(0.92); }
-      100% { opacity: 0.75; transform: scale(1.15); }
+    @keyframes pulseShine {
+      0% { opacity: 0.45; transform: scale(0.9); }
+      100% { opacity: 0.95; transform: scale(1.18); }
     }
 
-    /* --- NATURAL MOON --- */
+    /* --- LUMINESCENT NATURAL MOON --- */
     .real-moon-wrapper {
       position: fixed;
       top: 7%;
@@ -134,10 +162,11 @@
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #f0f0ea 35%, #c8c8be 70%, #7d7d72 100%);
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #d8f8ff 35%, #92b8c9 70%, #2a3c48 100%);
       box-shadow: 
-        0 0 25px rgba(255, 255, 255, 0.45),
-        0 0 65px rgba(255, 255, 255, 0.15);
+        0 0 30px rgba(0, 240, 255, 0.6),
+        0 0 70px rgba(0, 240, 255, 0.3),
+        0 0 120px rgba(255, 255, 255, 0.2);
       position: relative;
       overflow: hidden;
       animation: moonFloat 7s ease-in-out infinite alternate;
@@ -149,9 +178,9 @@
       width: 100%;
       height: 100%;
       background-image: 
-        radial-gradient(circle at 62% 40%, rgba(90, 90, 80, 0.22) 0%, transparent 18%),
-        radial-gradient(circle at 45% 65%, rgba(90, 90, 80, 0.25) 0%, transparent 22%),
-        radial-gradient(circle at 25% 42%, rgba(90, 90, 80, 0.18) 0%, transparent 14%);
+        radial-gradient(circle at 62% 40%, rgba(30, 60, 80, 0.3) 0%, transparent 18%),
+        radial-gradient(circle at 45% 65%, rgba(30, 60, 80, 0.35) 0%, transparent 22%),
+        radial-gradient(circle at 25% 42%, rgba(30, 60, 80, 0.25) 0%, transparent 14%);
       border-radius: 50%;
     }
 
@@ -160,13 +189,14 @@
       100% { transform: translateY(-12px); }
     }
 
-    /* --- BLOOMING FLOWERS (CORNER POSITIONS ONLY) --- */
+    /* --- FLOWERS (CYAN ACCENT WITH PINK TRIM) --- */
     .flower-box {
       position: fixed;
       width: 100px;
       height: 100px;
       pointer-events: none;
       z-index: 2;
+      filter: drop-shadow(0 0 12px rgba(0, 240, 255, 0.5));
       will-change: transform;
     }
 
@@ -182,17 +212,18 @@
     }
 
     .svg-petal {
-      fill: #ff3388;
-      stroke: #00f0ff;
-      stroke-width: 2.5;
+      fill: #00f0ff;
+      stroke: #ff2a85;
+      stroke-width: 2;
       transform-origin: 50px 50px;
       will-change: transform;
     }
 
     .svg-center {
-      fill: #00f0ff;
-      stroke: #ff3388;
-      stroke-width: 3;
+      fill: #ffffff;
+      stroke: #00f0ff;
+      stroke-width: 2.5;
+      filter: drop-shadow(0 0 6px #ffffff);
       transform-origin: 50px 50px;
       will-change: transform;
     }
@@ -213,15 +244,14 @@
       width: 10px;
       height: 10px;
       border: 2px solid #00f0ff;
-      background: #090011;
+      background: #06040f;
       transition: all 0.25s ease;
     }
 
     .timeline-dot.active {
-      background: #ff3388;
-      border-color: #ff3388;
+      background: #00f0ff;
+      box-shadow: 0 0 12px #00f0ff, 0 0 20px #ff2a85;
       transform: scale(1.6);
-      box-shadow: 4px 4px 0px #00f0ff;
     }
 
     /* Cards Layout */
@@ -240,9 +270,10 @@
     }
 
     .card {
-      background: rgba(12, 0, 16, 0.9);
-      border: 3px solid #ff3388;
-      box-shadow: 10px 10px 0px #00f0ff;
+      background: rgba(10, 8, 22, 0.88);
+      border: 2px solid #00f0ff;
+      border-right: 4px solid #ff2a85;
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.25), 8px 8px 0px rgba(255, 42, 133, 0.6);
       padding: 40px 32px;
       max-width: 480px;
       width: 100%;
@@ -264,9 +295,10 @@
       letter-spacing: 2px;
       font-weight: 700;
       background: #00f0ff;
-      color: #090011;
+      color: #06040f;
       margin-bottom: 16px;
       font-family: 'Oswald', sans-serif;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
     }
 
     h2 {
@@ -277,21 +309,21 @@
       line-height: 1.15;
       margin-bottom: 14px;
       color: #ffffff;
-      text-shadow: 3px 3px 0px #ff3388;
+      text-shadow: 0 0 12px rgba(0, 240, 255, 0.8), 3px 3px 0px #ff2a85;
     }
 
-    .pink-text {
-      color: #ff3388;
-      text-shadow: 2px 2px 0px #00f0ff;
+    .cyan-text {
+      color: #00f0ff;
+      text-shadow: 0 0 14px #00f0ff;
     }
 
     p {
-      color: #d1b8cc;
+      color: #c0d8e8;
       font-size: 1.05rem;
       line-height: 1.65;
     }
 
-    /* Custom Cursor */
+    /* Glow Custom Cursor */
     #cursor-dot {
       position: fixed;
       top: 0;
@@ -299,7 +331,8 @@
       width: 12px;
       height: 12px;
       background: #00f0ff;
-      border: 2px solid #ff3388;
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 15px #00f0ff;
       pointer-events: none;
       transform: translate(-50%, -50%);
       z-index: 9999;
@@ -310,7 +343,8 @@
       position: fixed;
       width: 6px;
       height: 6px;
-      background: #ff3388;
+      background: #00f0ff;
+      box-shadow: 0 0 8px #00f0ff;
       pointer-events: none;
       transform: translate(-50%, -50%);
       animation: fadeOut 0.4s linear forwards;
@@ -344,24 +378,25 @@
 </head>
 <body>
 
+  <div class="ambient-shine"></div>
   <div class="grain-overlay"></div>
 
-  <!-- Real Physical Waterfall Video -->
+  <!-- Waterfall Panel -->
   <div class="waterfall-panel">
     <video class="waterfall-video" autoplay muted loop playsinline preload="auto">
-      <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
       <source src="https://assets.mixkit.co/videos/preview/mixkit-waterfall-in-forest-2213-large.mp4" type="video/mp4">
     </video>
     <div class="waterfall-blend"></div>
   </div>
 
-  <!-- Center Locked Star -->
+  <!-- Glowing Center Star -->
   <div class="star-anchor" id="starAnchor">
-    <div class="star-glow"></div>
+    <div class="star-glow-outer"></div>
+    <div class="star-glow-inner"></div>
     <div class="tv-star-single"></div>
   </div>
 
-  <!-- Natural Realistic Moon -->
+  <!-- Shining Moon -->
   <div class="real-moon-wrapper" id="realMoon">
     <div class="real-moon"></div>
   </div>
@@ -434,7 +469,7 @@
     <section class="section">
       <div class="card visible">
         <span class="badge">SIDE A • TRACK 01</span>
-        <h2>hello <span class="pink-text"><3</span></h2>
+        <h2>hello <span class="cyan-text"><3</span></h2>
         <p>Dekho, I tried my best to give efforts. I know I can do more, but I really wanted to build something special for you.</p>
       </div>
     </section>
@@ -478,10 +513,10 @@
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
-      // Star locked in screen center
+      // Star locked in screen center with subtle rotation
       starAnchor.style.transform = `translate(-50%, -50%) rotate(${progress * 55}deg) scale(${1 + progress * 0.15})`;
 
-      // Moon subtle displacement
+      // Moon displacement
       realMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
 
       // Flowers bloom
