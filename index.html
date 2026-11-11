@@ -19,7 +19,6 @@
       scroll-behavior: smooth;
     }
 
-    /* Exact 'Who Really Cares' Pure Pitch Black Base */
     body {
       background: #000000;
       color: #ffffff;
@@ -29,7 +28,7 @@
       position: relative;
     }
 
-    /* Analog Vinyl Noise Overlay */
+    /* Vinyl Noise & Scanlines */
     .vinyl-noise {
       position: fixed;
       top: 0;
@@ -43,7 +42,6 @@
       background-size: 3px 3px;
     }
 
-    /* High-contrast CRT TV Scanline raster */
     .crt-raster {
       position: fixed;
       top: 0;
@@ -61,39 +59,55 @@
       );
     }
 
-    /* Right Waterfall with Pure TV Girl Duotone Filter */
+    /* --- REAL CASCADING WATERFALL PANEL (RIGHT SIDE) --- */
     .waterfall-panel {
       position: fixed;
       top: 0;
       right: 0;
-      width: 48vw;
+      width: 52vw;
       height: 100vh;
       overflow: hidden;
       z-index: 0;
       pointer-events: none;
+      background: #000000;
     }
 
-    .waterfall-video {
+    /* Exact Waterfall Image Scenery Tinted for TV Girl */
+    .waterfall-bg-img {
+      position: absolute;
+      top: 0;
+      right: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      /* Harsh 2-tone contrast: Deep shadow crush + high saturation */
-      filter: contrast(1.8) brightness(0.65) saturate(2.2) hue-rotate(280deg);
-      transform: scale(1.02);
+      object-position: center;
+      filter: contrast(1.6) brightness(0.6) saturate(1.8) hue-rotate(275deg);
+      transform: scale(1.05);
     }
 
-    /* Pure black cut blend */
+    /* Live Flowing Liquid Canvas */
+    #waterfallCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    /* Soft edge fade into pitch black */
     .waterfall-blend {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0.7) 35%, transparent 80%);
+      background: linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0.6) 25%, transparent 70%);
       pointer-events: none;
     }
 
-    /* --- SHARP STRAIGHT 4-POINT CENTER STAR --- */
+    /* --- CENTER BLOOMING STAR --- */
     .star-anchor {
       position: fixed;
       top: 50%;
@@ -122,17 +136,15 @@
       will-change: transform;
     }
 
-    /* Blue shadow matching the album blue */
     .star-shadow-poly {
       fill: #1a45ff;
     }
 
-    /* Hot magenta pink matching the album girl */
     .star-main-poly {
       fill: #ff007f;
     }
 
-    /* Natural Monochrome Moon with Blue Tint */
+    /* Moon */
     .real-moon-wrapper {
       position: fixed;
       top: 7%;
@@ -174,7 +186,7 @@
       100% { transform: translateY(-12px); }
     }
 
-    /* High-contrast Flowers */
+    /* Blooming Flowers */
     .flower-box {
       position: fixed;
       width: 95px;
@@ -187,8 +199,8 @@
 
     .fl-1 { top: 12%; left: 4%; }
     .fl-2 { top: 80%; left: 4%; }
-    .fl-3 { top: 82%; right: 42%; }
-    .fl-4 { top: 10%; right: 42%; }
+    .fl-3 { top: 82%; right: 46%; }
+    .fl-4 { top: 10%; right: 46%; }
 
     .flower-svg {
       width: 100%;
@@ -240,7 +252,7 @@
       transform: scale(1.6);
     }
 
-    /* Content Cards (Pure Matte Black Cutout with Album Colors) */
+    /* Cards */
     .scroll-container {
       position: relative;
       width: 100%;
@@ -341,11 +353,11 @@
     @media (max-width: 768px) {
       .waterfall-panel {
         width: 100vw;
-        opacity: 0.25;
+        opacity: 0.35;
       }
       .star-anchor {
-        width: 260px;
-        height: 260px;
+        width: 250px;
+        height: 250px;
       }
       .section {
         padding: 20px 6%;
@@ -366,15 +378,14 @@
   <div class="vinyl-noise"></div>
   <div class="crt-raster"></div>
 
-  <!-- Flowing Waterfall (Deep Shadow Contrast) -->
+  <!-- Real Waterfall with Live Flowing Purple Stream -->
   <div class="waterfall-panel">
-    <video class="waterfall-video" autoplay muted loop playsinline preload="auto">
-      <source src="https://assets.mixkit.co/videos/preview/mixkit-waterfall-in-forest-2213-large.mp4" type="video/mp4">
-    </video>
+    <img class="waterfall-bg-img" src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=1200&q=80" alt="Waterfall">
+    <canvas id="waterfallCanvas"></canvas>
     <div class="waterfall-blend"></div>
   </div>
 
-  <!-- Sharp Straight 4-Point Star (Blooming on Scroll) -->
+  <!-- Center Blooming Star -->
   <div class="star-anchor" id="starAnchor">
     <svg class="star-svg" id="starSvg" viewBox="0 0 200 200">
       <polygon class="star-polygon star-shadow-poly" id="starShadow" 
@@ -482,6 +493,58 @@
   <div id="cursor-dot"></div>
 
   <script>
+    // --- LIVE FLOWING PURPLE WATERFALL ENGINE ---
+    const canvas = document.getElementById('waterfallCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Cascading water streams (Purple & Blue)
+    const streams = [];
+    const colors = ['#ff007f', '#b300ff', '#1a45ff', '#ff66b2', '#9933ff'];
+
+    for (let i = 0; i < 90; i++) {
+      streams.push({
+        x: Math.random() * (canvas.width || 600),
+        y: Math.random() * (canvas.height || 800),
+        len: 25 + Math.random() * 50,
+        speed: 5 + Math.random() * 9,
+        width: 1.5 + Math.random() * 2.5,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        opacity: 0.35 + Math.random() * 0.55
+      });
+    }
+
+    function animateWaterfall() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      streams.forEach(s => {
+        ctx.beginPath();
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(s.x, s.y + s.len);
+        ctx.strokeStyle = s.color;
+        ctx.lineWidth = s.width;
+        ctx.globalAlpha = s.opacity;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        s.y += s.speed;
+        if (s.y > canvas.height) {
+          s.y = -s.len;
+          s.x = Math.random() * canvas.width;
+        }
+      });
+
+      requestAnimationFrame(animateWaterfall);
+    }
+    animateWaterfall();
+
+    // --- BLOOM ENGINE ---
     const starSvg = document.getElementById('starSvg');
     const starMain = document.getElementById('starMain');
     const starShadow = document.getElementById('starShadow');
@@ -503,7 +566,7 @@
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
-      // Pure Star Bloom Animation: Closed (0.08) -> Fully bloomed (1.15)
+      // Smooth Star Blooming
       const starBloom = 0.08 + (progress * 1.07);
       const starSpin = progress * 60;
       const shadowOffset = 4 + (progress * 12);
@@ -512,10 +575,10 @@
       starMain.style.transform = `scale(${starBloom})`;
       starShadow.style.transform = `scale(${starBloom}) translate(${shadowOffset}px, ${shadowOffset}px)`;
 
-      // Moon displacement
+      // Moon subtle displacement
       realMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
 
-      // Flowers bloom
+      // Flowers Blooming
       const bloom = 0.08 + (progress * 1.05);
       const centerScale = 0.45 + (progress * 0.6);
 
