@@ -6,7 +6,7 @@
   <title>hello &lt;3</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Space+Grotesk:wght@400;500;600&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -20,36 +20,85 @@
     }
 
     body {
-      background: radial-gradient(circle at 85% 15%, #241429 0%, #150d1e 45%, #0b0712 100%);
-      color: #fffafc;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #090014;
+      color: #f7d6e6;
+      font-family: 'Space Grotesk', sans-serif;
       overflow-x: hidden;
       min-height: 100vh;
       position: relative;
     }
 
-    /* Ambient Warm Glow */
-    .ambient-glow {
+    /* --- CONTINUOUS PURPLE WATERFALL BACKGROUND --- */
+    .waterfall-container {
       position: fixed;
-      top: -10%;
-      right: -10%;
-      width: 50vw;
-      height: 50vw;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 142, 175, 0.15) 0%, rgba(255, 182, 193, 0.05) 50%, transparent 70%);
-      filter: blur(80px);
-      pointer-events: none;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
       z-index: 0;
+      pointer-events: none;
     }
 
-    /* Soft Pastel Moon */
+    .waterfall-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* Purple hue shift and dark contrast */
+      filter: hue-rotate(240deg) saturate(2.4) brightness(0.65) contrast(1.2);
+      transform: scale(1.04);
+    }
+
+    /* TV Girl Duotone & Vintage Noise Overlay */
+    .tvgirl-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(135deg, rgba(255, 34, 119, 0.45) 0%, rgba(0, 212, 255, 0.3) 100%);
+      mix-blend-mode: color;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .vignette-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at center, transparent 35%, rgba(6, 0, 16, 0.85) 95%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Retro Scanlines for TV Girl record cover feel */
+    .scanlines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15) 0px,
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* --- TV GIRL TWO-TONE MOON (PINK & BLUE HALO) --- */
     .moon-wrapper {
       position: fixed;
-      top: 8%;
+      top: 10%;
       right: 7%;
       width: 220px;
       height: 220px;
-      z-index: 1;
+      z-index: 2;
       pointer-events: none;
       transition: transform 0.25s cubic-bezier(0.1, 0.9, 0.2, 1);
     }
@@ -58,26 +107,14 @@
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #fff5f8 0%, #fed8e4 35%, #d89fb5 75%, #7a4f65 100%);
+      background: radial-gradient(circle at 30% 30%, #ffffff 0%, #ff80bf 45%, #66004d 85%, #1a001a 100%);
       position: relative;
       overflow: hidden;
       box-shadow: 
-        0 0 35px rgba(254, 216, 228, 0.5),
-        0 0 90px rgba(255, 175, 204, 0.25),
-        0 0 160px rgba(186, 131, 168, 0.18);
+        0 0 35px rgba(255, 51, 153, 0.7),
+        0 0 90px rgba(0, 229, 255, 0.45),
+        -15px -15px 50px rgba(0, 229, 255, 0.35);
       animation: moonFloat 8s ease-in-out infinite alternate;
-    }
-
-    .moon::before {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        radial-gradient(circle at 62% 40%, rgba(130, 70, 95, 0.15) 0%, transparent 18%),
-        radial-gradient(circle at 45% 65%, rgba(130, 70, 95, 0.18) 0%, transparent 22%),
-        radial-gradient(circle at 25% 42%, rgba(130, 70, 95, 0.12) 0%, transparent 14%);
-      border-radius: 50%;
     }
 
     .moon-halo {
@@ -87,44 +124,44 @@
       width: 160%;
       height: 160%;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 200, 221, 0.16) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255, 0, 128, 0.25) 0%, rgba(0, 229, 255, 0.12) 45%, transparent 70%);
       pointer-events: none;
       animation: pulseHalo 6s ease-in-out infinite alternate;
     }
 
     @keyframes moonFloat {
       0% { transform: translateY(0px) rotate(0deg); }
-      100% { transform: translateY(-14px) rotate(3deg); }
+      100% { transform: translateY(-16px) rotate(3deg); }
     }
 
     @keyframes pulseHalo {
       0% { opacity: 0.7; transform: scale(0.96); }
-      100% { opacity: 1; transform: scale(1.04); }
+      100% { opacity: 1; transform: scale(1.05); }
     }
 
-    /* Floating Figures */
+    /* Floating retro symbols */
     .cute-figure {
       position: fixed;
       pointer-events: none;
-      z-index: 1;
-      opacity: 0.75;
+      z-index: 2;
+      opacity: 0.85;
       font-size: 1.8rem;
       user-select: none;
-      filter: drop-shadow(0 0 10px rgba(255, 182, 193, 0.4));
+      filter: drop-shadow(0 0 12px rgba(255, 0, 128, 0.7));
       will-change: transform;
     }
 
-    .fig-1 { top: 18%; left: 12%; animation: gentleBob 6s ease-in-out infinite alternate; }
-    .fig-2 { top: 48%; right: 18%; animation: gentleBob 7s ease-in-out infinite alternate-reverse; }
-    .fig-3 { top: 72%; left: 8%; animation: gentleBob 5.5s ease-in-out infinite alternate; }
+    .fig-1 { top: 16%; left: 10%; animation: gentleBob 6s ease-in-out infinite alternate; }
+    .fig-2 { top: 50%; right: 16%; animation: gentleBob 7s ease-in-out infinite alternate-reverse; }
+    .fig-3 { top: 76%; left: 8%; animation: gentleBob 5.5s ease-in-out infinite alternate; }
     .fig-4 { top: 32%; left: 45%; animation: gentleBob 8s ease-in-out infinite alternate-reverse; }
 
     @keyframes gentleBob {
-      0% { transform: translateY(0px) rotate(-6deg); }
-      100% { transform: translateY(-22px) rotate(6deg); }
+      0% { transform: translateY(0px) rotate(-8deg); }
+      100% { transform: translateY(-22px) rotate(8deg); }
     }
 
-    /* Side Progress Dots */
+    /* Side Timeline Progress Dots */
     .timeline {
       position: fixed;
       right: 24px;
@@ -140,21 +177,21 @@
       width: 9px;
       height: 9px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(0, 229, 255, 0.3);
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .timeline-dot.active {
-      background: #ff85a1;
-      transform: scale(1.7);
-      box-shadow: 0 0 14px #ff85a1;
+      background: #ff2a85;
+      transform: scale(1.75);
+      box-shadow: 0 0 16px #ff2a85, 0 0 25px #00e5ff;
     }
 
-    /* Sections & Cards */
+    /* Content Layout */
     .scroll-container {
       position: relative;
       width: 100%;
-      z-index: 2;
+      z-index: 3;
     }
 
     .section {
@@ -166,16 +203,18 @@
       perspective: 1000px;
     }
 
+    /* TV Girl Album Aesthetic Card */
     .card {
-      background: rgba(30, 18, 38, 0.6);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 200, 221, 0.18);
-      border-radius: 26px;
-      padding: 44px 36px;
+      background: rgba(14, 5, 24, 0.72);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 42, 133, 0.35);
+      border-left: 4px solid #00e5ff;
+      border-radius: 20px;
+      padding: 46px 38px;
       max-width: 500px;
       width: 100%;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 35px rgba(255, 42, 133, 0.2);
       opacity: 0;
       transform: translateY(60px) scale(0.95);
       transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
@@ -190,48 +229,53 @@
       display: inline-block;
       padding: 6px 14px;
       border-radius: 20px;
-      font-size: 0.75rem;
-      letter-spacing: 1.2px;
+      font-size: 0.72rem;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      font-weight: 600;
-      background: rgba(255, 133, 161, 0.15);
-      color: #ffb3c6;
-      border: 1px solid rgba(255, 133, 161, 0.25);
+      font-weight: 700;
+      background: rgba(0, 229, 255, 0.12);
+      color: #00e5ff;
+      border: 1px solid rgba(0, 229, 255, 0.35);
       margin-bottom: 18px;
+      text-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
     }
 
     h2 {
-      font-size: 2.1rem;
-      font-weight: 600;
-      line-height: 1.3;
+      font-family: 'Cinzel', serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.25;
       margin-bottom: 16px;
-      color: #fff0f5;
+      color: #fff0f7;
+      text-shadow: 2px 2px 0px rgba(255, 42, 133, 0.8), -1px -1px 0px rgba(0, 229, 255, 0.7);
     }
 
     .handwriting {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      color: #ffccd5;
+      color: #ff66b2;
+      text-shadow: 0 0 15px rgba(255, 102, 178, 0.8);
     }
 
     p {
-      color: #e5d4e1;
+      color: #e3d2e6;
       font-size: 1.1rem;
       line-height: 1.7;
+      letter-spacing: 0.2px;
     }
 
-    /* Glow Cursor */
+    /* Pink-Cyan Duotone Cursor */
     #cursor-dot {
       position: fixed;
       top: 0;
       left: 0;
       width: 14px;
       height: 14px;
-      background: #ff85a1;
+      background: #ff2a85;
       border-radius: 50%;
       pointer-events: none;
       transform: translate(-50%, -50%);
-      box-shadow: 0 0 16px #ff85a1, 0 0 32px #ffafcc;
+      box-shadow: 0 0 16px #ff2a85, 0 0 30px #00e5ff;
       z-index: 9999;
     }
 
@@ -240,7 +284,7 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #ffc2d1;
+      background: #00e5ff;
       pointer-events: none;
       transform: translate(-50%, -50%);
       animation: fadeOut 0.5s linear forwards;
@@ -248,7 +292,7 @@
     }
 
     @keyframes fadeOut {
-      0% { opacity: 0.85; transform: translate(-50%, -50%) scale(1); }
+      0% { opacity: 0.9; transform: translate(-50%, -50%) scale(1); }
       100% { opacity: 0; transform: translate(-50%, -50%) scale(0.1); }
     }
 
@@ -268,19 +312,29 @@
 </head>
 <body>
 
-  <div class="ambient-glow"></div>
+  <!-- Seamless Purple Waterfall Background -->
+  <div class="waterfall-container">
+    <video class="waterfall-video" autoplay muted loop playsinline preload="auto">
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-waterfall-in-forest-2213-large.mp4" type="video/mp4">
+    </video>
+  </div>
 
-  <!-- Soft Pink Moon -->
+  <!-- TV Girl Pink & Blue Filters -->
+  <div class="tvgirl-overlay"></div>
+  <div class="vignette-overlay"></div>
+  <div class="scanlines"></div>
+
+  <!-- Duotone Moon -->
   <div class="moon-wrapper" id="moonWrapper">
     <div class="moon-halo"></div>
     <div class="moon"></div>
   </div>
 
-  <!-- Cute Floating Figures -->
+  <!-- Floating Figures with TV Girl Accents -->
   <div class="cute-figure fig-1" data-speed="0.08">☁️</div>
-  <div class="cute-figure fig-2" data-speed="-0.06">✨</div>
+  <div class="cute-figure fig-2" data-speed="-0.06">💙</div>
   <div class="cute-figure fig-3" data-speed="0.12">🌸</div>
-  <div class="cute-figure fig-4" data-speed="-0.1">🤍</div>
+  <div class="cute-figure fig-4" data-speed="-0.1">🎀</div>
 
   <!-- Timeline Dots -->
   <div class="timeline">
@@ -293,7 +347,7 @@
     <!-- Chapter 1 -->
     <section class="section">
       <div class="card visible">
-        <span class="badge">A small effort</span>
+        <span class="badge">SIDE A • TRACK 01</span>
         <h2>hello <span class="handwriting">&lt;3</span></h2>
         <p>Dekho, I tried my best to give efforts. I know I can do more, but I really wanted to build something special for you.</p>
       </div>
@@ -302,7 +356,7 @@
     <!-- Chapter 2 -->
     <section class="section">
       <div class="card">
-        <span class="badge">Unsaid thoughts</span>
+        <span class="badge">SIDE A • TRACK 02</span>
         <h2>To be honest...</h2>
         <p>Ever since I started talking to you, I haven't spoken about it directly. I've always been indirect, and sometimes it looks obvious.</p>
       </div>
@@ -311,7 +365,7 @@
     <!-- Chapter 3 -->
     <section class="section">
       <div class="card">
-        <span class="badge">Just one thing ✨</span>
+        <span class="badge">SIDE B • THE REVEAL</span>
         <h2>Finally saying it</h2>
         <p>I like you soooooooooooo muchhhhhh. Haven't said this ever... and there are more surprises to come.</p>
       </div>
@@ -353,7 +407,7 @@
 
     sections.forEach(sec => observer.observe(sec));
 
-    // Smooth Cursor and Particle Trail
+    // Dual-tone Cursor (Pink Dot, Cyan Trail)
     const dot = document.getElementById('cursor-dot');
     let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
     let curX = mouseX, curY = mouseY;
