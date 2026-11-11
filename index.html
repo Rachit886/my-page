@@ -1,15 +1,3 @@
-TV Girl ka real aesthetic 3D ya realistic lighting nahi hai—woh **flat 2-color duotone (hot pink aur cyan/blue)**, **photocopy/xerox grain**, **halftone retro poster feel**, aur **flat vintage cutouts** hota hai jaise unke album covers (*Who Really Cares*, *French Exit*).
-
-Isliye:
-
-1. Sabhi 3D shadows, smooth modern gradients, aur realistic spheres hata diye hain.
-2. Moon ko ek retro halftone/poster cut-out jaisa flat look diya hai.
-3. Flowers ko retro flat 60s/70s pop-art style banaya hai jo scroll ke sath frame-by-frame flat scale hokar bloom karte hain.
-4. Background me flowing digital purple waterfalls ka dithered retro effect diya hai.
-
-Neeche updated authentic **TV Girl aesthetic** code diya gaya hai:
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,9 +19,8 @@ Neeche updated authentic **TV Girl aesthetic** code diya gaya hai:
       scroll-behavior: smooth;
     }
 
-    /* TV Girl Signature 2-Tone Duotone Canvas */
     body {
-      background: #0f0014;
+      background: #0d0014;
       color: #ff3388;
       font-family: 'Courier Prime', monospace;
       overflow-x: hidden;
@@ -41,7 +28,7 @@ Neeche updated authentic **TV Girl aesthetic** code diya gaya hai:
       position: relative;
     }
 
-    /* Retro CRT Noise / Xerox Halftone Layer */
+    /* Retro Xerox Noise */
     .grain-overlay {
       position: fixed;
       top: 0;
@@ -50,25 +37,26 @@ Neeche updated authentic **TV Girl aesthetic** code diya gaya hai:
       height: 100vh;
       pointer-events: none;
       z-index: 10;
-      opacity: 0.18;
+      opacity: 0.16;
       background-image: repeating-radial-gradient(#ff3388 0 0.0001%, #00f0ff 0 0.0002%);
       background-size: 3px 3px;
     }
 
-    /* Continuous Flowing Purple Waterfall (Lo-Fi 8-bit / VHS Style) */
-    .waterfall-canvas {
+    /* --- SIDE BACKGROUND PURPLE FOUNTAIN / STREAM --- */
+    .side-fountain {
       position: fixed;
       top: 0;
-      left: 0;
-      width: 100vw;
+      right: 0;
+      width: 28vw;
       height: 100vh;
       pointer-events: none;
       z-index: 0;
-      background: #090011;
       overflow: hidden;
+      background: linear-gradient(90deg, transparent 0%, rgba(30, 0, 45, 0.4) 100%);
+      border-left: 2px dashed rgba(255, 51, 136, 0.3);
     }
 
-    .water-line {
+    .fountain-stream {
       position: absolute;
       top: -100%;
       left: 0;
@@ -77,35 +65,72 @@ Neeche updated authentic **TV Girl aesthetic** code diya gaya hai:
       background: repeating-linear-gradient(
         180deg,
         transparent 0px,
-        transparent 14px,
-        rgba(155, 0, 255, 0.3) 15px,
-        rgba(255, 51, 136, 0.35) 17px,
-        transparent 18px
+        transparent 16px,
+        rgba(155, 0, 255, 0.4) 18px,
+        rgba(255, 51, 136, 0.45) 20px,
+        rgba(0, 240, 255, 0.25) 22px,
+        transparent 24px
       );
-      animation: waterStream 2s linear infinite;
+      animation: purpleFlow 1.6s linear infinite;
     }
 
-    .water-line.layer-2 {
-      animation: waterStream 1.3s linear infinite;
-      opacity: 0.5;
+    .fountain-stream.layer-2 {
+      animation: purpleFlow 2.4s linear infinite;
+      opacity: 0.6;
     }
 
-    @keyframes waterStream {
+    @keyframes purpleFlow {
       0% { transform: translateY(0); }
       100% { transform: translateY(50%); }
     }
 
-    /* Flat Pop-Art Poster Moon (TV Girl Album Cutout) */
+    /* --- TV GIRL BIG STAR IN THE EXACT CENTER --- */
+    .center-star-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 380px;
+      height: 380px;
+      pointer-events: none;
+      z-index: 1;
+      will-change: transform;
+    }
+
+    .tv-star {
+      width: 100%;
+      height: 100%;
+      background: #ff3388;
+      clip-path: polygon(
+        50% 0%, 
+        62% 38%, 
+        100% 50%, 
+        62% 62%, 
+        50% 100%, 
+        38% 62%, 
+        0% 50%, 
+        38% 38%
+      );
+      filter: drop-shadow(10px 10px 0px #00f0ff);
+      animation: starRotate 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes starRotate {
+      0% { transform: scale(0.92) rotate(-5deg); }
+      100% { transform: scale(1.04) rotate(5deg); }
+    }
+
+    /* Pop-Art Cutout Moon */
     .tv-moon {
       position: fixed;
-      top: 8%;
-      right: 7%;
-      width: 170px;
-      height: 170px;
+      top: 6%;
+      right: 5%;
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
       background: #ff3388;
-      border: 4px solid #00f0ff;
-      box-shadow: 12px 12px 0px #00f0ff;
+      border: 3px solid #00f0ff;
+      box-shadow: 6px 6px 0px #00f0ff;
       z-index: 2;
       pointer-events: none;
       will-change: transform;
@@ -114,28 +139,28 @@ Neeche updated authentic **TV Girl aesthetic** code diya gaya hai:
     .tv-moon::after {
       content: '';
       position: absolute;
-      top: 15px;
-      right: 15px;
-      width: 120px;
-      height: 120px;
+      top: 10px;
+      right: 10px;
+      width: 85px;
+      height: 85px;
       border-radius: 50%;
-      background: #0f0014;
+      background: #0d0014;
     }
 
-    /* Retro Flat 60s Flower (Pop-Art Cutout) */
+    /* Blooming Flowers */
     .flower-box {
       position: fixed;
-      width: 110px;
-      height: 110px;
+      width: 100px;
+      height: 100px;
       pointer-events: none;
       z-index: 2;
       will-change: transform;
     }
 
     .fl-1 { top: 14%; left: 4%; }
-    .fl-2 { top: 58%; left: 5%; }
-    .fl-3 { top: 78%; right: 9%; }
-    .fl-4 { top: 40%; right: 4%; }
+    .fl-2 { top: 60%; left: 5%; }
+    .fl-3 { top: 80%; right: 10%; }
+    .fl-4 { top: 38%; right: 4%; }
 
     .flower-svg {
       width: 100%;
@@ -159,7 +184,7 @@ Neeche updated authentic **TV Girl aesthetic** code diya gaya hai:
       will-change: transform;
     }
 
-    /* Timeline Dots */
+    /* Side Timeline Dots */
     .timeline {
       position: fixed;
       right: 20px;
@@ -186,7 +211,7 @@ Neeche updated authentic **TV Girl aesthetic** code diya gaya hai:
       box-shadow: 4px 4px 0px #00f0ff;
     }
 
-    /* Cards Layout (Flat Zine / Album Sleeve Style) */
+    /* Cards Layout */
     .scroll-container {
       position: relative;
       width: 100%;
@@ -202,10 +227,9 @@ Neeche updated authentic **TV Girl aesthetic** code diya gaya hai:
     }
 
     .card {
-      background: #0c0010;
+      background: rgba(12, 0, 16, 0.88);
       border: 3px solid #ff3388;
       box-shadow: 10px 10px 0px #00f0ff;
-      border-radius: 0px;
       padding: 40px 32px;
       max-width: 480px;
       width: 100%;
@@ -254,7 +278,7 @@ Neeche updated authentic **TV Girl aesthetic** code diya gaya hai:
       line-height: 1.65;
     }
 
-    /* Flat Blocky Cursor */
+    /* Cursor */
     #cursor-dot {
       position: fixed;
       top: 0;
@@ -286,24 +310,31 @@ Neeche updated authentic **TV Girl aesthetic** code diya gaya hai:
     }
 
     @media (max-width: 768px) {
+      .center-star-container {
+        width: 240px;
+        height: 240px;
+      }
+      .side-fountain {
+        width: 35vw;
+      }
       .tv-moon {
-        width: 110px;
-        height: 110px;
+        width: 90px;
+        height: 90px;
         right: 4%;
         top: 4%;
-        box-shadow: 6px 6px 0px #00f0ff;
+        box-shadow: 4px 4px 0px #00f0ff;
       }
       .tv-moon::after {
-        width: 80px;
-        height: 80px;
+        width: 65px;
+        height: 65px;
       }
       .section {
         padding: 20px 6%;
         justify-content: center;
       }
       .flower-box {
-        width: 80px;
-        height: 80px;
+        width: 75px;
+        height: 75px;
       }
       .card {
         box-shadow: 6px 6px 0px #00f0ff;
@@ -313,17 +344,23 @@ Neeche updated authentic **TV Girl aesthetic** code diya gaya hai:
 </head>
 <body>
 
-  <!-- Grain & Waterfall Backing -->
   <div class="grain-overlay"></div>
-  <div class="waterfall-canvas">
-    <div class="water-line"></div>
-    <div class="water-line layer-2"></div>
+
+  <!-- Side Purple Flowing Fountain / Stream -->
+  <div class="side-fountain">
+    <div class="fountain-stream"></div>
+    <div class="fountain-stream layer-2"></div>
   </div>
 
-  <!-- Pop-Art Cutout Moon -->
+  <!-- Exact Center TV Girl Star -->
+  <div class="center-star-container" id="centerStar">
+    <div class="tv-star"></div>
+  </div>
+
+  <!-- Moon -->
   <div class="tv-moon" id="tvMoon"></div>
 
-  <!-- Pop-Art 2D Blooming Flowers -->
+  <!-- Blooming Flowers -->
   <div class="flower-box fl-1">
     <svg class="flower-svg" viewBox="0 0 100 100">
       <g class="petals-group">
@@ -416,6 +453,7 @@ Neeche updated authentic **TV Girl aesthetic** code diya gaya hai:
   <div id="cursor-dot"></div>
 
   <script>
+    const centerStar = document.getElementById('centerStar');
     const tvMoon = document.getElementById('tvMoon');
     const petalGroups = document.querySelectorAll('.petals-group');
     const centers = document.querySelectorAll('.svg-center');
@@ -429,16 +467,18 @@ Neeche updated authentic **TV Girl aesthetic** code diya gaya hai:
     }, { passive: true });
 
     function render() {
-      // Damped smooth linear interpolation
       currentScroll += (targetScroll - currentScroll) * 0.09;
 
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
-      // Flat parallax displacement
-      tvMoon.style.transform = `translate3d(0, ${currentScroll * 0.14}px, 0)`;
+      // Center Star parallax & spin without losing center alignment
+      centerStar.style.transform = `translate(-50%, -50%) rotate(${progress * 60}deg) scale(${1 + progress * 0.15})`;
 
-      // Flat 2D flower scale bloom
+      // Moon displacement
+      tvMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
+
+      // Flower bloom
       const bloom = 0.08 + (progress * 1.05);
       const centerScale = 0.45 + (progress * 0.6);
 
@@ -461,7 +501,7 @@ Neeche updated authentic **TV Girl aesthetic** code diya gaya hai:
     }
     requestAnimationFrame(render);
 
-    // Card visibility & timeline dots
+    // Cards observer
     const sections = document.querySelectorAll('.section');
     const dots = document.querySelectorAll('.timeline-dot');
 
@@ -516,5 +556,3 @@ Neeche updated authentic **TV Girl aesthetic** code diya gaya hai:
   </script>
 </body>
 </html>
-
-```
