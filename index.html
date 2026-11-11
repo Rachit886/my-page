@@ -102,14 +102,14 @@
       pointer-events: none;
     }
 
-    /* --- BLOOMING TV GIRL CENTER STAR --- */
+    /* --- CRISP ULTRA-HQ BLOOMING STAR --- */
     .star-anchor {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 360px;
-      height: 360px;
+      width: 380px;
+      height: 380px;
       pointer-events: none;
       z-index: 2;
       display: flex;
@@ -122,19 +122,21 @@
       width: 100%;
       height: 100%;
       overflow: visible;
+      shape-rendering: geometricPrecision;
+      will-change: transform;
+    }
+
+    .star-path {
+      transform-origin: 100px 100px;
       will-change: transform;
     }
 
     .star-shadow-path {
       fill: #2ce5e8;
-      transform-origin: 50px 50px;
-      will-change: transform;
     }
 
     .star-main-path {
       fill: #e02874;
-      transform-origin: 50px 50px;
-      will-change: transform;
     }
 
     /* Vintage Natural Moon */
@@ -199,6 +201,7 @@
       width: 100%;
       height: 100%;
       overflow: visible;
+      shape-rendering: geometricPrecision;
     }
 
     .svg-petal {
@@ -244,7 +247,7 @@
       transform: scale(1.6);
     }
 
-    /* Cards */
+    /* Content Cards */
     .scroll-container {
       position: relative;
       width: 100%;
@@ -311,7 +314,7 @@
       line-height: 1.65;
     }
 
-    /* Cursor */
+    /* Custom Cursor */
     #cursor-dot {
       position: fixed;
       top: 0;
@@ -348,8 +351,8 @@
         opacity: 0.3;
       }
       .star-anchor {
-        width: 250px;
-        height: 250px;
+        width: 260px;
+        height: 260px;
       }
       .section {
         padding: 20px 6%;
@@ -379,13 +382,14 @@
     <div class="waterfall-blend"></div>
   </div>
 
-  <!-- Center Blooming Star -->
+  <!-- Vector Precise Center Star -->
   <div class="star-anchor" id="starAnchor">
-    <svg class="star-svg" id="starSvg" viewBox="0 0 100 100">
-      <!-- Cyan pop-art shadow polygon -->
-      <polygon class="star-shadow-path" id="starShadow" points="50,0 62,38 100,50 62,62 50,100 38,62 0,50 38,38" />
-      <!-- Magenta primary star polygon -->
-      <polygon class="star-main-path" id="starMain" points="50,0 62,38 100,50 62,62 50,100 38,62 0,50 38,38" />
+    <svg class="star-svg" id="starSvg" viewBox="0 0 200 200">
+      <!-- High-precision 4-point star curve path -->
+      <path class="star-path star-shadow-path" id="starShadow" 
+            d="M 100 0 Q 100 80 180 100 Q 100 120 100 200 Q 100 120 20 100 Q 100 80 100 0 Z" />
+      <path class="star-path star-main-path" id="starMain" 
+            d="M 100 0 Q 100 80 180 100 Q 100 120 100 200 Q 100 120 20 100 Q 100 80 100 0 Z" />
     </svg>
   </div>
 
@@ -508,11 +512,10 @@
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
-      // --- STAR BLOOM CALCULATION ---
-      // 0.08 scale (closed bud) se expand hokar 1.15 (full bloom) tak khilega
+      // Ultra-clean bloom scaling from 0.08 (bud) to 1.15 (bloom)
       const starBloom = 0.08 + (progress * 1.07);
       const starSpin = progress * 60;
-      const shadowOffset = 3 + (progress * 9);
+      const shadowOffset = 4 + (progress * 12);
 
       starSvg.style.transform = `rotate(${starSpin}deg)`;
       starMain.style.transform = `scale(${starBloom})`;
