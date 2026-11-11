@@ -19,30 +19,18 @@
       scroll-behavior: smooth;
     }
 
+    /* Exact 'Who Really Cares' Pure Pitch Black Base */
     body {
-      background: #0e0717;
-      color: #fce8f3;
+      background: #000000;
+      color: #ffffff;
       font-family: 'Courier Prime', monospace;
       overflow-x: hidden;
       min-height: 100vh;
       position: relative;
     }
 
-    /* 50/50 Duotone Screen Layer */
-    .tv-duotone-layer {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 1;
-      background: linear-gradient(135deg, rgba(224, 40, 116, 0.28) 0%, rgba(44, 229, 232, 0.28) 100%);
-      mix-blend-mode: color;
-    }
-
-    /* Film Grain & Scanlines */
-    .vinyl-sheen {
+    /* Analog Vinyl Noise Overlay */
+    .vinyl-noise {
       position: fixed;
       top: 0;
       left: 0;
@@ -50,12 +38,13 @@
       height: 100vh;
       pointer-events: none;
       z-index: 10;
-      opacity: 0.13;
-      background-image: repeating-radial-gradient(#e02874 0 0.0001%, #2ce5e8 0 0.0002%);
+      opacity: 0.15;
+      background-image: repeating-radial-gradient(#ff007f 0 0.0001%, #1a45ff 0 0.0002%);
       background-size: 3px 3px;
     }
 
-    .crt-lines {
+    /* High-contrast CRT TV Scanline raster */
+    .crt-raster {
       position: fixed;
       top: 0;
       left: 0;
@@ -65,14 +54,14 @@
       z-index: 9;
       background: repeating-linear-gradient(
         0deg,
-        rgba(0, 0, 0, 0.12) 0px,
-        rgba(0, 0, 0, 0.12) 1px,
+        rgba(0, 0, 0, 0.4) 0px,
+        rgba(0, 0, 0, 0.4) 1px,
         transparent 1px,
         transparent 3px
       );
     }
 
-    /* Right Waterfall Panel */
+    /* Right Waterfall with Pure TV Girl Duotone Filter */
     .waterfall-panel {
       position: fixed;
       top: 0;
@@ -88,17 +77,19 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: hue-rotate(220deg) saturate(2) brightness(0.8) contrast(1.2);
+      /* Harsh 2-tone contrast: Deep shadow crush + high saturation */
+      filter: contrast(1.8) brightness(0.65) saturate(2.2) hue-rotate(280deg);
       transform: scale(1.02);
     }
 
+    /* Pure black cut blend */
     .waterfall-blend {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, #0e0717 0%, rgba(14, 7, 23, 0.45) 30%, transparent 75%);
+      background: linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0.7) 35%, transparent 80%);
       pointer-events: none;
     }
 
@@ -131,15 +122,17 @@
       will-change: transform;
     }
 
+    /* Blue shadow matching the album blue */
     .star-shadow-poly {
-      fill: #2ce5e8;
+      fill: #1a45ff;
     }
 
+    /* Hot magenta pink matching the album girl */
     .star-main-poly {
-      fill: #e02874;
+      fill: #ff007f;
     }
 
-    /* Vintage Natural Moon */
+    /* Natural Monochrome Moon with Blue Tint */
     .real-moon-wrapper {
       position: fixed;
       top: 7%;
@@ -155,10 +148,10 @@
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #ede8dc 40%, #a49e91 75%, #4f4b44 100%);
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #cbd6ff 40%, #5067cf 75%, #050b28 100%);
       box-shadow: 
-        0 0 25px rgba(237, 232, 220, 0.4),
-        0 0 60px rgba(44, 229, 232, 0.2);
+        0 0 20px rgba(26, 69, 255, 0.7),
+        0 0 50px rgba(255, 0, 127, 0.4);
       position: relative;
       overflow: hidden;
       animation: moonFloat 7s ease-in-out infinite alternate;
@@ -170,9 +163,9 @@
       width: 100%;
       height: 100%;
       background-image: 
-        radial-gradient(circle at 62% 40%, rgba(60, 55, 48, 0.25) 0%, transparent 18%),
-        radial-gradient(circle at 45% 65%, rgba(60, 55, 48, 0.3) 0%, transparent 22%),
-        radial-gradient(circle at 25% 42%, rgba(60, 55, 48, 0.2) 0%, transparent 14%);
+        radial-gradient(circle at 62% 40%, rgba(5, 10, 40, 0.35) 0%, transparent 18%),
+        radial-gradient(circle at 45% 65%, rgba(5, 10, 40, 0.4) 0%, transparent 22%),
+        radial-gradient(circle at 25% 42%, rgba(5, 10, 40, 0.3) 0%, transparent 14%);
       border-radius: 50%;
     }
 
@@ -181,14 +174,14 @@
       100% { transform: translateY(-12px); }
     }
 
-    /* Blooming Flowers */
+    /* High-contrast Flowers */
     .flower-box {
       position: fixed;
       width: 95px;
       height: 95px;
       pointer-events: none;
       z-index: 2;
-      filter: drop-shadow(4px 4px 0px #0e0717);
+      filter: drop-shadow(4px 4px 0px #000000);
       will-change: transform;
     }
 
@@ -205,16 +198,16 @@
     }
 
     .svg-petal {
-      fill: #e02874;
-      stroke: #2ce5e8;
-      stroke-width: 2.2;
+      fill: #ff007f;
+      stroke: #1a45ff;
+      stroke-width: 2.5;
       transform-origin: 50px 50px;
       will-change: transform;
     }
 
     .svg-center {
-      fill: #2ce5e8;
-      stroke: #e02874;
+      fill: #1a45ff;
+      stroke: #ff007f;
       stroke-width: 2.5;
       transform-origin: 50px 50px;
       will-change: transform;
@@ -235,19 +228,19 @@
     .timeline-dot {
       width: 9px;
       height: 9px;
-      border: 2px solid #2ce5e8;
-      background: #0e0717;
+      border: 2px solid #1a45ff;
+      background: #000000;
       transition: all 0.25s ease;
     }
 
     .timeline-dot.active {
-      background: #e02874;
-      border-color: #e02874;
-      box-shadow: 3px 3px 0px #2ce5e8;
+      background: #ff007f;
+      border-color: #ff007f;
+      box-shadow: 3px 3px 0px #1a45ff;
       transform: scale(1.6);
     }
 
-    /* Cards */
+    /* Content Cards (Pure Matte Black Cutout with Album Colors) */
     .scroll-container {
       position: relative;
       width: 100%;
@@ -263,9 +256,9 @@
     }
 
     .card {
-      background: #130a1f;
-      border: 3px solid #e02874;
-      box-shadow: 10px 10px 0px #2ce5e8;
+      background: #000000;
+      border: 3px solid #ff007f;
+      box-shadow: 10px 10px 0px #1a45ff;
       padding: 40px 32px;
       max-width: 480px;
       width: 100%;
@@ -286,8 +279,8 @@
       font-size: 0.75rem;
       letter-spacing: 2px;
       font-weight: 700;
-      background: #2ce5e8;
-      color: #0e0717;
+      background: #1a45ff;
+      color: #ffffff;
       margin-bottom: 16px;
       font-family: 'Oswald', sans-serif;
     }
@@ -300,16 +293,16 @@
       line-height: 1.15;
       margin-bottom: 14px;
       color: #ffffff;
-      text-shadow: 3px 3px 0px #e02874;
+      text-shadow: 3px 3px 0px #ff007f;
     }
 
-    .accent-cyan {
-      color: #2ce5e8;
-      text-shadow: 2px 2px 0px #e02874;
+    .album-blue {
+      color: #1a45ff;
+      text-shadow: 2px 2px 0px #ff007f;
     }
 
     p {
-      color: #e5d6e3;
+      color: #e0e0e0;
       font-size: 1.05rem;
       line-height: 1.65;
     }
@@ -321,8 +314,8 @@
       left: 0;
       width: 12px;
       height: 12px;
-      background: #2ce5e8;
-      border: 2px solid #e02874;
+      background: #1a45ff;
+      border: 2px solid #ff007f;
       pointer-events: none;
       transform: translate(-50%, -50%);
       z-index: 9999;
@@ -333,7 +326,7 @@
       position: fixed;
       width: 6px;
       height: 6px;
-      background: #e02874;
+      background: #ff007f;
       pointer-events: none;
       transform: translate(-50%, -50%);
       animation: fadeOut 0.4s linear forwards;
@@ -348,7 +341,7 @@
     @media (max-width: 768px) {
       .waterfall-panel {
         width: 100vw;
-        opacity: 0.3;
+        opacity: 0.25;
       }
       .star-anchor {
         width: 260px;
@@ -363,18 +356,17 @@
         height: 85px;
       }
       .card {
-        box-shadow: 6px 6px 0px #2ce5e8;
+        box-shadow: 6px 6px 0px #1a45ff;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="tv-duotone-layer"></div>
-  <div class="vinyl-sheen"></div>
-  <div class="crt-lines"></div>
+  <div class="vinyl-noise"></div>
+  <div class="crt-raster"></div>
 
-  <!-- Waterfall Panel -->
+  <!-- Flowing Waterfall (Deep Shadow Contrast) -->
   <div class="waterfall-panel">
     <video class="waterfall-video" autoplay muted loop playsinline preload="auto">
       <source src="https://assets.mixkit.co/videos/preview/mixkit-waterfall-in-forest-2213-large.mp4" type="video/mp4">
@@ -382,10 +374,9 @@
     <div class="waterfall-blend"></div>
   </div>
 
-  <!-- Straight Sharp 4-Point Star -->
+  <!-- Sharp Straight 4-Point Star (Blooming on Scroll) -->
   <div class="star-anchor" id="starAnchor">
     <svg class="star-svg" id="starSvg" viewBox="0 0 200 200">
-      <!-- Straight lines with sharp diagonal cuts -->
       <polygon class="star-polygon star-shadow-poly" id="starShadow" 
                points="100,0 122,78 200,100 122,122 100,200 78,122 0,100 78,78" />
       <polygon class="star-polygon star-main-poly" id="starMain" 
@@ -466,7 +457,7 @@
     <section class="section">
       <div class="card visible">
         <span class="badge">SIDE A • TRACK 01</span>
-        <h2>hello <span class="accent-cyan"><3</span></h2>
+        <h2>hello <span class="album-blue"><3</span></h2>
         <p>Dekho, I tried my best to give efforts. I know I can do more, but I really wanted to build something special for you.</p>
       </div>
     </section>
@@ -512,7 +503,7 @@
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
-      // Straight Sharp Star Bloom (0.08 to 1.15)
+      // Pure Star Bloom Animation: Closed (0.08) -> Fully bloomed (1.15)
       const starBloom = 0.08 + (progress * 1.07);
       const starSpin = progress * 60;
       const shadowOffset = 4 + (progress * 12);
