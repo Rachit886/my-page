@@ -28,7 +28,6 @@
       position: relative;
     }
 
-    /* Grain Overlay */
     .grain-overlay {
       position: fixed;
       top: 0;
@@ -42,43 +41,85 @@
       background-size: 3px 3px;
     }
 
-    /* --- REAL ASLI WATERFALL (NO BORDERS, NO LINES) --- */
+    /* --- REAL FLOWING WATERFALL SYSTEM (RIGHT SIDE) --- */
     .waterfall-panel {
       position: fixed;
       top: 0;
       right: 0;
-      width: 50vw;
+      width: 42vw;
       height: 100vh;
       overflow: hidden;
       z-index: 0;
       pointer-events: none;
-      /* Line/Border completely removed */
-      border: none !important;
-      outline: none !important;
-      box-shadow: none !important;
+      background: linear-gradient(180deg, #18002e 0%, #0d001a 60%, #05000d 100%);
     }
 
-    .waterfall-video {
+    /* Multi-layered flowing water streams */
+    .water-cascade {
+      position: absolute;
+      top: -100%;
+      left: 0;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      /* Real flowing waterfall with purple tint */
-      filter: hue-rotate(250deg) saturate(2.4) brightness(0.8) contrast(1.2);
-      transform: scale(1.02);
+      height: 200%;
+      background: repeating-linear-gradient(
+        180deg,
+        transparent 0px,
+        transparent 25px,
+        rgba(0, 240, 255, 0.45) 30px,
+        rgba(255, 51, 136, 0.5) 38px,
+        rgba(155, 0, 255, 0.6) 48px,
+        transparent 55px
+      );
+      animation: waterRush 0.9s linear infinite;
+      filter: blur(1px);
     }
 
-    /* Seamless fade into background without any sharp cut or line */
+    .water-cascade.layer-fast {
+      animation: waterRush 0.65s linear infinite;
+      opacity: 0.7;
+      filter: blur(2.5px);
+    }
+
+    .water-cascade.layer-spray {
+      animation: waterRush 1.3s linear infinite;
+      opacity: 0.5;
+      background-size: 80% 100%;
+    }
+
+    @keyframes waterRush {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(50%); }
+    }
+
+    /* Water Splash Mist at Bottom */
+    .water-mist {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 250px;
+      background: radial-gradient(ellipse at bottom, rgba(0, 240, 255, 0.35) 0%, rgba(255, 51, 136, 0.25) 45%, transparent 75%);
+      filter: blur(15px);
+      animation: mistPulse 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes mistPulse {
+      0% { opacity: 0.6; transform: scaleY(0.9); }
+      100% { opacity: 1; transform: scaleY(1.15); }
+    }
+
+    /* Seamless Gradient Blend into Dark Left Side */
     .waterfall-blend {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, #090011 0%, rgba(9, 0, 17, 0.4) 30%, transparent 70%);
+      background: linear-gradient(90deg, #090011 0%, rgba(9, 0, 17, 0.3) 30%, transparent 80%);
       pointer-events: none;
     }
 
-    /* --- CENTER LOCKED TV GIRL STAR --- */
+    /* --- CLEAN SINGLE TV GIRL STAR --- */
     .star-anchor {
       position: fixed;
       top: 50%;
@@ -123,7 +164,7 @@
       100% { opacity: 0.75; transform: scale(1.15); }
     }
 
-    /* --- NATURAL WHITE/SILVER MOON --- */
+    /* --- NATURAL MOON --- */
     .real-moon-wrapper {
       position: fixed;
       top: 7%;
@@ -351,15 +392,16 @@
 
   <div class="grain-overlay"></div>
 
-  <!-- Real Natural Flowing Waterfall Footage -->
+  <!-- Real Multi-layer Flowing Waterfall -->
   <div class="waterfall-panel">
-    <video class="waterfall-video" autoplay muted loop playsinline preload="auto">
-      <source src="https://assets.mixkit.co/videos/preview/mixkit-waterfall-in-forest-2213-large.mp4" type="video/mp4">
-    </video>
+    <div class="water-cascade"></div>
+    <div class="water-cascade layer-fast"></div>
+    <div class="water-cascade layer-spray"></div>
+    <div class="water-mist"></div>
     <div class="waterfall-blend"></div>
   </div>
 
-  <!-- Centered TV Girl Star -->
+  <!-- Center Locked Star -->
   <div class="star-anchor" id="starAnchor">
     <div class="star-glow"></div>
     <div class="tv-star-single"></div>
@@ -482,13 +524,13 @@
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
-      // Star locked in screen center
+      // Star stays vertically in center
       starAnchor.style.transform = `translate(-50%, -50%) rotate(${progress * 55}deg) scale(${1 + progress * 0.15})`;
 
-      // Moon displacement
+      // Moon subtle displacement
       realMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
 
-      // Flower bloom
+      // Flowers bloom
       const bloom = 0.08 + (progress * 1.05);
       const centerScale = 0.45 + (progress * 0.6);
 
@@ -529,7 +571,7 @@
 
     sections.forEach(sec => observer.observe(sec));
 
-    // Custom retro cursor
+    // Custom Cursor
     const dot = document.getElementById('cursor-dot');
     let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
     let curX = mouseX, curY = mouseY;
