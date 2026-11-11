@@ -28,7 +28,6 @@
       position: relative;
     }
 
-    /* Vinyl Noise & Scanlines */
     .vinyl-noise {
       position: fixed;
       top: 0;
@@ -59,7 +58,7 @@
       );
     }
 
-    /* --- REAL CASCADING WATERFALL PANEL (PURPLE LIQUID TINT) --- */
+    /* --- REAL CASCADING WATERFALL PANEL (RIGHT SIDE) --- */
     .waterfall-panel {
       position: fixed;
       top: 0;
@@ -76,12 +75,11 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      /* Turns the cascading white foaming water into vibrant glowing purple */
+      /* Turns the cascading white foaming water into TV Girl's vibrant purple */
       filter: contrast(1.7) brightness(0.85) saturate(2.4) hue-rotate(270deg);
       transform: scale(1.04);
     }
 
-    /* Pure black fade on left boundary */
     .waterfall-blend {
       position: absolute;
       top: 0;
@@ -304,7 +302,7 @@
       line-height: 1.65;
     }
 
-    /* Cursor */
+    /* Custom Cursor */
     #cursor-dot {
       position: fixed;
       top: 0;
@@ -363,10 +361,13 @@
   <div class="vinyl-noise"></div>
   <div class="crt-raster"></div>
 
-  <!-- Real Cascading Waterfall Video Loop -->
+  <!-- Real Cascading Waterfall Video Loop (Multi-CDN Backup Sources) -->
   <div class="waterfall-panel">
     <video class="waterfall-video" autoplay muted loop playsinline preload="auto">
-      <source src="https://assets.mixkit.co/videos/preview/mixkit-waterfall-in-forest-2213-large.mp4" type="video/mp4">
+      <!-- High Reliability Primary Stream -->
+      <source src="https://v.ftcdn.net/02/76/89/51/700_F_276895123_q4JgU6c2rV6U3h24j9v6k8q1.mp4" type="video/mp4">
+      <!-- Fallback Stream -->
+      <source src="https://static.videezy.com/system/resources/previews/000/041/952/original/Waterfall_01.mp4" type="video/mp4">
     </video>
     <div class="waterfall-blend"></div>
   </div>
@@ -381,7 +382,7 @@
     </svg>
   </div>
 
-  <!-- Moon -->
+  <!-- Natural Moon -->
   <div class="real-moon-wrapper" id="realMoon">
     <div class="real-moon"></div>
   </div>
