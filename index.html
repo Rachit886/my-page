@@ -20,7 +20,7 @@
     }
 
     body {
-      background: #0d0014;
+      background: #090011;
       color: #ff3388;
       font-family: 'Courier Prime', monospace;
       overflow-x: hidden;
@@ -28,7 +28,7 @@
       position: relative;
     }
 
-    /* Retro Xerox Noise */
+    /* Xerox Grain Texture */
     .grain-overlay {
       position: fixed;
       top: 0;
@@ -42,91 +42,110 @@
       background-size: 3px 3px;
     }
 
-    /* --- SIDE BACKGROUND PURPLE FOUNTAIN / STREAM --- */
-    .side-fountain {
+    /* --- ASLI REAL WATER FOUNTAIN (SIDE BACKGROUND) --- */
+    .fountain-wrapper {
       position: fixed;
       top: 0;
       right: 0;
-      width: 28vw;
+      width: 38vw;
       height: 100vh;
-      pointer-events: none;
-      z-index: 0;
       overflow: hidden;
-      background: linear-gradient(90deg, transparent 0%, rgba(30, 0, 45, 0.4) 100%);
-      border-left: 2px dashed rgba(255, 51, 136, 0.3);
+      z-index: 0;
+      pointer-events: none;
+      border-left: 3px solid #ff3388;
+      box-shadow: -10px 0 35px rgba(255, 51, 136, 0.35);
     }
 
-    .fountain-stream {
+    .fountain-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* Genuine water footage tinted purple/magenta */
+      filter: hue-rotate(250deg) saturate(2.4) brightness(0.7) contrast(1.3);
+      transform: scale(1.05);
+    }
+
+    .fountain-tint {
       position: absolute;
-      top: -100%;
+      top: 0;
       left: 0;
       width: 100%;
-      height: 200%;
-      background: repeating-linear-gradient(
-        180deg,
-        transparent 0px,
-        transparent 16px,
-        rgba(155, 0, 255, 0.4) 18px,
-        rgba(255, 51, 136, 0.45) 20px,
-        rgba(0, 240, 255, 0.25) 22px,
-        transparent 24px
-      );
-      animation: purpleFlow 1.6s linear infinite;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(13, 0, 20, 0.4) 0%, rgba(255, 51, 136, 0.25) 50%, rgba(13, 0, 20, 0.6) 100%);
+      mix-blend-mode: multiply;
     }
 
-    .fountain-stream.layer-2 {
-      animation: purpleFlow 2.4s linear infinite;
-      opacity: 0.6;
-    }
-
-    @keyframes purpleFlow {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(50%); }
-    }
-
-    /* --- TV GIRL BIG STAR IN THE EXACT CENTER --- */
-    .center-star-container {
+    /* --- TV GIRL MULTI-DIMENSIONAL CENTER STAR --- */
+    .star-anchor {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 380px;
-      height: 380px;
+      width: 360px;
+      height: 360px;
       pointer-events: none;
       z-index: 1;
       will-change: transform;
     }
 
-    .tv-star {
+    /* Outer glow pulse star */
+    .star-outer-glow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #00f0ff;
+      clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
+      filter: blur(20px);
+      opacity: 0.6;
+      animation: pulseOuter 3s ease-in-out infinite alternate;
+    }
+
+    /* Main Star with 3-Phase Animation */
+    .tv-star-main {
+      position: absolute;
       width: 100%;
       height: 100%;
       background: #ff3388;
-      clip-path: polygon(
-        50% 0%, 
-        62% 38%, 
-        100% 50%, 
-        62% 62%, 
-        50% 100%, 
-        38% 62%, 
-        0% 50%, 
-        38% 38%
-      );
-      filter: drop-shadow(10px 10px 0px #00f0ff);
-      animation: starRotate 8s ease-in-out infinite alternate;
+      clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
+      filter: drop-shadow(12px 12px 0px #00f0ff);
+      animation: breatheStar 4s ease-in-out infinite alternate;
     }
 
-    @keyframes starRotate {
-      0% { transform: scale(0.92) rotate(-5deg); }
-      100% { transform: scale(1.04) rotate(5deg); }
+    /* Inner concentric counter-spinning mini star */
+    .star-inner {
+      position: absolute;
+      top: 25%;
+      left: 25%;
+      width: 50%;
+      height: 50%;
+      background: #00f0ff;
+      clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
+      animation: counterSpin 6s linear infinite;
+    }
+
+    @keyframes breatheStar {
+      0% { transform: scale(0.9); }
+      50% { transform: scale(1.06) skew(1deg, 1deg); }
+      100% { transform: scale(0.95); }
+    }
+
+    @keyframes pulseOuter {
+      0% { opacity: 0.4; transform: scale(0.95); }
+      100% { opacity: 0.85; transform: scale(1.2); }
+    }
+
+    @keyframes counterSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(-360deg); }
     }
 
     /* Pop-Art Cutout Moon */
     .tv-moon {
       position: fixed;
       top: 6%;
-      right: 5%;
-      width: 120px;
-      height: 120px;
+      right: 4%;
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
       background: #ff3388;
       border: 3px solid #00f0ff;
@@ -139,15 +158,15 @@
     .tv-moon::after {
       content: '';
       position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 85px;
-      height: 85px;
+      top: 8px;
+      right: 8px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
-      background: #0d0014;
+      background: #090011;
     }
 
-    /* Blooming Flowers */
+    /* Blooming 2D Pop-Art Flowers */
     .flower-box {
       position: fixed;
       width: 100px;
@@ -159,8 +178,8 @@
 
     .fl-1 { top: 14%; left: 4%; }
     .fl-2 { top: 60%; left: 5%; }
-    .fl-3 { top: 80%; right: 10%; }
-    .fl-4 { top: 38%; right: 4%; }
+    .fl-3 { top: 82%; right: 42%; }
+    .fl-4 { top: 38%; left: 48%; }
 
     .flower-svg {
       width: 100%;
@@ -184,10 +203,10 @@
       will-change: transform;
     }
 
-    /* Side Timeline Dots */
+    /* Timeline Dots */
     .timeline {
       position: fixed;
-      right: 20px;
+      right: 18px;
       top: 50%;
       transform: translateY(-50%);
       display: flex;
@@ -200,7 +219,7 @@
       width: 10px;
       height: 10px;
       border: 2px solid #00f0ff;
-      background: #0f0014;
+      background: #090011;
       transition: all 0.25s ease;
     }
 
@@ -211,7 +230,7 @@
       box-shadow: 4px 4px 0px #00f0ff;
     }
 
-    /* Cards Layout */
+    /* Content Layout */
     .scroll-container {
       position: relative;
       width: 100%;
@@ -227,7 +246,7 @@
     }
 
     .card {
-      background: rgba(12, 0, 16, 0.88);
+      background: rgba(12, 0, 16, 0.9);
       border: 3px solid #ff3388;
       box-shadow: 10px 10px 0px #00f0ff;
       padding: 40px 32px;
@@ -251,7 +270,7 @@
       letter-spacing: 2px;
       font-weight: 700;
       background: #00f0ff;
-      color: #0f0014;
+      color: #090011;
       margin-bottom: 16px;
       font-family: 'Oswald', sans-serif;
     }
@@ -310,34 +329,26 @@
     }
 
     @media (max-width: 768px) {
-      .center-star-container {
+      .fountain-wrapper {
+        width: 100vw;
+        opacity: 0.25;
+        border-left: none;
+      }
+      .star-anchor {
         width: 240px;
         height: 240px;
-      }
-      .side-fountain {
-        width: 35vw;
-      }
-      .tv-moon {
-        width: 90px;
-        height: 90px;
-        right: 4%;
-        top: 4%;
-        box-shadow: 4px 4px 0px #00f0ff;
-      }
-      .tv-moon::after {
-        width: 65px;
-        height: 65px;
       }
       .section {
         padding: 20px 6%;
         justify-content: center;
       }
-      .flower-box {
-        width: 75px;
-        height: 75px;
+      .tv-moon {
+        width: 80px;
+        height: 80px;
       }
-      .card {
-        box-shadow: 6px 6px 0px #00f0ff;
+      .tv-moon::after {
+        width: 58px;
+        height: 58px;
       }
     }
   </style>
@@ -346,15 +357,19 @@
 
   <div class="grain-overlay"></div>
 
-  <!-- Side Purple Flowing Fountain / Stream -->
-  <div class="side-fountain">
-    <div class="fountain-stream"></div>
-    <div class="fountain-stream layer-2"></div>
+  <!-- Real Physical Fountain Flowing Footage (Looping) -->
+  <div class="fountain-wrapper">
+    <video class="fountain-video" autoplay muted loop playsinline preload="auto">
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-water-fountain-in-a-lake-4375-large.mp4" type="video/mp4">
+    </video>
+    <div class="fountain-tint"></div>
   </div>
 
-  <!-- Exact Center TV Girl Star -->
-  <div class="center-star-container" id="centerStar">
-    <div class="tv-star"></div>
+  <!-- Multi-layered Center TV Girl Star -->
+  <div class="star-anchor" id="starAnchor">
+    <div class="star-outer-glow"></div>
+    <div class="tv-star-main"></div>
+    <div class="star-inner"></div>
   </div>
 
   <!-- Moon -->
@@ -453,7 +468,7 @@
   <div id="cursor-dot"></div>
 
   <script>
-    const centerStar = document.getElementById('centerStar');
+    const starAnchor = document.getElementById('starAnchor');
     const tvMoon = document.getElementById('tvMoon');
     const petalGroups = document.querySelectorAll('.petals-group');
     const centers = document.querySelectorAll('.svg-center');
@@ -472,13 +487,13 @@
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
-      // Center Star parallax & spin without losing center alignment
-      centerStar.style.transform = `translate(-50%, -50%) rotate(${progress * 60}deg) scale(${1 + progress * 0.15})`;
+      // Complex Center Star Morph: Parallax float, dynamic scaling, plus scroll tilt
+      starAnchor.style.transform = `translate(-50%, calc(-50% + ${currentScroll * 0.08}px)) rotate(${progress * 45}deg) scale(${1 + progress * 0.2})`;
 
-      // Moon displacement
+      // Moon subtle displacement
       tvMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
 
-      // Flower bloom
+      // Flower blooming
       const bloom = 0.08 + (progress * 1.05);
       const centerScale = 0.45 + (progress * 0.6);
 
