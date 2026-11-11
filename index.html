@@ -20,7 +20,7 @@
     }
 
     body {
-      background: #090014;
+      background: #080010;
       color: #f7d6e6;
       font-family: 'Space Grotesk', sans-serif;
       overflow-x: hidden;
@@ -28,8 +28,8 @@
       position: relative;
     }
 
-    /* --- CONTINUOUS PURPLE WATERFALL BACKGROUND --- */
-    .waterfall-container {
+    /* --- CONTINUOUS PURPLE WATERFALL / FOUNTAIN BACKGROUND --- */
+    .fountain-container {
       position: fixed;
       top: 0;
       left: 0;
@@ -40,23 +40,22 @@
       pointer-events: none;
     }
 
-    .waterfall-video {
+    .fountain-video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      /* Purple hue shift and dark contrast */
-      filter: hue-rotate(240deg) saturate(2.4) brightness(0.65) contrast(1.2);
+      filter: hue-rotate(245deg) saturate(2.2) brightness(0.6) contrast(1.2);
       transform: scale(1.04);
     }
 
-    /* TV Girl Duotone & Vintage Noise Overlay */
+    /* TV Girl Duotone & Retro Overlays */
     .tvgirl-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: linear-gradient(135deg, rgba(255, 34, 119, 0.45) 0%, rgba(0, 212, 255, 0.3) 100%);
+      background: linear-gradient(135deg, rgba(255, 34, 119, 0.42) 0%, rgba(0, 212, 255, 0.28) 100%);
       mix-blend-mode: color;
       pointer-events: none;
       z-index: 1;
@@ -73,7 +72,6 @@
       z-index: 1;
     }
 
-    /* Retro Scanlines for TV Girl record cover feel */
     .scanlines {
       position: fixed;
       top: 0;
@@ -91,13 +89,13 @@
       z-index: 1;
     }
 
-    /* --- TV GIRL TWO-TONE MOON (PINK & BLUE HALO) --- */
+    /* --- TV GIRL TWO-TONE MOON --- */
     .moon-wrapper {
       position: fixed;
-      top: 10%;
+      top: 9%;
       right: 7%;
-      width: 220px;
-      height: 220px;
+      width: 210px;
+      height: 210px;
       z-index: 2;
       pointer-events: none;
       transition: transform 0.25s cubic-bezier(0.1, 0.9, 0.2, 1);
@@ -139,29 +137,53 @@
       100% { opacity: 1; transform: scale(1.05); }
     }
 
-    /* Floating retro symbols */
-    .cute-figure {
+    /* --- SCROLL-DRIVEN BLOOMING FLOWERS --- */
+    .flower {
       position: fixed;
+      width: 70px;
+      height: 70px;
       pointer-events: none;
       z-index: 2;
-      opacity: 0.85;
-      font-size: 1.8rem;
-      user-select: none;
-      filter: drop-shadow(0 0 12px rgba(255, 0, 128, 0.7));
-      will-change: transform;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    .fig-1 { top: 16%; left: 10%; animation: gentleBob 6s ease-in-out infinite alternate; }
-    .fig-2 { top: 50%; right: 16%; animation: gentleBob 7s ease-in-out infinite alternate-reverse; }
-    .fig-3 { top: 76%; left: 8%; animation: gentleBob 5.5s ease-in-out infinite alternate; }
-    .fig-4 { top: 32%; left: 45%; animation: gentleBob 8s ease-in-out infinite alternate-reverse; }
+    .fl-1 { top: 18%; left: 4%; }
+    .fl-2 { top: 62%; left: 6%; }
+    .fl-3 { top: 78%; right: 12%; }
+    .fl-4 { top: 40%; right: 4%; }
 
-    @keyframes gentleBob {
-      0% { transform: translateY(0px) rotate(-8deg); }
-      100% { transform: translateY(-22px) rotate(8deg); }
+    .flower-center {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #00e5ff;
+      box-shadow: 0 0 12px #00e5ff;
+      position: relative;
+      z-index: 3;
     }
 
-    /* Side Timeline Progress Dots */
+    .petal {
+      position: absolute;
+      width: 20px;
+      height: 38px;
+      background: linear-gradient(to top, rgba(255, 42, 133, 0.75), rgba(255, 128, 191, 0.95));
+      border-radius: 50% 50% 20% 20%;
+      transform-origin: bottom center;
+      bottom: 50%;
+      box-shadow: 0 0 10px rgba(255, 42, 133, 0.5);
+      transition: transform 0.15s ease-out;
+    }
+
+    .p1 { transform: rotate(0deg) scaleY(0.2); }
+    .p2 { transform: rotate(60deg) scaleY(0.2); }
+    .p3 { transform: rotate(120deg) scaleY(0.2); }
+    .p4 { transform: rotate(180deg) scaleY(0.2); }
+    .p5 { transform: rotate(240deg) scaleY(0.2); }
+    .p6 { transform: rotate(300deg) scaleY(0.2); }
+
+    /* Side Timeline Dots */
     .timeline {
       position: fixed;
       right: 24px;
@@ -187,7 +209,7 @@
       box-shadow: 0 0 16px #ff2a85, 0 0 25px #00e5ff;
     }
 
-    /* Content Layout */
+    /* Content Cards */
     .scroll-container {
       position: relative;
       width: 100%;
@@ -203,7 +225,6 @@
       perspective: 1000px;
     }
 
-    /* TV Girl Album Aesthetic Card */
     .card {
       background: rgba(14, 5, 24, 0.72);
       backdrop-filter: blur(18px);
@@ -264,7 +285,7 @@
       letter-spacing: 0.2px;
     }
 
-    /* Pink-Cyan Duotone Cursor */
+    /* Glow Cursor */
     #cursor-dot {
       position: fixed;
       top: 0;
@@ -298,8 +319,8 @@
 
     @media (max-width: 768px) {
       .moon-wrapper {
-        width: 150px;
-        height: 150px;
+        width: 140px;
+        height: 140px;
         right: 4%;
         top: 5%;
       }
@@ -307,34 +328,55 @@
         padding: 20px 6%;
         justify-content: center;
       }
+      .flower {
+        transform: scale(0.75);
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Seamless Purple Waterfall Background -->
-  <div class="waterfall-container">
-    <video class="waterfall-video" autoplay muted loop playsinline preload="auto">
+  <!-- Non-stop Flowing Fountain/Waterfall Video -->
+  <div class="fountain-container">
+    <video class="fountain-video" autoplay muted loop playsinline preload="auto">
       <source src="https://assets.mixkit.co/videos/preview/mixkit-waterfall-in-forest-2213-large.mp4" type="video/mp4">
     </video>
   </div>
 
-  <!-- TV Girl Pink & Blue Filters -->
   <div class="tvgirl-overlay"></div>
   <div class="vignette-overlay"></div>
   <div class="scanlines"></div>
 
-  <!-- Duotone Moon -->
+  <!-- Moon -->
   <div class="moon-wrapper" id="moonWrapper">
     <div class="moon-halo"></div>
     <div class="moon"></div>
   </div>
 
-  <!-- Floating Figures with TV Girl Accents -->
-  <div class="cute-figure fig-1" data-speed="0.08">☁️</div>
-  <div class="cute-figure fig-2" data-speed="-0.06">💙</div>
-  <div class="cute-figure fig-3" data-speed="0.12">🌸</div>
-  <div class="cute-figure fig-4" data-speed="-0.1">🎀</div>
+  <!-- Four Aesthetic Blooming Flowers -->
+  <div class="flower fl-1">
+    <div class="flower-center"></div>
+    <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+    <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+  </div>
+
+  <div class="flower fl-2">
+    <div class="flower-center"></div>
+    <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+    <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+  </div>
+
+  <div class="flower fl-3">
+    <div class="flower-center"></div>
+    <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+    <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+  </div>
+
+  <div class="flower fl-4">
+    <div class="flower-center"></div>
+    <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+    <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+  </div>
 
   <!-- Timeline Dots -->
   <div class="timeline">
@@ -344,7 +386,6 @@
   </div>
 
   <div class="scroll-container">
-    <!-- Chapter 1 -->
     <section class="section">
       <div class="card visible">
         <span class="badge">SIDE A • TRACK 01</span>
@@ -353,7 +394,6 @@
       </div>
     </section>
 
-    <!-- Chapter 2 -->
     <section class="section">
       <div class="card">
         <span class="badge">SIDE A • TRACK 02</span>
@@ -362,7 +402,6 @@
       </div>
     </section>
 
-    <!-- Chapter 3 -->
     <section class="section">
       <div class="card">
         <span class="badge">SIDE B • THE REVEAL</span>
@@ -375,17 +414,27 @@
   <div id="cursor-dot"></div>
 
   <script>
-    // Smooth Scroll Parallax
     const moonWrapper = document.getElementById('moonWrapper');
-    const figures = document.querySelectorAll('.cute-figure');
+    const flowers = document.querySelectorAll('.flower');
 
     window.addEventListener('scroll', () => {
       const scrollY = window.scrollY;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = Math.min(Math.max(scrollY / (maxScroll || 1), 0), 1);
+
+      // Moon subtle float
       moonWrapper.style.transform = `translateY(${scrollY * 0.12}px) scale(${1 + scrollY * 0.00015})`;
 
-      figures.forEach(fig => {
-        const speed = parseFloat(fig.getAttribute('data-speed'));
-        fig.style.transform = `translateY(${scrollY * speed * 2}px) rotate(${scrollY * speed * 0.5}deg)`;
+      // Flowers Bloom Logic: Scroll hone par petals 0.2 se 1.15 tak khilengi aur ghoomengi
+      const petalScale = 0.25 + (progress * 0.9);
+      const angles = [0, 60, 120, 180, 240, 300];
+
+      flowers.forEach((flower, fIndex) => {
+        flower.style.transform = `rotate(${progress * (fIndex % 2 === 0 ? 80 : -80)}deg)`;
+        const petals = flower.querySelectorAll('.petal');
+        petals.forEach((petal, i) => {
+          petal.style.transform = `rotate(${angles[i]}deg) scaleY(${petalScale}) scaleX(${0.5 + progress * 0.6})`;
+        });
       });
     });
 
@@ -407,7 +456,7 @@
 
     sections.forEach(sec => observer.observe(sec));
 
-    // Dual-tone Cursor (Pink Dot, Cyan Trail)
+    // Dual-tone Cursor (Pink + Cyan)
     const dot = document.getElementById('cursor-dot');
     let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
     let curX = mouseX, curY = mouseY;
