@@ -42,64 +42,63 @@
       background-size: 3px 3px;
     }
 
-    /* --- ASLI WATER FOUNTAIN (SIDE BACKGROUND STREAM) --- */
-    .fountain-wrapper {
+    /* --- REAL FLOWING WATERFALL FROM INTERNET (RIGHT SIDE) --- */
+    .waterfall-panel {
       position: fixed;
       top: 0;
       right: 0;
-      width: 40vw;
+      width: 38vw;
       height: 100vh;
       overflow: hidden;
       z-index: 0;
       pointer-events: none;
-      border-left: 2px dashed rgba(255, 51, 136, 0.4);
-      box-shadow: -15px 0 40px rgba(0, 0, 0, 0.9);
+      box-shadow: -20px 0 45px rgba(0, 0, 0, 0.95);
     }
 
-    .fountain-video {
+    .waterfall-video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      /* Asli continuous fountain footage with purple tint */
-      filter: hue-rotate(250deg) saturate(2.4) brightness(0.72) contrast(1.25);
-      transform: scale(1.04);
+      /* Flowing real waterfall footage tinted to match TV Girl purple/magenta */
+      filter: hue-rotate(250deg) saturate(2.3) brightness(0.8) contrast(1.25);
+      transform: scale(1.05);
     }
 
-    .fountain-tint {
+    .waterfall-blend {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, #090011 0%, transparent 20%, transparent 80%, rgba(9, 0, 17, 0.8) 100%);
+      background: linear-gradient(90deg, #090011 0%, transparent 18%, transparent 85%, rgba(9, 0, 17, 0.75) 100%);
       pointer-events: none;
     }
 
-    /* --- TV GIRL BIG STAR (LOCKED AT CENTER) --- */
+    /* --- CLEAN SINGLE TV GIRL STAR (LOCKED AT CENTER) --- */
     .star-anchor {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 360px;
-      height: 360px;
+      width: 350px;
+      height: 350px;
       pointer-events: none;
       z-index: 1;
       will-change: transform;
     }
 
-    .star-outer-glow {
+    .star-glow {
       position: absolute;
       width: 100%;
       height: 100%;
       background: #00f0ff;
       clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
-      filter: blur(18px);
-      opacity: 0.55;
+      filter: blur(16px);
+      opacity: 0.5;
       animation: pulseOuter 3s ease-in-out infinite alternate;
     }
 
-    .tv-star-main {
+    .tv-star-single {
       position: absolute;
       width: 100%;
       height: 100%;
@@ -109,34 +108,18 @@
       animation: breatheStar 4s ease-in-out infinite alternate;
     }
 
-    .star-inner {
-      position: absolute;
-      top: 25%;
-      left: 25%;
-      width: 50%;
-      height: 50%;
-      background: #00f0ff;
-      clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
-      animation: counterSpin 7s linear infinite;
-    }
-
     @keyframes breatheStar {
-      0% { transform: scale(0.92); }
-      50% { transform: scale(1.05); }
+      0% { transform: scale(0.93); }
+      50% { transform: scale(1.04); }
       100% { transform: scale(0.96); }
     }
 
     @keyframes pulseOuter {
       0% { opacity: 0.35; transform: scale(0.92); }
-      100% { opacity: 0.8; transform: scale(1.18); }
+      100% { opacity: 0.75; transform: scale(1.15); }
     }
 
-    @keyframes counterSpin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(-360deg); }
-    }
-
-    /* --- NATURAL REALISTIC WHITE/SILVER MOON --- */
+    /* --- NATURAL REALISTIC MOON --- */
     .real-moon-wrapper {
       position: fixed;
       top: 7%;
@@ -161,7 +144,6 @@
       animation: moonFloat 7s ease-in-out infinite alternate;
     }
 
-    /* Natural moon craters */
     .real-moon::before {
       content: '';
       position: absolute;
@@ -191,7 +173,7 @@
 
     .fl-1 { top: 14%; left: 4%; }
     .fl-2 { top: 60%; left: 5%; }
-    .fl-3 { top: 82%; right: 44%; }
+    .fl-3 { top: 82%; right: 42%; }
     .fl-4 { top: 38%; left: 48%; }
 
     .flower-svg {
@@ -342,10 +324,9 @@
     }
 
     @media (max-width: 768px) {
-      .fountain-wrapper {
+      .waterfall-panel {
         width: 100vw;
-        opacity: 0.25;
-        border-left: none;
+        opacity: 0.35;
       }
       .star-anchor {
         width: 250px;
@@ -366,22 +347,21 @@
 
   <div class="grain-overlay"></div>
 
-  <!-- Real Physical Fountain Video Streaming from Internet -->
-  <div class="fountain-wrapper">
-    <video class="fountain-video" autoplay muted loop playsinline preload="auto">
-      <source src="https://assets.mixkit.co/videos/preview/mixkit-water-fountain-in-a-lake-4375-large.mp4" type="video/mp4">
+  <!-- Real Cascading Waterfall Video Stream (Right Side) -->
+  <div class="waterfall-panel">
+    <video class="waterfall-video" autoplay muted loop playsinline preload="auto">
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-waterfall-in-forest-2213-large.mp4" type="video/mp4">
     </video>
-    <div class="fountain-tint"></div>
+    <div class="waterfall-blend"></div>
   </div>
 
-  <!-- Center Locked Star -->
+  <!-- Single Clean TV Girl Star (Centered) -->
   <div class="star-anchor" id="starAnchor">
-    <div class="star-outer-glow"></div>
-    <div class="tv-star-main"></div>
-    <div class="star-inner"></div>
+    <div class="star-glow"></div>
+    <div class="tv-star-single"></div>
   </div>
 
-  <!-- Real Natural Moon -->
+  <!-- Real Moon -->
   <div class="real-moon-wrapper" id="realMoon">
     <div class="real-moon"></div>
   </div>
@@ -498,7 +478,7 @@
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
-      // Star strictly stays vertically in the center (-50%, -50%) without moving down
+      // Star strictly stays vertically in the center (-50%, -50%)
       starAnchor.style.transform = `translate(-50%, -50%) rotate(${progress * 55}deg) scale(${1 + progress * 0.15})`;
 
       // Moon subtle displacement
