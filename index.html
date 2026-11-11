@@ -19,7 +19,6 @@
       scroll-behavior: smooth;
     }
 
-    /* Authentic TV Girl Ink Canvas */
     body {
       background: #0e0717;
       color: #fce8f3;
@@ -29,7 +28,7 @@
       position: relative;
     }
 
-    /* 50/50 Duotone Color Screen Overlay */
+    /* 50/50 Duotone Screen Layer */
     .tv-duotone-layer {
       position: fixed;
       top: 0;
@@ -42,7 +41,7 @@
       mix-blend-mode: color;
     }
 
-    /* Analog Vinyl Print Sheen & Grain */
+    /* Film Grain & Scanlines */
     .vinyl-sheen {
       position: fixed;
       top: 0;
@@ -56,7 +55,6 @@
       background-size: 3px 3px;
     }
 
-    /* Subdued CRT Scanlines */
     .crt-lines {
       position: fixed;
       top: 0;
@@ -74,7 +72,7 @@
       );
     }
 
-    /* Waterfall Panel (Balanced French Exit Tint) */
+    /* Right Waterfall Panel */
     .waterfall-panel {
       position: fixed;
       top: 0;
@@ -90,7 +88,6 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      /* Balanced duotone grade: neither too blue nor oversaturated pink */
       filter: hue-rotate(220deg) saturate(2) brightness(0.8) contrast(1.2);
       transform: scale(1.02);
     }
@@ -105,7 +102,7 @@
       pointer-events: none;
     }
 
-    /* --- ICONIC TV GIRL CENTER STAR --- */
+    /* --- BLOOMING TV GIRL CENTER STAR --- */
     .star-anchor {
       position: fixed;
       top: 50%;
@@ -115,33 +112,32 @@
       height: 360px;
       pointer-events: none;
       z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       will-change: transform;
     }
 
-    .star-back-shadow {
-      position: absolute;
+    .star-svg {
       width: 100%;
       height: 100%;
-      background: #2ce5e8;
-      clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
-      transform: translate(14px, 14px);
+      overflow: visible;
+      will-change: transform;
     }
 
-    .star-front {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: #e02874;
-      clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
-      animation: starBreathe 4.5s ease-in-out infinite alternate;
+    .star-shadow-path {
+      fill: #2ce5e8;
+      transform-origin: 50px 50px;
+      will-change: transform;
     }
 
-    @keyframes starBreathe {
-      0% { transform: scale(0.94); }
-      100% { transform: scale(1.04); }
+    .star-main-path {
+      fill: #e02874;
+      transform-origin: 50px 50px;
+      will-change: transform;
     }
 
-    /* --- VINTAGE MOON --- */
+    /* Vintage Natural Moon */
     .real-moon-wrapper {
       position: fixed;
       top: 7%;
@@ -183,7 +179,7 @@
       100% { transform: translateY(-12px); }
     }
 
-    /* --- POP-ART BLOOMING FLOWERS (50/50 PINK & CYAN) --- */
+    /* Blooming Flowers */
     .flower-box {
       position: fixed;
       width: 95px;
@@ -221,7 +217,7 @@
       will-change: transform;
     }
 
-    /* Retro Timeline Indicators */
+    /* Timeline Dots */
     .timeline {
       position: fixed;
       right: 18px;
@@ -248,7 +244,7 @@
       transform: scale(1.6);
     }
 
-    /* Content Cards (Album Sleeve Box Style) */
+    /* Cards */
     .scroll-container {
       position: relative;
       width: 100%;
@@ -315,7 +311,7 @@
       line-height: 1.65;
     }
 
-    /* TV Girl Block Cursor */
+    /* Cursor */
     #cursor-dot {
       position: fixed;
       top: 0;
@@ -383,10 +379,14 @@
     <div class="waterfall-blend"></div>
   </div>
 
-  <!-- TV Girl Signature Hard-Edge Center Star -->
+  <!-- Center Blooming Star -->
   <div class="star-anchor" id="starAnchor">
-    <div class="star-back-shadow"></div>
-    <div class="star-front"></div>
+    <svg class="star-svg" id="starSvg" viewBox="0 0 100 100">
+      <!-- Cyan pop-art shadow polygon -->
+      <polygon class="star-shadow-path" id="starShadow" points="50,0 62,38 100,50 62,62 50,100 38,62 0,50 38,38" />
+      <!-- Magenta primary star polygon -->
+      <polygon class="star-main-path" id="starMain" points="50,0 62,38 100,50 62,62 50,100 38,62 0,50 38,38" />
+    </svg>
   </div>
 
   <!-- Natural Moon -->
@@ -487,7 +487,9 @@
   <div id="cursor-dot"></div>
 
   <script>
-    const starAnchor = document.getElementById('starAnchor');
+    const starSvg = document.getElementById('starSvg');
+    const starMain = document.getElementById('starMain');
+    const starShadow = document.getElementById('starShadow');
     const realMoon = document.getElementById('realMoon');
     const petalGroups = document.querySelectorAll('.petals-group');
     const centers = document.querySelectorAll('.svg-center');
@@ -506,10 +508,17 @@
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
-      // Center Star locked in place with pop-art scroll tilt
-      starAnchor.style.transform = `translate(-50%, -50%) rotate(${progress * 50}deg) scale(${1 + progress * 0.12})`;
+      // --- STAR BLOOM CALCULATION ---
+      // 0.08 scale (closed bud) se expand hokar 1.15 (full bloom) tak khilega
+      const starBloom = 0.08 + (progress * 1.07);
+      const starSpin = progress * 60;
+      const shadowOffset = 3 + (progress * 9);
 
-      // Moon subtle displacement
+      starSvg.style.transform = `rotate(${starSpin}deg)`;
+      starMain.style.transform = `scale(${starBloom})`;
+      starShadow.style.transform = `scale(${starBloom}) translate(${shadowOffset}px, ${shadowOffset}px)`;
+
+      // Moon displacement
       realMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
 
       // Flowers bloom
