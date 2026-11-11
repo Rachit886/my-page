@@ -59,7 +59,7 @@
       );
     }
 
-    /* --- REAL CASCADING WATERFALL PANEL (RIGHT SIDE) --- */
+    /* --- REAL CASCADING WATERFALL PANEL (PURPLE LIQUID TINT) --- */
     .waterfall-panel {
       position: fixed;
       top: 0;
@@ -72,42 +72,27 @@
       background: #000000;
     }
 
-    /* Exact Waterfall Image Scenery Tinted for TV Girl */
-    .waterfall-bg-img {
-      position: absolute;
-      top: 0;
-      right: 0;
+    .waterfall-video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center;
-      filter: contrast(1.6) brightness(0.6) saturate(1.8) hue-rotate(275deg);
-      transform: scale(1.05);
+      /* Turns the cascading white foaming water into vibrant glowing purple */
+      filter: contrast(1.7) brightness(0.85) saturate(2.4) hue-rotate(270deg);
+      transform: scale(1.04);
     }
 
-    /* Live Flowing Liquid Canvas */
-    #waterfallCanvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      mix-blend-mode: screen;
-      pointer-events: none;
-    }
-
-    /* Soft edge fade into pitch black */
+    /* Pure black fade on left boundary */
     .waterfall-blend {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0.6) 25%, transparent 70%);
+      background: linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0.7) 30%, transparent 80%);
       pointer-events: none;
     }
 
-    /* --- CENTER BLOOMING STAR --- */
+    /* --- SHARP STRAIGHT 4-POINT CENTER STAR --- */
     .star-anchor {
       position: fixed;
       top: 50%;
@@ -144,7 +129,7 @@
       fill: #ff007f;
     }
 
-    /* Moon */
+    /* Natural Moon */
     .real-moon-wrapper {
       position: fixed;
       top: 7%;
@@ -378,14 +363,15 @@
   <div class="vinyl-noise"></div>
   <div class="crt-raster"></div>
 
-  <!-- Real Waterfall with Live Flowing Purple Stream -->
+  <!-- Real Cascading Waterfall Video Loop -->
   <div class="waterfall-panel">
-    <img class="waterfall-bg-img" src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=1200&q=80" alt="Waterfall">
-    <canvas id="waterfallCanvas"></canvas>
+    <video class="waterfall-video" autoplay muted loop playsinline preload="auto">
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-waterfall-in-forest-2213-large.mp4" type="video/mp4">
+    </video>
     <div class="waterfall-blend"></div>
   </div>
 
-  <!-- Center Blooming Star -->
+  <!-- Center Straight Sharp 4-Point Star (Blooms on Scroll) -->
   <div class="star-anchor" id="starAnchor">
     <svg class="star-svg" id="starSvg" viewBox="0 0 200 200">
       <polygon class="star-polygon star-shadow-poly" id="starShadow" 
@@ -395,7 +381,7 @@
     </svg>
   </div>
 
-  <!-- Natural Moon -->
+  <!-- Moon -->
   <div class="real-moon-wrapper" id="realMoon">
     <div class="real-moon"></div>
   </div>
@@ -493,58 +479,6 @@
   <div id="cursor-dot"></div>
 
   <script>
-    // --- LIVE FLOWING PURPLE WATERFALL ENGINE ---
-    const canvas = document.getElementById('waterfallCanvas');
-    const ctx = canvas.getContext('2d');
-
-    function resizeCanvas() {
-      canvas.width = canvas.parentElement.clientWidth;
-      canvas.height = canvas.parentElement.clientHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    // Cascading water streams (Purple & Blue)
-    const streams = [];
-    const colors = ['#ff007f', '#b300ff', '#1a45ff', '#ff66b2', '#9933ff'];
-
-    for (let i = 0; i < 90; i++) {
-      streams.push({
-        x: Math.random() * (canvas.width || 600),
-        y: Math.random() * (canvas.height || 800),
-        len: 25 + Math.random() * 50,
-        speed: 5 + Math.random() * 9,
-        width: 1.5 + Math.random() * 2.5,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        opacity: 0.35 + Math.random() * 0.55
-      });
-    }
-
-    function animateWaterfall() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      streams.forEach(s => {
-        ctx.beginPath();
-        ctx.moveTo(s.x, s.y);
-        ctx.lineTo(s.x, s.y + s.len);
-        ctx.strokeStyle = s.color;
-        ctx.lineWidth = s.width;
-        ctx.globalAlpha = s.opacity;
-        ctx.lineCap = 'round';
-        ctx.stroke();
-
-        s.y += s.speed;
-        if (s.y > canvas.height) {
-          s.y = -s.len;
-          s.x = Math.random() * canvas.width;
-        }
-      });
-
-      requestAnimationFrame(animateWaterfall);
-    }
-    animateWaterfall();
-
-    // --- BLOOM ENGINE ---
     const starSvg = document.getElementById('starSvg');
     const starMain = document.getElementById('starMain');
     const starShadow = document.getElementById('starShadow');
@@ -566,7 +500,7 @@
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
-      // Smooth Star Blooming
+      // Straight Sharp Star Bloom (0.08 bud -> 1.15 full bloom)
       const starBloom = 0.08 + (progress * 1.07);
       const starSpin = progress * 60;
       const shadowOffset = 4 + (progress * 12);
@@ -575,10 +509,10 @@
       starMain.style.transform = `scale(${starBloom})`;
       starShadow.style.transform = `scale(${starBloom}) translate(${shadowOffset}px, ${shadowOffset}px)`;
 
-      // Moon subtle displacement
+      // Moon displacement
       realMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
 
-      // Flowers Blooming
+      // Flowers Bloom
       const bloom = 0.08 + (progress * 1.05);
       const centerScale = 0.45 + (progress * 0.6);
 
