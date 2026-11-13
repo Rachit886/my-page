@@ -137,21 +137,22 @@
       100% { transform: translateY(-12px); }
     }
 
-    /* Blooming Flowers */
-    .flower-box {
+    /* Randomly Scattered Blooming Flowers */
+    #flowerGarden {
       position: fixed;
-      width: 95px;
-      height: 95px;
+      inset: 0;
       pointer-events: none;
       z-index: 2;
+    }
+
+    .flower-box {
+      position: fixed;
+      width: 90px;
+      height: 90px;
+      pointer-events: none;
       filter: drop-shadow(4px 4px 0px #000000);
       will-change: transform;
     }
-
-    .fl-1 { top: 12%; left: 4%; }
-    .fl-2 { top: 80%; left: 4%; }
-    .fl-3 { top: 82%; right: 46%; }
-    .fl-4 { top: 10%; right: 46%; }
 
     .flower-svg {
       width: 100%;
@@ -288,7 +289,6 @@
       max-width: 92vw;
     }
 
-    /* Spinning CD Disc on Left */
     .cd-disc {
       width: 44px;
       height: 44px;
@@ -316,7 +316,6 @@
       animation-play-state: running;
     }
 
-    /* Inner CD Label (Replace background with background-image: url('cd.jpg'); if using custom photo) */
     .cd-disc::before {
       content: '';
       width: 18px;
@@ -326,7 +325,6 @@
       border: 1.5px solid #ffffff;
     }
 
-    /* Center Spindle Hole */
     .cd-disc::after {
       content: '';
       position: absolute;
@@ -467,62 +465,8 @@
     <div class="real-moon"></div>
   </div>
 
-  <!-- Blooming Flowers -->
-  <div class="flower-box fl-1">
-    <svg class="flower-svg" viewBox="0 0 100 100">
-      <g class="petals-group">
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(60deg);" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(120deg);" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(180deg);" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(240deg);" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(300deg);" />
-      </g>
-      <circle class="svg-center" cx="50" cy="50" r="11" />
-    </svg>
-  </div>
-
-  <div class="flower-box fl-2">
-    <svg class="flower-svg" viewBox="0 0 100 100">
-      <g class="petals-group">
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(60deg);" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(120deg);" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(180deg);" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(240deg);" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(300deg);" />
-      </g>
-      <circle class="svg-center" cx="50" cy="50" r="11" />
-    </svg>
-  </div>
-
-  <div class="flower-box fl-3">
-    <svg class="flower-svg" viewBox="0 0 100 100">
-      <g class="petals-group">
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(60deg);" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(120deg);" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(180deg);" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(240deg);" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(300deg);" />
-      </g>
-      <circle class="svg-center" cx="50" cy="50" r="11" />
-    </svg>
-  </div>
-
-  <div class="flower-box fl-4">
-    <svg class="flower-svg" viewBox="0 0 100 100">
-      <g class="petals-group">
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(60deg);" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(120deg);" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(180deg);" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(240deg);" />
-        <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(300deg);" />
-      </g>
-      <circle class="svg-center" cx="50" cy="50" r="11" />
-    </svg>
-  </div>
+  <!-- Randomly Scattered Flowers Container -->
+  <div id="flowerGarden"></div>
 
   <!-- Timeline Dots -->
   <div class="timeline">
@@ -565,7 +509,6 @@
       <span class="track-artist">TV Girl • Theme</span>
     </div>
     <button class="play-toggle-btn" id="playBtn" aria-label="Play or Pause">▶</button>
-    <!-- Upload 'song.mp3' in your GitHub repo next to index.html -->
     <audio id="tvAudio" loop preload="auto">
       <source src="song.mp3" type="audio/mpeg">
     </audio>
@@ -574,14 +517,50 @@
   <div id="cursor-dot"></div>
 
   <script>
-    // Original Scroll Bloom Engine
+    // Generate 16 Randomly Scattered Flowers (Unstructured Organic Placement)
+    const garden = document.getElementById('flowerGarden');
+    const FLOWER_COUNT = 16;
+    const flowerMeta = [];
+
+    for (let i = 0; i < FLOWER_COUNT; i++) {
+      const box = document.createElement('div');
+      box.className = 'flower-box';
+
+      // Random viewport coordinates (kept slightly away from extreme edges)
+      const topPct = 4 + Math.random() * 86;
+      const leftPct = 2 + Math.random() * 90;
+      const sizeScale = 0.55 + Math.random() * 0.65;
+      const baseAngle = Math.random() * 360;
+      const spinDir = Math.random() > 0.5 ? 1 : -1;
+      const spinSpeed = 60 + Math.random() * 70;
+
+      box.style.top = `${topPct}%`;
+      box.style.left = `${leftPct}%`;
+
+      box.innerHTML = `
+        <svg class="flower-svg" viewBox="0 0 100 100">
+          <g class="petals-group">
+            <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" />
+            <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(60deg);" />
+            <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(120deg);" />
+            <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(180deg);" />
+            <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(240deg);" />
+            <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(300deg);" />
+          </g>
+          <circle class="svg-center" cx="50" cy="50" r="11" />
+        </svg>
+      `;
+
+      garden.appendChild(box);
+      flowerMeta.push({ box, sizeScale, baseAngle, spinDir, spinSpeed });
+    }
+
     const starSvg = document.getElementById('starSvg');
     const starMain = document.getElementById('starMain');
     const starShadow = document.getElementById('starShadow');
     const realMoon = document.getElementById('realMoon');
     const petalGroups = document.querySelectorAll('.petals-group');
     const centers = document.querySelectorAll('.svg-center');
-    const flowerBoxes = document.querySelectorAll('.flower-box');
 
     let currentScroll = 0;
     let targetScroll = 0;
@@ -608,7 +587,7 @@
       // Moon displacement
       realMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
 
-      // Flowers Bloom
+      // Flowers Bloom & Random Spin
       const bloom = 0.08 + (progress * 1.05);
       const centerScale = 0.45 + (progress * 0.6);
 
@@ -622,9 +601,9 @@
         c.style.transform = `scale(${centerScale})`;
       });
 
-      flowerBoxes.forEach((box, i) => {
-        const spin = progress * (i % 2 === 0 ? 90 : -90);
-        box.style.transform = `rotate(${spin}deg)`;
+      flowerMeta.forEach(item => {
+        const spin = item.baseAngle + (progress * item.spinSpeed * item.spinDir);
+        item.box.style.transform = `scale(${item.sizeScale}) rotate(${spin}deg)`;
       });
 
       requestAnimationFrame(render);
