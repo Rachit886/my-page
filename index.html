@@ -137,7 +137,7 @@
       100% { transform: translateY(-12px); }
     }
 
-    /* Randomly Scattered Blooming Flowers */
+    /* Balanced Scattered Flowers */
     #flowerGarden {
       position: fixed;
       inset: 0;
@@ -147,8 +147,8 @@
 
     .flower-box {
       position: fixed;
-      width: 90px;
-      height: 90px;
+      width: 88px;
+      height: 88px;
       pointer-events: none;
       filter: drop-shadow(4px 4px 0px #000000);
       will-change: transform;
@@ -465,7 +465,7 @@
     <div class="real-moon"></div>
   </div>
 
-  <!-- Randomly Scattered Flowers Container -->
+  <!-- Balanced Scattered Flowers Container -->
   <div id="flowerGarden"></div>
 
   <!-- Timeline Dots -->
@@ -517,25 +517,32 @@
   <div id="cursor-dot"></div>
 
   <script>
-    // Generate 16 Randomly Scattered Flowers (Unstructured Organic Placement)
+    // 9 Evenly-Spaced Organic Zones so flowers stay nicely spread out (no clumping, no straight grid)
     const garden = document.getElementById('flowerGarden');
-    const FLOWER_COUNT = 16;
+    const spreadZones = [
+      { top: 7,  left: 4,  scale: 0.95, angle: 12,  dir: 1 },
+      { top: 14, left: 32, scale: 0.72, angle: 45,  dir: -1 },
+      { top: 8,  left: 64, scale: 0.88, angle: 28,  dir: 1 },
+      { top: 38, left: 84, scale: 0.92, angle: 70,  dir: -1 },
+      { top: 44, left: 3,  scale: 0.75, angle: 18,  dir: -1 },
+      { top: 68, left: 72, scale: 1.00, angle: 52,  dir: 1 },
+      { top: 82, left: 86, scale: 0.78, angle: 35,  dir: -1 },
+      { top: 80, left: 6,  scale: 0.94, angle: 64,  dir: 1 },
+      { top: 74, left: 38, scale: 0.70, angle: 15,  dir: -1 }
+    ];
+
     const flowerMeta = [];
 
-    for (let i = 0; i < FLOWER_COUNT; i++) {
+    spreadZones.forEach(z => {
       const box = document.createElement('div');
       box.className = 'flower-box';
 
-      // Random viewport coordinates (kept slightly away from extreme edges)
-      const topPct = 4 + Math.random() * 86;
-      const leftPct = 2 + Math.random() * 90;
-      const sizeScale = 0.55 + Math.random() * 0.65;
-      const baseAngle = Math.random() * 360;
-      const spinDir = Math.random() > 0.5 ? 1 : -1;
-      const spinSpeed = 60 + Math.random() * 70;
+      // Tiny organic jitter (+/- 3%) so it feels natural without ever overlapping
+      const jitterT = z.top + (Math.random() * 5 - 2.5);
+      const jitterL = z.left + (Math.random() * 5 - 2.5);
 
-      box.style.top = `${topPct}%`;
-      box.style.left = `${leftPct}%`;
+      box.style.top = `${jitterT}%`;
+      box.style.left = `${jitterL}%`;
 
       box.innerHTML = `
         <svg class="flower-svg" viewBox="0 0 100 100">
@@ -552,8 +559,13 @@
       `;
 
       garden.appendChild(box);
-      flowerMeta.push({ box, sizeScale, baseAngle, spinDir, spinSpeed });
-    }
+      flowerMeta.push({
+        box,
+        sizeScale: z.scale,
+        baseAngle: z.angle,
+        spinDir: z.dir
+      });
+    });
 
     const starSvg = document.getElementById('starSvg');
     const starMain = document.getElementById('starMain');
@@ -587,7 +599,7 @@
       // Moon displacement
       realMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
 
-      // Flowers Bloom & Random Spin
+      // Flowers Bloom & Gentle Spin
       const bloom = 0.08 + (progress * 1.05);
       const centerScale = 0.45 + (progress * 0.6);
 
@@ -602,7 +614,7 @@
       });
 
       flowerMeta.forEach(item => {
-        const spin = item.baseAngle + (progress * item.spinSpeed * item.spinDir);
+        const spin = item.baseAngle + (progress * 85 * item.spinDir);
         item.box.style.transform = `scale(${item.sizeScale}) rotate(${spin}deg)`;
       });
 
