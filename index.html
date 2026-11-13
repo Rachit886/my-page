@@ -58,25 +58,24 @@
       );
     }
 
-    /* --- 100% BUILT-IN ORGANIC LIQUID WATERFALL PANEL --- */
+    /* --- NATURAL ORGANIC PURPLE WATERFALL PANEL (NO SHARP SHAPES) --- */
     .waterfall-panel {
       position: fixed;
       top: 0;
       right: 0;
-      width: 52vw;
+      width: 55vw;
       height: 100vh;
       overflow: hidden;
       z-index: 0;
       pointer-events: none;
-      background: #090014;
+      background: radial-gradient(ellipse at 70% 45%, #1c0038 0%, #05000a 75%, #000000 100%);
     }
 
-    .waterfall-svg-bg {
-      position: absolute;
-      top: 0;
-      left: 0;
+    #waterfallCanvas {
       width: 100%;
       height: 100%;
+      display: block;
+      filter: contrast(1.15) saturate(1.35);
     }
 
     .waterfall-blend {
@@ -86,8 +85,8 @@
       width: 100%;
       height: 100%;
       background: 
-        linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0.72) 28%, transparent 78%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.65) 0%, transparent 25%, transparent 75%, #000000 100%);
+        linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0.78) 25%, rgba(0, 0, 0, 0.2) 55%, transparent 85%),
+        linear-gradient(180deg, #000000 0%, transparent 18%, transparent 82%, #000000 100%);
       pointer-events: none;
     }
 
@@ -362,67 +361,9 @@
   <div class="vinyl-noise"></div>
   <div class="crt-raster"></div>
 
-  <!-- 100% Self-Contained Organic Liquid Cascading Waterfall (Never Fails to Load) -->
+  <!-- Soft Silk-Flow Organic Waterfall Canvas -->
   <div class="waterfall-panel">
-    <svg class="waterfall-svg-bg" viewBox="0 0 800 1000" preserveAspectRatio="none">
-      <defs>
-        <!-- Vertical stretched fractal noise creates real organic cascading water foam -->
-        <filter id="waterfallFoam" x="-10%" y="-10%" width="120%" height="120%">
-          <feTurbulence id="wfTurb" type="fractalNoise" baseFrequency="0.045 0.008" numOctaves="4" seed="8" result="foamNoise" />
-          <feColorMatrix type="matrix" values="
-            0.9  0    0.8  0  0.1
-            0.1  0    0.3  0  0.0
-            1.4  0    1.8  0  0.25
-            0    0    0    1  0" in="foamNoise" result="purpleWater" />
-          <feComponentTransfer in="purpleWater" result="highContrastWater">
-            <feFuncR type="gamma" amplitude="1.3" exponent="1.6" offset="0" />
-            <feFuncB type="gamma" amplitude="1.4" exponent="1.3" offset="0.05" />
-          </feComponentTransfer>
-        </filter>
-
-        <!-- Horizontal pool ripple noise -->
-        <filter id="poolRipple" x="0%" y="0%" width="100%" height="100%">
-          <feTurbulence id="poolTurb" type="fractalNoise" baseFrequency="0.012 0.09" numOctaves="3" seed="2" result="ripple" />
-          <feColorMatrix type="matrix" values="
-            0.7  0    0.6  0  0.05
-            0.05 0    0.2  0  0.0
-            1.2  0    1.5  0  0.15
-            0    0    0    1  0" in="ripple" />
-        </filter>
-
-        <!-- Organic curved waterfall cascade mask (multi-tier ledges) -->
-        <clipPath id="cascadeShape">
-          <path d="
-            M 40 380 Q 110 365 160 390 L 145 780 L 20 780 Z
-            M 190 340 Q 290 310 430 330 Q 450 550 400 780 L 170 780 Z
-            M 465 370 Q 590 340 720 355 L 750 810 L 440 810 Z
-            M 520 190 Q 660 175 795 200 L 795 360 L 500 360 Z
-          " />
-        </clipPath>
-
-        <!-- Glowing mist gradient at the base of the falls -->
-        <radialGradient id="splashGlow" cx="50%" cy="78%" r="45%">
-          <stop offset="0%" stop-color="#ff66d9" stop-opacity="0.65" />
-          <stop offset="45%" stop-color="#9d00ff" stop-opacity="0.35" />
-          <stop offset="100%" stop-color="#000000" stop-opacity="0" />
-        </radialGradient>
-      </defs>
-
-      <!-- Dark violet rocky cliff background -->
-      <rect width="800" height="1000" fill="#07000f" />
-
-      <!-- Flowing Organic Waterfall Cascades -->
-      <g clip-path="url(#cascadeShape)">
-        <rect id="waterSheet" x="0" y="-1000" width="800" height="2000" filter="url(#waterfallFoam)" />
-      </g>
-
-      <!-- Bottom Rippling Lake Pool -->
-      <rect id="poolSheet" x="0" y="750" width="800" height="250" filter="url(#poolRipple)" opacity="0.85" />
-
-      <!-- Glowing Mist Cloud where waterfalls hit the pool -->
-      <ellipse cx="430" cy="775" rx="420" ry="65" fill="url(#splashGlow)" />
-    </svg>
-
+    <canvas id="waterfallCanvas"></canvas>
     <div class="waterfall-blend"></div>
   </div>
 
@@ -534,137 +475,157 @@
   <div id="cursor-dot"></div>
 
   <script>
-    // Continuous Downward Cascading Waterfall Animation
-    const waterSheet = document.getElementById('waterSheet');
-    const poolTurb = document.getElementById('poolTurb');
-    let fallY = -1000;
-    let ripplePhase = 0;
+    // --- NATURAL LONG-EXPOSURE SILK PURPLE WATERFALL ---
+    const canvas = document.getElementById('waterfallCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H;
 
-    function animateWaterfall() {
-      // Smooth continuous downward water flow
-      fallY += 2.2;
-      if (fallY >= 0) fallY = -1000;
-      waterSheet.setAttribute('y', fallY.toFixed(1));
-
-      // Gentle pool ripple shimmer
-      ripplePhase += 0.02;
-      const rx = 0.012 + Math.sin(ripplePhase) * 0.002;
-      const ry = 0.09 + Math.cos(ripplePhase * 1.3) * 0.008;
-      poolTurb.setAttribute('baseFrequency', `${rx.toFixed(4)} ${ry.toFixed(4)}`);
-
-      requestAnimationFrame(animateWaterfall);
+    function resize() {
+      W = canvas.width = canvas.parentElement.clientWidth;
+      H = canvas.height = canvas.parentElement.clientHeight;
     }
-    requestAnimationFrame(animateWaterfall);
+    resize();
+    window.addEventListener('resize', resize);
 
-    // Original Scroll Bloom Engine
-    const starSvg = document.getElementById('starSvg');
-    const starMain = document.getElementById('starMain');
-    const starShadow = document.getElementById('starShadow');
-    const realMoon = document.getElementById('realMoon');
-    const petalGroups = document.querySelectorAll('.petals-group');
-    const centers = document.querySelectorAll('.svg-center');
-    const flowerBoxes = document.querySelectorAll('.flower-box');
+    // Organic flowing silk ribbons (no sharp boxes or edges)
+    const streams = [];
+    const numStreams = 140;
 
-    let currentScroll = 0;
-    let targetScroll = 0;
+    // 3 natural organic cluster centers (left upper ledge, center main fall, right lower tier)
+    const clusters = [
+      { cx: 0.25, spread: 0.14, top: 0.28, bottom: 0.78, drift: 0.03 },
+      { cx: 0.54, spread: 0.22, top: 0.16, bottom: 0.84, drift: -0.02 },
+      { cx: 0.82, spread: 0.16, top: 0.22, bottom: 0.80, drift: 0.025 }
+    ];
 
-    window.addEventListener('scroll', () => {
-      targetScroll = window.scrollY;
-    }, { passive: true });
-
-    function render() {
-      currentScroll += (targetScroll - currentScroll) * 0.09;
-
-      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
-
-      // Straight Sharp Star Bloom (0.08 bud -> 1.15 full bloom)
-      const starBloom = 0.08 + (progress * 1.07);
-      const starSpin = progress * 60;
-      const shadowOffset = 4 + (progress * 12);
-
-      starSvg.style.transform = `rotate(${starSpin}deg)`;
-      starMain.style.transform = `scale(${starBloom})`;
-      starShadow.style.transform = `scale(${starBloom}) translate(${shadowOffset}px, ${shadowOffset}px)`;
-
-      // Moon displacement
-      realMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
-
-      // Flowers Bloom
-      const bloom = 0.08 + (progress * 1.05);
-      const centerScale = 0.45 + (progress * 0.6);
-
-      petalGroups.forEach(group => {
-        group.style.transformOrigin = '50px 50px';
-        group.style.transform = `scale(${bloom})`;
+    for (let i = 0; i < numStreams; i++) {
+      const cl = clusters[i % clusters.length];
+      // Gaussian-like distribution around cluster center so edges fade naturally
+      const rOffset = ((Math.random() + Math.random() + Math.random()) / 3 - 0.5) * 2 * cl.spread;
+      streams.push({
+        baseX: cl.cx + rOffset,
+        topY: cl.top + (Math.random() - 0.5) * 0.08,
+        bottomY: cl.bottom + (Math.random() - 0.5) * 0.06,
+        drift: cl.drift,
+        width: 12 + Math.random() * 28,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.015 + Math.random() * 0.02,
+        freq: 2.5 + Math.random() * 2,
+        isPink: Math.random() > 0.65
       });
-
-      centers.forEach(c => {
-        c.style.transformOrigin = '50px 50px';
-        c.style.transform = `scale(${centerScale})`;
-      });
-
-      flowerBoxes.forEach((box, i) => {
-        const spin = progress * (i % 2 === 0 ? 90 : -90);
-        box.style.transform = `rotate(${spin}deg)`;
-      });
-
-      requestAnimationFrame(render);
     }
-    requestAnimationFrame(render);
 
-    // Cards observer
-    const sections = document.querySelectorAll('.section');
-    const dots = document.querySelectorAll('.timeline-dot');
+    // Soft rising mist clouds at bottom pool
+    const mists = [];
+    for (let i = 0; i < 45; i++) {
+      mists.push({
+        x: 0.15 + Math.random() * 0.8,
+        y: 0.74 + Math.random() * 0.12,
+        r: 45 + Math.random() * 75,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.01 + Math.random() * 0.015
+      });
+    }
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const card = entry.target.querySelector('.card');
-          if (card) card.classList.add('visible');
+    let t = 0;
 
-          const index = Array.from(sections).indexOf(entry.target);
-          dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+    function drawSilkWaterfall() {
+      t += 0.025;
+
+      // Deep velvety midnight-purple backdrop
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = 'rgba(7, 0, 15, 0.35)';
+      ctx.fillRect(0, 0, W, H);
+
+      // Soft ambient purple glow behind main falls
+      const ambGrad = ctx.createRadialGradient(W * 0.58, H * 0.52, 10, W * 0.58, H * 0.52, W * 0.55);
+      ambGrad.addColorStop(0, 'rgba(138, 43, 226, 0.14)');
+      ambGrad.addColorStop(0.6, 'rgba(75, 0, 130, 0.06)');
+      ambGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = ambGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      // Draw overlapping silky water curtains with soft feathered gradients
+      ctx.globalCompositeOperation = 'screen';
+
+      streams.forEach(s => {
+        const yStart = s.topY * H;
+        const yEnd = s.bottomY * H;
+        const totalH = yEnd - yStart;
+        const segments = 14;
+
+        ctx.beginPath();
+        for (let step = 0; step <= segments; step++) {
+          const ratio = step / segments;
+          const y = yStart + ratio * totalH;
+          // Organic S-curve flow like real water over rocks
+          const wave = Math.sin(ratio * s.freq - t * (1 + s.speed * 20) + s.phase) * (14 * Math.sin(ratio * Math.PI));
+          const x = (s.baseX + s.drift * Math.pow(ratio, 1.4)) * W + wave;
+
+          if (step === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
         }
+
+        // Vertical fade so top & bottom dissolve softly (zero hard edges)
+        const vGrad = ctx.createLinearGradient(0, yStart, 0, yEnd);
+        if (s.isPink) {
+          vGrad.addColorStop(0, 'rgba(255, 0, 127, 0)');
+          vGrad.addColorStop(0.2, 'rgba(255, 40, 155, 0.05)');
+          vGrad.addColorStop(0.6, 'rgba(235, 110, 255, 0.08)');
+          vGrad.addColorStop(0.9, 'rgba(255, 180, 245, 0.09)');
+          vGrad.addColorStop(1, 'rgba(255, 0, 127, 0)');
+        } else {
+          vGrad.addColorStop(0, 'rgba(155, 60, 255, 0)');
+          vGrad.addColorStop(0.25, 'rgba(175, 95, 255, 0.06)');
+          vGrad.addColorStop(0.65, 'rgba(215, 160, 255, 0.09)');
+          vGrad.addColorStop(0.92, 'rgba(245, 215, 255, 0.11)');
+          vGrad.addColorStop(1, 'rgba(138, 43, 226, 0)');
+        }
+
+        ctx.strokeStyle = vGrad;
+        ctx.lineWidth = s.width;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.stroke();
       });
-    }, { threshold: 0.4 });
 
-    sections.forEach(sec => observer.observe(sec));
+      // Soft glowing mist & foam clouds where water meets the pool
+      mists.forEach(m => {
+        m.phase += m.speed;
+        const mx = m.x * W + Math.sin(m.phase) * 18;
+        const my = m.y * H + Math.cos(m.phase * 0.8) * 6;
+        const mr = m.r * (0.9 + 0.15 * Math.sin(m.phase));
 
-    // Custom Cursor
-    const dot = document.getElementById('cursor-dot');
-    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-    let curX = mouseX, curY = mouseY;
+        const mGrad = ctx.createRadialGradient(mx, my, 0, mx, my, mr);
+        mGrad.addColorStop(0, 'rgba(230, 165, 255, 0.08)');
+        mGrad.addColorStop(0.45, 'rgba(165, 45, 245, 0.04)');
+        mGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
-    const spawnTrail = (x, y) => {
-      const trail = document.createElement('div');
-      trail.className = 'trail';
-      trail.style.left = `${x}px`;
-      trail.style.top = `${y}px`;
-      document.body.appendChild(trail);
-      setTimeout(() => trail.remove(), 400);
-    };
+        ctx.fillStyle = mGrad;
+        ctx.beginPath();
+        ctx.arc(mx, my, mr, 0, Math.PI * 2);
+        ctx.fill();
+      });
 
-    window.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      spawnTrail(e.clientX, e.clientY);
-    });
+      // Subtle soft water reflections in the lower pool
+      for (let i = 0; i < 16; i++) {
+        const py = H * (0.80 + (i / 16) * 0.18);
+        const px = W * (0.25 + ((Math.sin(t * 0.4 + i * 2.1) + 1) * 0.32));
+        const pw = 60 + i * 8;
 
-    window.addEventListener('touchmove', (e) => {
-      const touch = e.touches[0];
-      mouseX = touch.clientX;
-      mouseY = touch.clientY;
-      spawnTrail(touch.clientX, touch.clientY);
-    });
+        const rGrad = ctx.createLinearGradient(px - pw, py, px + pw, py);
+        rGrad.addColorStop(0, 'rgba(180, 90, 255, 0)');
+        rGrad.addColorStop(0.5, i % 2 === 0 ? 'rgba(220, 140, 255, 0.07)' : 'rgba(255, 20, 140, 0.05)');
+        rGrad.addColorStop(1, 'rgba(180, 90, 255, 0)');
 
-    function cursorLoop() {
-      curX += (mouseX - curX) * 0.18;
-      curY += (mouseY - curY) * 0.18;
-      dot.style.transform = `translate3d(${curX}px, ${curY}px, 0) translate(-50%, -50%)`;
-      requestAnimationFrame(cursorLoop);
+        ctx.strokeStyle = rGrad;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(px - pw, py);
+        ctx.lineTo(px + pw, py);
+        ctx.stroke();
+      }
+
+      requestAnimationFrame(drawSilkWaterfall);
     }
-    cursorLoop();
-  </script>
-</body>
-</html>
+    requestAnimationFrame
