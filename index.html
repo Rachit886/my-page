@@ -68,16 +68,14 @@
       overflow: hidden;
       z-index: 0;
       pointer-events: none;
-      background: #000000;
+      background: #05000a;
     }
 
-    .waterfall-video {
+    #waterfallCanvas {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      /* Turns the cascading white foaming water into TV Girl's vibrant purple */
-      filter: contrast(1.7) brightness(0.85) saturate(2.4) hue-rotate(270deg);
-      transform: scale(1.04);
+      display: block;
+      filter: contrast(1.25) saturate(1.4);
     }
 
     .waterfall-blend {
@@ -86,7 +84,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0.7) 30%, transparent 80%);
+      background: linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0.65) 28%, transparent 75%);
       pointer-events: none;
     }
 
@@ -361,14 +359,9 @@
   <div class="vinyl-noise"></div>
   <div class="crt-raster"></div>
 
-  <!-- Real Cascading Waterfall Video Loop (Multi-CDN Backup Sources) -->
+  <!-- Cascading Purple Waterfall Canvas (100% Offline/Browser Rendered) -->
   <div class="waterfall-panel">
-    <video class="waterfall-video" autoplay muted loop playsinline preload="auto">
-      <!-- High Reliability Primary Stream -->
-      <source src="https://v.ftcdn.net/02/76/89/51/700_F_276895123_q4JgU6c2rV6U3h24j9v6k8q1.mp4" type="video/mp4">
-      <!-- Fallback Stream -->
-      <source src="https://static.videezy.com/system/resources/previews/000/041/952/original/Waterfall_01.mp4" type="video/mp4">
-    </video>
+    <canvas id="waterfallCanvas"></canvas>
     <div class="waterfall-blend"></div>
   </div>
 
@@ -382,7 +375,7 @@
     </svg>
   </div>
 
-  <!-- Natural Moon -->
+  <!-- Moon -->
   <div class="real-moon-wrapper" id="realMoon">
     <div class="real-moon"></div>
   </div>
@@ -480,6 +473,208 @@
   <div id="cursor-dot"></div>
 
   <script>
+    // --- MULTI-TIER CASCADING PURPLE WATERFALL ENGINE ---
+    const wfCanvas = document.getElementById('waterfallCanvas');
+    const wfCtx = wfCanvas.getContext('2d');
+    let wfWidth, wfHeight;
+
+    function resizeWaterfall() {
+      wfWidth = wfCanvas.width = wfCanvas.parentElement.clientWidth;
+      wfHeight = wfCanvas.height = wfCanvas.parentElement.clientHeight;
+    }
+    resizeWaterfall();
+    window.addEventListener('resize', resizeWaterfall);
+
+    // Multi-tier cascades matching your Krka waterfall reference
+    const cascades = [
+      { xStart: 0.04, xEnd: 0.16, topY: 0.44, bottomY: 0.80, curve: -0.02 },
+      { xStart: 0.18, xEnd: 0.28, topY: 0.48, bottomY: 0.82, curve: 0.01 },
+      { xStart: 0.34, xEnd: 0.56, topY: 0.34, bottomY: 0.84, curve: -0.08 }, // Main wide diagonal cascade
+      { xStart: 0.58, xEnd: 0.82, topY: 0.46, bottomY: 0.90, curve: 0.03 },  // Right foreground cascade
+      { xStart: 0.65, xEnd: 0.95, topY: 0.28, bottomY: 0.48, curve: -0.04 }  // Upper right tier
+    ];
+
+    const waterParticles = [];
+    const mistParticles = [];
+
+    // Populate flowing liquid ribbons
+    for (let i = 0; i < 360; i++) {
+      const c = cascades[Math.floor(Math.random() * cascades.length)];
+      const relX = Math.random();
+      waterParticles.push({
+        cascade: c,
+        relX: relX,
+        progress: Math.random(),
+        speed: 0.006 + Math.random() * 0.01,
+        thickness: 2 + Math.random() * 5,
+        hue: Math.random() > 0.35 ? '#c44dff' : (Math.random() > 0.5 ? '#ff2a9d' : '#7b2cbf'),
+        alpha: 0.25 + Math.random() * 0.55
+      });
+    }
+
+    // Populate splash foam & mist at bottom pool
+    for (let i = 0; i < 90; i++) {
+      const c = cascades[Math.floor(Math.random() * cascades.length)];
+      mistParticles.push({
+        cascade: c,
+        relX: Math.random(),
+        offsetY: (Math.random() - 0.5) * 25,
+        radius: 8 + Math.random() * 24,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.02 + Math.random() * 0.03
+      });
+    }
+
+    let waveTime = 0;
+
+    function drawWaterfall() {
+      waveTime += 0.02;
+
+      // Dark violet-black atmospheric backdrop
+      const bgGrad = wfCtx.createLinearGradient(0, 0, 0, wfHeight);
+      bgGrad.addColorStop(0, '#090014');
+      bgGrad.addColorStop(0.4, '#16002b');
+      bgGrad.addColorStop(0.85, '#1f003d');
+      bgGrad.addColorStop(1, '#0d001f');
+      wfCtx.fillStyle = bgGrad;
+      wfCtx.fillRect(0, 0, wfWidth, wfHeight);
+
+      // Silhouetted rocky ledges & foliage mounds (like reference image)
+      wfCtx.fillStyle = '#07000d';
+      wfCtx.beginPath();
+      wfCtx.moveTo(0, 0);
+      wfCtx.lineTo(wfWidth, 0);
+      wfCtx.lineTo(wfWidth, wfHeight * 0.32);
+      wfCtx.quadraticCurveTo(wfWidth * 0.7, wfHeight * 0.26, wfWidth * 0.5, wfHeight * 0.36);
+      wfCtx.quadraticCurveTo(wfWidth * 0.25, wfHeight * 0.45, 0, wfHeight * 0.42);
+      wfCtx.closePath();
+      wfCtx.fill();
+
+      // Rocky dark cliff islands between cascades
+      const cliffs = [
+        { x: 0.16, y: 0.45, w: 0.03, h: 0.36 },
+        { x: 0.28, y: 0.42, w: 0.07, h: 0.40 },
+        { x: 0.54, y: 0.44, w: 0.05, h: 0.44 },
+        { x: 0.81, y: 0.48, w: 0.19, h: 0.48 }
+      ];
+      wfCtx.fillStyle = '#0a0014';
+      cliffs.forEach(cl => {
+        wfCtx.beginPath();
+        wfCtx.ellipse(
+          (cl.x + cl.w / 2) * wfWidth,
+          (cl.y + cl.h / 2) * wfHeight,
+          (cl.w / 2) * wfWidth,
+          (cl.h / 2) * wfHeight,
+          0, 0, Math.PI * 2
+        );
+        wfCtx.fill();
+      });
+
+      // Soft glowing base sheet under each cascade
+      cascades.forEach(c => {
+        const x1 = c.xStart * wfWidth;
+        const x2 = c.xEnd * wfWidth;
+        const y1 = c.topY * wfHeight;
+        const y2 = c.bottomY * wfHeight;
+        const shift = c.curve * wfWidth;
+
+        const sheetGrad = wfCtx.createLinearGradient(0, y1, 0, y2);
+        sheetGrad.addColorStop(0, 'rgba(180, 70, 255, 0.25)');
+        sheetGrad.addColorStop(0.5, 'rgba(138, 43, 226, 0.38)');
+        sheetGrad.addColorStop(1, 'rgba(255, 0, 127, 0.32)');
+
+        wfCtx.fillStyle = sheetGrad;
+        wfCtx.beginPath();
+        wfCtx.moveTo(x1, y1);
+        wfCtx.lineTo(x2, y1);
+        wfCtx.lineTo(x2 + shift, y2);
+        wfCtx.lineTo(x1 + shift, y2);
+        wfCtx.closePath();
+        wfCtx.fill();
+      });
+
+      // Flowing purple liquid streaks
+      wfCtx.save();
+      wfCtx.globalCompositeOperation = 'screen';
+      waterParticles.forEach(p => {
+        p.progress += p.speed;
+        if (p.progress > 1) {
+          p.progress = 0;
+          p.relX = Math.random();
+        }
+
+        const c = p.cascade;
+        const baseX = (c.xStart + (c.xEnd - c.xStart) * p.relX) * wfWidth;
+        const curveOffset = c.curve * wfWidth * Math.pow(p.progress, 1.3);
+        const wobble = Math.sin(p.progress * 8 + p.relX * 10 + waveTime) * 3;
+        const curX = baseX + curveOffset + wobble;
+
+        const startY = c.topY * wfHeight;
+        const endY = c.bottomY * wfHeight;
+        const curY = startY + (endY - startY) * p.progress;
+        const streakLen = (endY - startY) * 0.14;
+
+        wfCtx.beginPath();
+        wfCtx.moveTo(curX, curY);
+        wfCtx.lineTo(curX + (c.curve * wfWidth * 0.12), Math.min(curY + streakLen, endY));
+        wfCtx.strokeStyle = p.hue;
+        wfCtx.lineWidth = p.thickness;
+        wfCtx.globalAlpha = p.alpha * Math.sin(p.progress * Math.PI);
+        wfCtx.lineCap = 'round';
+        wfCtx.stroke();
+      });
+
+      // Foaming splash mist where waterfalls hit the pool
+      mistParticles.forEach(m => {
+        m.phase += m.speed;
+        const c = m.cascade;
+        const x = (c.xStart + (c.xEnd - c.xStart) * m.relX + c.curve) * wfWidth + Math.cos(m.phase) * 6;
+        const y = c.bottomY * wfHeight + m.offsetY + Math.sin(m.phase) * 4;
+        const r = m.radius * (0.85 + 0.2 * Math.sin(m.phase));
+
+        const mistGrad = wfCtx.createRadialGradient(x, y, 0, x, y, r);
+        mistGrad.addColorStop(0, 'rgba(235, 160, 255, 0.35)');
+        mistGrad.addColorStop(0.5, 'rgba(160, 32, 240, 0.18)');
+        mistGrad.addColorStop(1, 'rgba(160, 32, 240, 0)');
+
+        wfCtx.fillStyle = mistGrad;
+        wfCtx.globalAlpha = 0.75;
+        wfCtx.beginPath();
+        wfCtx.arc(x, y, r, 0, Math.PI * 2);
+        wfCtx.fill();
+      });
+      wfCtx.restore();
+
+      // Rippling purple lake surface at bottom
+      const poolTop = wfHeight * 0.78;
+      const poolGrad = wfCtx.createLinearGradient(0, poolTop, 0, wfHeight);
+      poolGrad.addColorStop(0, 'rgba(130, 30, 220, 0.45)');
+      poolGrad.addColorStop(0.5, 'rgba(70, 10, 140, 0.75)');
+      poolGrad.addColorStop(1, '#05000a');
+      wfCtx.fillStyle = poolGrad;
+      wfCtx.fillRect(0, poolTop, wfWidth, wfHeight - poolTop);
+
+      // Horizontal water ripples in pool
+      wfCtx.save();
+      wfCtx.globalCompositeOperation = 'screen';
+      for (let r = 0; r < 18; r++) {
+        const ry = poolTop + ((r / 18) * (wfHeight - poolTop));
+        const rx = ((Math.sin(waveTime * 0.7 + r * 1.7) + 1) * 0.45) * wfWidth;
+        const rw = 40 + (r * 6);
+        wfCtx.strokeStyle = r % 2 === 0 ? 'rgba(210, 110, 255, 0.28)' : 'rgba(255, 0, 127, 0.22)';
+        wfCtx.lineWidth = 1.5;
+        wfCtx.beginPath();
+        wfCtx.moveTo(rx, ry);
+        wfCtx.lineTo(rx + rw, ry);
+        wfCtx.stroke();
+      }
+      wfCtx.restore();
+
+      requestAnimationFrame(drawWaterfall);
+    }
+    requestAnimationFrame(drawWaterfall);
+
+    // --- ORIGINAL STAR, MOON & FLOWER BLOOM ENGINE ---
     const starSvg = document.getElementById('starSvg');
     const starMain = document.getElementById('starMain');
     const starShadow = document.getElementById('starShadow');
