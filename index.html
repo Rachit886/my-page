@@ -58,46 +58,6 @@
       );
     }
 
-    /* --- REAL CASCADING WATERFALL PANEL (RIGHT SIDE) --- */
-    .waterfall-panel {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 52vw;
-      height: 100vh;
-      overflow: hidden;
-      z-index: 0;
-      pointer-events: none;
-      background: #000000;
-    }
-
-    /* Verified Wikimedia Commons Real Krka Waterfall + Live Liquid Flow Filter */
-    .waterfall-real-flow {
-      position: absolute;
-      top: -4%;
-      left: -4%;
-      width: 108%;
-      height: 108%;
-      background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Skradinski_buk_waterfall%2C_Krka_National_Park%2C_Croatia.jpg/1280px-Skradinski_buk_waterfall%2C_Krka_National_Park%2C_Croatia.jpg');
-      background-size: cover;
-      background-position: center;
-      /* Turns white cascading water & foliage into high-contrast TV Girl Purple & Deep Shadow */
-      filter: url(#liquidFlow) grayscale(100%) contrast(1.85) brightness(0.85) sepia(100%) hue-rotate(248deg) saturate(4.5);
-      will-change: filter;
-    }
-
-    .waterfall-blend {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0.72) 28%, transparent 78%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, transparent 25%, transparent 75%, #000000 100%);
-      pointer-events: none;
-    }
-
     /* --- SHARP STRAIGHT 4-POINT CENTER STAR --- */
     .star-anchor {
       position: fixed;
@@ -310,6 +270,124 @@
       line-height: 1.65;
     }
 
+    /* --- BOTTOM CENTER SHORT TV GIRL PLAYER --- */
+    .mini-player-bar {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 120;
+      background: #000000;
+      border: 2.5px solid #ff007f;
+      box-shadow: 6px 6px 0px #1a45ff;
+      padding: 8px 16px 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 265px;
+      max-width: 92vw;
+    }
+
+    /* Spinning CD Disc on Left */
+    .cd-disc {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 2px solid #ff007f;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: conic-gradient(
+        from 45deg,
+        #111111 0deg 65deg,
+        #ff007f 65deg 115deg,
+        #111111 115deg 245deg,
+        #1a45ff 245deg 295deg,
+        #111111 295deg 360deg
+      );
+      box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.35);
+      animation: spinCD 4s linear infinite;
+      animation-play-state: paused;
+    }
+
+    .cd-disc.playing {
+      animation-play-state: running;
+    }
+
+    /* Inner CD Label (Replace background with background-image: url('cd.jpg'); if using custom photo) */
+    .cd-disc::before {
+      content: '';
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ff007f 0%, #1a45ff 100%);
+      border: 1.5px solid #ffffff;
+    }
+
+    /* Center Spindle Hole */
+    .cd-disc::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #000000;
+      border: 1px solid #ffffff;
+    }
+
+    @keyframes spinCD {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .track-meta {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .track-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.92rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-shadow: 1.5px 1.5px 0px #ff007f;
+    }
+
+    .track-artist {
+      font-size: 0.72rem;
+      color: #8ea4ff;
+      letter-spacing: 0.5px;
+    }
+
+    .play-toggle-btn {
+      background: #ff007f;
+      color: #ffffff;
+      border: 2px solid #1a45ff;
+      width: 32px;
+      height: 32px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .play-toggle-btn:hover {
+      background: #1a45ff;
+      border-color: #ff007f;
+      transform: scale(1.08);
+    }
+
     /* Custom Cursor */
     #cursor-dot {
       position: fixed;
@@ -342,16 +420,12 @@
     }
 
     @media (max-width: 768px) {
-      .waterfall-panel {
-        width: 100vw;
-        opacity: 0.35;
-      }
       .star-anchor {
         width: 250px;
         height: 250px;
       }
       .section {
-        padding: 20px 6%;
+        padding: 20px 6% 90px;
         justify-content: center;
       }
       .real-moon-wrapper {
@@ -361,29 +435,22 @@
       .card {
         box-shadow: 6px 6px 0px #1a45ff;
       }
+      .mini-player-bar {
+        bottom: 14px;
+        min-width: 245px;
+        padding: 7px 12px 7px 10px;
+      }
+      .cd-disc {
+        width: 38px;
+        height: 38px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- SVG Liquid Flow Filter for Realistic Cascading Water Movement -->
-  <svg width="0" height="0" style="position:absolute;">
-    <defs>
-      <filter id="liquidFlow" x="-10%" y="-10%" width="120%" height="120%">
-        <feTurbulence id="waterTurb" type="fractalNoise" baseFrequency="0.015 0.06" numOctaves="2" seed="3" result="noise" />
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="16" xChannelSelector="R" yChannelSelector="G" />
-      </filter>
-    </defs>
-  </svg>
-
   <div class="vinyl-noise"></div>
   <div class="crt-raster"></div>
-
-  <!-- Real Cascading Krka Waterfall with Live Purple Liquid Flow -->
-  <div class="waterfall-panel">
-    <div class="waterfall-real-flow"></div>
-    <div class="waterfall-blend"></div>
-  </div>
 
   <!-- Center Straight Sharp 4-Point Star (Blooms on Scroll) -->
   <div class="star-anchor" id="starAnchor">
@@ -490,22 +557,23 @@
     </section>
   </div>
 
+  <!-- Bottom-Center Short Music Player Box with Spinning CD on Left -->
+  <div class="mini-player-bar">
+    <div class="cd-disc" id="cdDisc"></div>
+    <div class="track-meta">
+      <span class="track-title">Lovers Rock</span>
+      <span class="track-artist">TV Girl • Theme</span>
+    </div>
+    <button class="play-toggle-btn" id="playBtn" aria-label="Play or Pause">▶</button>
+    <!-- Upload 'song.mp3' in your GitHub repo next to index.html -->
+    <audio id="tvAudio" loop preload="auto">
+      <source src="song.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
   <div id="cursor-dot"></div>
 
   <script>
-    // Continuous Flowing Liquid Animation for Real Waterfall Image
-    const waterTurb = document.getElementById('waterTurb');
-    let flowPhase = 0;
-
-    function animateLiquidFlow() {
-      flowPhase += 0.015;
-      const freqX = 0.014 + Math.sin(flowPhase) * 0.002;
-      const freqY = 0.065 + Math.cos(flowPhase * 1.4) * 0.008;
-      waterTurb.setAttribute('baseFrequency', `${freqX.toFixed(4)} ${freqY.toFixed(4)}`);
-      requestAnimationFrame(animateLiquidFlow);
-    }
-    requestAnimationFrame(animateLiquidFlow);
-
     // Original Scroll Bloom Engine
     const starSvg = document.getElementById('starSvg');
     const starMain = document.getElementById('starMain');
@@ -580,6 +648,27 @@
     }, { threshold: 0.4 });
 
     sections.forEach(sec => observer.observe(sec));
+
+    // Mini CD Player Controls
+    const tvAudio = document.getElementById('tvAudio');
+    const playBtn = document.getElementById('playBtn');
+    const cdDisc = document.getElementById('cdDisc');
+
+    playBtn.addEventListener('click', () => {
+      if (tvAudio.paused) {
+        tvAudio.play().then(() => {
+          cdDisc.classList.add('playing');
+          playBtn.innerHTML = '❚❚';
+        }).catch(() => {
+          cdDisc.classList.toggle('playing');
+          playBtn.innerHTML = cdDisc.classList.contains('playing') ? '❚❚' : '▶';
+        });
+      } else {
+        tvAudio.pause();
+        cdDisc.classList.remove('playing');
+        playBtn.innerHTML = '▶';
+      }
+    });
 
     // Custom Cursor
     const dot = document.getElementById('cursor-dot');
