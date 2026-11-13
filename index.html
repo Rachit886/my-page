@@ -58,7 +58,7 @@
       );
     }
 
-    /* --- REAL CASCADING WATERFALL PANEL (RIGHT SIDE) --- */
+    /* --- 100% BUILT-IN ORGANIC LIQUID WATERFALL PANEL --- */
     .waterfall-panel {
       position: fixed;
       top: 0;
@@ -68,22 +68,15 @@
       overflow: hidden;
       z-index: 0;
       pointer-events: none;
-      background: #000000;
+      background: #090014;
     }
 
-    /* Verified Wikimedia Commons Real Krka Waterfall + Live Liquid Flow Filter */
-    .waterfall-real-flow {
+    .waterfall-svg-bg {
       position: absolute;
-      top: -4%;
-      left: -4%;
-      width: 108%;
-      height: 108%;
-      background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Skradinski_buk_waterfall%2C_Krka_National_Park%2C_Croatia.jpg/1280px-Skradinski_buk_waterfall%2C_Krka_National_Park%2C_Croatia.jpg');
-      background-size: cover;
-      background-position: center;
-      /* Turns white cascading water & foliage into high-contrast TV Girl Purple & Deep Shadow */
-      filter: url(#liquidFlow) grayscale(100%) contrast(1.85) brightness(0.85) sepia(100%) hue-rotate(248deg) saturate(4.5);
-      will-change: filter;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
     }
 
     .waterfall-blend {
@@ -94,7 +87,7 @@
       height: 100%;
       background: 
         linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0.72) 28%, transparent 78%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, transparent 25%, transparent 75%, #000000 100%);
+        linear-gradient(180deg, rgba(0, 0, 0, 0.65) 0%, transparent 25%, transparent 75%, #000000 100%);
       pointer-events: none;
     }
 
@@ -366,22 +359,70 @@
 </head>
 <body>
 
-  <!-- SVG Liquid Flow Filter for Realistic Cascading Water Movement -->
-  <svg width="0" height="0" style="position:absolute;">
-    <defs>
-      <filter id="liquidFlow" x="-10%" y="-10%" width="120%" height="120%">
-        <feTurbulence id="waterTurb" type="fractalNoise" baseFrequency="0.015 0.06" numOctaves="2" seed="3" result="noise" />
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="16" xChannelSelector="R" yChannelSelector="G" />
-      </filter>
-    </defs>
-  </svg>
-
   <div class="vinyl-noise"></div>
   <div class="crt-raster"></div>
 
-  <!-- Real Cascading Krka Waterfall with Live Purple Liquid Flow -->
+  <!-- 100% Self-Contained Organic Liquid Cascading Waterfall (Never Fails to Load) -->
   <div class="waterfall-panel">
-    <div class="waterfall-real-flow"></div>
+    <svg class="waterfall-svg-bg" viewBox="0 0 800 1000" preserveAspectRatio="none">
+      <defs>
+        <!-- Vertical stretched fractal noise creates real organic cascading water foam -->
+        <filter id="waterfallFoam" x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence id="wfTurb" type="fractalNoise" baseFrequency="0.045 0.008" numOctaves="4" seed="8" result="foamNoise" />
+          <feColorMatrix type="matrix" values="
+            0.9  0    0.8  0  0.1
+            0.1  0    0.3  0  0.0
+            1.4  0    1.8  0  0.25
+            0    0    0    1  0" in="foamNoise" result="purpleWater" />
+          <feComponentTransfer in="purpleWater" result="highContrastWater">
+            <feFuncR type="gamma" amplitude="1.3" exponent="1.6" offset="0" />
+            <feFuncB type="gamma" amplitude="1.4" exponent="1.3" offset="0.05" />
+          </feComponentTransfer>
+        </filter>
+
+        <!-- Horizontal pool ripple noise -->
+        <filter id="poolRipple" x="0%" y="0%" width="100%" height="100%">
+          <feTurbulence id="poolTurb" type="fractalNoise" baseFrequency="0.012 0.09" numOctaves="3" seed="2" result="ripple" />
+          <feColorMatrix type="matrix" values="
+            0.7  0    0.6  0  0.05
+            0.05 0    0.2  0  0.0
+            1.2  0    1.5  0  0.15
+            0    0    0    1  0" in="ripple" />
+        </filter>
+
+        <!-- Organic curved waterfall cascade mask (multi-tier ledges) -->
+        <clipPath id="cascadeShape">
+          <path d="
+            M 40 380 Q 110 365 160 390 L 145 780 L 20 780 Z
+            M 190 340 Q 290 310 430 330 Q 450 550 400 780 L 170 780 Z
+            M 465 370 Q 590 340 720 355 L 750 810 L 440 810 Z
+            M 520 190 Q 660 175 795 200 L 795 360 L 500 360 Z
+          " />
+        </clipPath>
+
+        <!-- Glowing mist gradient at the base of the falls -->
+        <radialGradient id="splashGlow" cx="50%" cy="78%" r="45%">
+          <stop offset="0%" stop-color="#ff66d9" stop-opacity="0.65" />
+          <stop offset="45%" stop-color="#9d00ff" stop-opacity="0.35" />
+          <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+
+      <!-- Dark violet rocky cliff background -->
+      <rect width="800" height="1000" fill="#07000f" />
+
+      <!-- Flowing Organic Waterfall Cascades -->
+      <g clip-path="url(#cascadeShape)">
+        <rect id="waterSheet" x="0" y="-1000" width="800" height="2000" filter="url(#waterfallFoam)" />
+      </g>
+
+      <!-- Bottom Rippling Lake Pool -->
+      <rect id="poolSheet" x="0" y="750" width="800" height="250" filter="url(#poolRipple)" opacity="0.85" />
+
+      <!-- Glowing Mist Cloud where waterfalls hit the pool -->
+      <ellipse cx="430" cy="775" rx="420" ry="65" fill="url(#splashGlow)" />
+    </svg>
+
     <div class="waterfall-blend"></div>
   </div>
 
@@ -493,18 +534,27 @@
   <div id="cursor-dot"></div>
 
   <script>
-    // Continuous Flowing Liquid Animation for Real Waterfall Image
-    const waterTurb = document.getElementById('waterTurb');
-    let flowPhase = 0;
+    // Continuous Downward Cascading Waterfall Animation
+    const waterSheet = document.getElementById('waterSheet');
+    const poolTurb = document.getElementById('poolTurb');
+    let fallY = -1000;
+    let ripplePhase = 0;
 
-    function animateLiquidFlow() {
-      flowPhase += 0.015;
-      const freqX = 0.014 + Math.sin(flowPhase) * 0.002;
-      const freqY = 0.065 + Math.cos(flowPhase * 1.4) * 0.008;
-      waterTurb.setAttribute('baseFrequency', `${freqX.toFixed(4)} ${freqY.toFixed(4)}`);
-      requestAnimationFrame(animateLiquidFlow);
+    function animateWaterfall() {
+      // Smooth continuous downward water flow
+      fallY += 2.2;
+      if (fallY >= 0) fallY = -1000;
+      waterSheet.setAttribute('y', fallY.toFixed(1));
+
+      // Gentle pool ripple shimmer
+      ripplePhase += 0.02;
+      const rx = 0.012 + Math.sin(ripplePhase) * 0.002;
+      const ry = 0.09 + Math.cos(ripplePhase * 1.3) * 0.008;
+      poolTurb.setAttribute('baseFrequency', `${rx.toFixed(4)} ${ry.toFixed(4)}`);
+
+      requestAnimationFrame(animateWaterfall);
     }
-    requestAnimationFrame(animateLiquidFlow);
+    requestAnimationFrame(animateWaterfall);
 
     // Original Scroll Bloom Engine
     const starSvg = document.getElementById('starSvg');
