@@ -667,6 +667,114 @@
       border-color: #ffffff;
     }
 
+    /* --- FUNNY POST-CREDITS BONUS TRACK ENDING --- */
+    .bonus-ending-section {
+      min-height: 75vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 6% 120px;
+      text-align: center;
+      position: relative;
+      z-index: 4;
+    }
+
+    .bonus-trigger-card {
+      background: rgba(0, 0, 0, 0.94);
+      border: 2.5px dashed #ff007f;
+      box-shadow: 8px 8px 0px #1a45ff;
+      padding: 24px 28px;
+      max-width: 390px;
+      width: 100%;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .bonus-trigger-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 11px 11px 0px #1a45ff;
+    }
+
+    .bonus-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      background: #ff007f;
+      color: #ffffff;
+      padding: 3px 10px;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    .bonus-subtext {
+      border: none;
+      padding-top: 0;
+      font-size: 0.92rem;
+      color: #cbd6ff;
+      margin-bottom: 16px;
+    }
+
+    .funny-reveal-btn {
+      background: #1a45ff;
+      color: #ffffff;
+      border: 2px solid #ff007f;
+      box-shadow: 5px 5px 0px #ff007f;
+      padding: 10px 20px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .funny-reveal-btn:hover {
+      background: #ff007f;
+      border-color: #1a45ff;
+      box-shadow: 5px 5px 0px #1a45ff;
+      transform: scale(1.04);
+    }
+
+    .funny-polaroid-popup {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transform: scale(0.85) rotate(-3deg);
+      transition: max-height 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), margin-top 0.45s ease;
+    }
+
+    .funny-polaroid-popup.open {
+      max-height: 460px;
+      opacity: 1;
+      margin-top: 20px;
+      transform: scale(1) rotate(-1.5deg);
+    }
+
+    .funny-photo-box {
+      width: 220px;
+      margin: 0 auto;
+      background: #05020c;
+      border: 3px solid #1a45ff;
+      box-shadow: 7px 7px 0px #ff007f;
+      padding: 10px 10px 14px;
+    }
+
+    .funny-photo-box img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      border: 1.5px solid #ff007f;
+      display: block;
+    }
+
+    .funny-caption {
+      margin-top: 10px;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.85rem;
+      color: #ff85c2;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
     /* --- BOTTOM-CENTER MINI CD PLAYER BAR --- */
     .mini-player-bar {
       position: fixed;
@@ -877,40 +985,40 @@
     </defs>
   </svg>
 
-  <!-- Retro Screen Overlays -->
+  <!-- Retro Analog Grain & CRT Scanline Overlays -->
   <div class="vinyl-noise"></div>
   <div class="crt-raster"></div>
 
-  <!-- Scattered Twinkling Night Sky Stars -->
+  <!-- Twinkling Retro Night Sky Stars -->
   <div id="nightSkyStars"></div>
 
-  <!-- Deep Background Ambient Floating Micro-Hearts -->
+  <!-- Ambient Floating Micro-Hearts Background Layer -->
   <div id="ambientHearts"></div>
 
   <!-- Center Straight Sharp 4-Point Star (Blooms on Scroll) -->
   <div class="star-anchor" id="starAnchor">
     <svg class="star-svg" id="starSvg" viewBox="0 0 200 200">
-      <polygon class="star-polygon star-shadow-poly" id="starShadow" 
+      <polygon class="star-polygon star-shadow-poly" id="starShadow"
                points="100,0 122,78 200,100 122,122 100,200 78,122 0,100 78,78" />
-      <polygon class="star-polygon star-main-poly" id="starMain" 
+      <polygon class="star-polygon star-main-poly" id="starMain"
                points="100,0 122,78 200,100 122,122 100,200 78,122 0,100 78,78" />
     </svg>
   </div>
 
-  <!-- Interactive Floating Moon (Top Right) -->
+  <!-- Interactive Realistic Moon (Tap for a secret wish note) -->
   <div class="real-moon-wrapper" id="realMoon" title="Tap the moon">
     <div class="moon-pulse-ring"></div>
     <div class="real-moon"></div>
-    <span class="moon-hint-tag">tap moon</span>
+    <span class="moon-hint-tag">tap moon ✦</span>
   </div>
   <div class="moon-secret-note" id="moonSecretNote">
-    you make ordinary days feel like my favorite song &lt;3
+    ✦ secret wish: you make ordinary days feel like my favorite song &lt;3
   </div>
 
   <!-- Balanced Scattered Flowers Container -->
   <div id="flowerGarden"></div>
 
-  <!-- Fixed Right Timeline Indicator Dots -->
+  <!-- Right-Side Timeline Dots -->
   <div class="timeline">
     <div class="timeline-dot active"></div>
     <div class="timeline-dot"></div>
@@ -925,7 +1033,7 @@
           <div>
             <span class="badge">SIDE A • TRACK 01</span>
             <h2>hello <span class="album-blue">&lt;3</span></h2>
-            <span class="card-hint-pulse">hover / tap to open</span>
+            <span class="card-hint-pulse">hover or tap to open ✦</span>
           </div>
           <span class="drop-arrow">▼</span>
         </div>
@@ -961,36 +1069,56 @@
         </div>
         <div class="dropdown-content">
           <p>I like you soooooooooooo muchhhhhh. Haven't said this ever... and there are more surprises to come.</p>
-          <button type="button" class="heart-back-btn" id="sendHeartBtn">♥ send a heart back</button>
+          <button class="heart-back-btn" id="sendHeartBtn" type="button">♥ send a heart back</button>
         </div>
       </div>
 
-      <!-- Tasteful Retro Vinyl-Sleeve Keepsake Frame (Upload your photo as "her.jpg" in GitHub repo) -->
-      <div class="keepsake-frame" id="keepsakeFrame" title="Tap for a little surprise">
+      <!-- Aesthetic Vinyl-Sleeve Keepsake Frame (Appears smoothly on final reveal scroll) -->
+      <div class="keepsake-frame" id="keepsakeFrame" title="Tap for a little note">
         <div class="keepsake-photo-wrap">
-          <img 
-            class="keepsake-photo" 
-            src="her.jpg" 
-            alt="The Muse"
+          <img
+            src="her.jpg"
+            alt="Special memory"
+            class="keepsake-photo"
             onerror="this.style.display='none'; document.getElementById('keepsakeFallback').style.display='flex';"
-          >
+          />
           <div class="keepsake-fallback" id="keepsakeFallback">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#ff007f" stroke-width="1.6">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ff007f" stroke-width="1.8">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
             </svg>
-            <span>her.jpg • Side B</span>
+            <span>her.jpg • side b cover</span>
           </div>
         </div>
         <div class="keepsake-caption">
-          <span class="keepsake-tag">THE MUSE • SIDE B</span>
-          <span class="keepsake-note">fav person &lt;3</span>
+          <span class="keepsake-tag">THE MUSE</span>
+          <span class="keepsake-note">side b • track 03 &lt;3</span>
         </div>
         <div class="keepsake-secret-line">favorite notification, favorite person.</div>
       </div>
     </section>
+
+    <!-- Funny Post-Credits Bonus Ending -->
+    <section class="bonus-ending-section">
+      <div class="bonus-trigger-card">
+        <span class="bonus-label">HIDDEN TRACK • OUTRO</span>
+        <p class="bonus-subtext">one last tiny thing before you leave...</p>
+        <button class="funny-reveal-btn" id="funnyEndingBtn" type="button">tap for a tiny surprise ✦</button>
+
+        <div class="funny-polaroid-popup" id="funnyPopup">
+          <div class="funny-photo-box">
+            <img
+              src="funny.jpg"
+              alt="Please maan jao"
+              onerror="this.src='https://placehold.co/300x400/05020c/ff007f?text=funny.jpg';"
+            />
+            <div class="funny-caption">me begging the universe for a chance 🙏😭&lt;3</div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 
-  <!-- Bottom-Center Short Music Player Box with Spinning CD on Left -->
+  <!-- Bottom-Center Mini CD Player Bar -->
   <div class="mini-player-bar">
     <div class="cd-disc" id="cdDisc"></div>
     <div class="track-meta">
@@ -1003,7 +1131,7 @@
     </audio>
   </div>
 
-  <!-- Custom Heart Shaped Cursor -->
+  <!-- Custom Heart Cursor -->
   <div id="cursor-dot">
     <svg viewBox="0 0 24 24" width="100%" height="100%">
       <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" 
@@ -1012,11 +1140,11 @@
   </div>
 
   <script>
-    // --- 0. SCATTERED TWINKLING NIGHT SKY STARS ---
+    // --- 0. GENERATE TWINKLING RETRO NIGHT SKY STARS ---
     const skyContainer = document.getElementById('nightSkyStars');
     if (skyContainer) {
-      const starColors = ['#ffffff', '#cbd6ff', '#ff85c2', '#8ea4ff'];
-      for (let i = 0; i < 38; i++) {
+      const starColors = ['#ffffff', '#ff85c2', '#8ea4ff'];
+      for (let i = 0; i < 42; i++) {
         const st = document.createElement('div');
         st.className = 'sky-star';
         const size = Math.random() < 0.7 ? 2 : 3;
@@ -1259,6 +1387,24 @@
         launchHeartBurst(rect.left + rect.width / 2, rect.top, 26);
         sendHeartBtn.classList.add('sent');
         sendHeartBtn.innerHTML = '♥ heart received &lt;3';
+      });
+    }
+
+    // Funny Post-Credits Ending Reveal
+    const funnyEndingBtn = document.getElementById('funnyEndingBtn');
+    const funnyPopup = document.getElementById('funnyPopup');
+    if (funnyEndingBtn && funnyPopup) {
+      funnyEndingBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const opening = !funnyPopup.classList.contains('open');
+        funnyPopup.classList.toggle('open');
+        if (opening) {
+          funnyEndingBtn.textContent = 'haan bol do ab 🙏✨';
+          const rect = funnyEndingBtn.getBoundingClientRect();
+          launchHeartBurst(rect.left + rect.width / 2, rect.top, 22);
+        } else {
+          funnyEndingBtn.textContent = 'tap for a tiny surprise ✦';
+        }
       });
     }
 
