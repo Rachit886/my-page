@@ -405,29 +405,27 @@
       transform: scale(1.08);
     }
 
-    /* Custom Cursor */
+    /* --- HEART SHAPED CUSTOM CURSOR --- */
     #cursor-dot {
       position: fixed;
       top: 0;
       left: 0;
-      width: 12px;
-      height: 12px;
-      background: #1a45ff;
-      border: 2px solid #ff007f;
+      width: 22px;
+      height: 22px;
       pointer-events: none;
       transform: translate(-50%, -50%);
       z-index: 9999;
       will-change: transform;
+      filter: drop-shadow(0 0 5px rgba(255, 0, 127, 0.8));
     }
 
     .trail {
       position: fixed;
-      width: 6px;
-      height: 6px;
-      background: #ff007f;
+      width: 11px;
+      height: 11px;
       pointer-events: none;
       transform: translate(-50%, -50%);
-      animation: fadeOut 0.4s linear forwards;
+      animation: fadeOut 0.45s linear forwards;
       z-index: 9998;
     }
 
@@ -549,7 +547,13 @@
     </audio>
   </div>
 
-  <div id="cursor-dot"></div>
+  <!-- Heart Shaped Cursor -->
+  <div id="cursor-dot">
+    <svg viewBox="0 0 24 24" width="100%" height="100%">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" 
+            fill="#1a45ff" stroke="#ff007f" stroke-width="2" />
+    </svg>
+  </div>
 
   <script>
     const garden = document.getElementById('flowerGarden');
@@ -651,7 +655,7 @@
       // Moon displacement
       realMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
 
-      // Layered Flowers Bloom (Outer & Inner petals open at slightly different speeds)
+      // Layered Flowers Bloom
       const outerBloom = 0.12 + (progress * 1.02);
       const innerBloom = 0.18 + (progress * 0.88);
       const centerScale = 0.45 + (progress * 0.6);
@@ -724,7 +728,7 @@
       }
     });
 
-    // Custom Cursor
+    // Heart Custom Cursor & Heart Trail
     const dot = document.getElementById('cursor-dot');
     let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
     let curX = mouseX, curY = mouseY;
@@ -734,8 +738,13 @@
       trail.className = 'trail';
       trail.style.left = `${x}px`;
       trail.style.top = `${y}px`;
+      trail.innerHTML = `
+        <svg viewBox="0 0 24 24" width="100%" height="100%">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#ff007f" />
+        </svg>
+      `;
       document.body.appendChild(trail);
-      setTimeout(() => trail.remove(), 400);
+      setTimeout(() => trail.remove(), 450);
     };
 
     window.addEventListener('mousemove', (e) => {
