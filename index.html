@@ -7,11 +7,464 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,700;1,700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      cursor: none;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #000000;
+      color: #ffffff;
+      font-family: 'Courier Prime', monospace;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    .vinyl-noise {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0.15;
+      background-image: repeating-radial-gradient(#ff007f 0 0.0001%, #1a45ff 0 0.0002%);
+      background-size: 3px 3px;
+    }
+
+    .crt-raster {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.4) 0px,
+        rgba(0, 0, 0, 0.4) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+    }
+
+    /* --- SHARP STRAIGHT 4-POINT CENTER STAR --- */
+    .star-anchor {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 380px;
+      height: 380px;
+      pointer-events: none;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      will-change: transform;
+    }
+
+    .star-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      shape-rendering: crispEdges;
+      will-change: transform;
+    }
+
+    .star-polygon {
+      transform-origin: 100px 100px;
+      will-change: transform;
+    }
+
+    .star-shadow-poly {
+      fill: #1a45ff;
+    }
+
+    .star-main-poly {
+      fill: #ff007f;
+    }
+
+    /* Natural Moon */
+    .real-moon-wrapper {
+      position: fixed;
+      top: 7%;
+      right: 5%;
+      width: 120px;
+      height: 120px;
+      z-index: 2;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .real-moon {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #cbd6ff 40%, #5067cf 75%, #050b28 100%);
+      box-shadow: 
+        0 0 20px rgba(26, 69, 255, 0.7),
+        0 0 50px rgba(255, 0, 127, 0.4);
+      position: relative;
+      overflow: hidden;
+      animation: moonFloat 7s ease-in-out infinite alternate;
+    }
+
+    .real-moon::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 62% 40%, rgba(5, 10, 40, 0.35) 0%, transparent 18%),
+        radial-gradient(circle at 45% 65%, rgba(5, 10, 40, 0.4) 0%, transparent 22%),
+        radial-gradient(circle at 25% 42%, rgba(5, 10, 40, 0.3) 0%, transparent 14%);
+      border-radius: 50%;
+    }
+
+    @keyframes moonFloat {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-12px); }
+    }
+
+    /* Upgraded Multi-Layered Aesthetic Flowers */
+    #flowerGarden {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .flower-box {
+      position: fixed;
+      width: 105px;
+      height: 105px;
+      pointer-events: none;
+      filter: drop-shadow(0 0 8px rgba(255, 0, 127, 0.45)) drop-shadow(4px 4px 0px #000000);
+      will-change: transform;
+    }
+
+    .flower-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      shape-rendering: geometricPrecision;
+    }
+
+    .outer-petal {
+      fill: url(#petalGradOuter);
+      stroke: #1a45ff;
+      stroke-width: 1.8;
+      stroke-linejoin: round;
+    }
+
+    .inner-petal {
+      fill: url(#petalGradInner);
+      stroke: #ff7ac3;
+      stroke-width: 1.2;
+      stroke-linejoin: round;
+    }
+
+    .petal-vein {
+      stroke: rgba(255, 255, 255, 0.45);
+      stroke-width: 1;
+      stroke-linecap: round;
+      fill: none;
+    }
+
+    .svg-center-ring {
+      fill: #1a45ff;
+      stroke: #ff007f;
+      stroke-width: 2;
+      transform-origin: 50px 50px;
+      will-change: transform;
+    }
+
+    .svg-center-core {
+      fill: #ffffff;
+      transform-origin: 50px 50px;
+      will-change: transform;
+    }
+
+    /* Timeline Dots */
+    .timeline {
+      position: fixed;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      z-index: 100;
+    }
+
+    .timeline-dot {
+      width: 9px;
+      height: 9px;
+      border: 2px solid #1a45ff;
+      background: #000000;
+      transition: all 0.25s ease;
+    }
+
+    .timeline-dot.active {
+      background: #ff007f;
+      border-color: #ff007f;
+      box-shadow: 3px 3px 0px #1a45ff;
+      transform: scale(1.6);
+    }
+
+    /* Cards */
+    .scroll-container {
+      position: relative;
+      width: 100%;
+      z-index: 3;
+    }
+
+    .section {
+      min-height: 100vh;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 20px 8%;
+    }
+
+    .card {
+      background: #000000;
+      border: 3px solid #ff007f;
+      box-shadow: 10px 10px 0px #1a45ff;
+      padding: 40px 32px;
+      max-width: 480px;
+      width: 100%;
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+      will-change: transform, opacity;
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      font-weight: 700;
+      background: #1a45ff;
+      color: #ffffff;
+      margin-bottom: 16px;
+      font-family: 'Oswald', sans-serif;
+    }
+
+    h2 {
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      font-size: 2.3rem;
+      letter-spacing: 1.5px;
+      line-height: 1.15;
+      margin-bottom: 14px;
+      color: #ffffff;
+      text-shadow: 3px 3px 0px #ff007f;
+    }
+
+    .album-blue {
+      color: #1a45ff;
+      text-shadow: 2px 2px 0px #ff007f;
+    }
+
+    p {
+      color: #e0e0e0;
+      font-size: 1.05rem;
+      line-height: 1.65;
+    }
+
+    /* --- BOTTOM CENTER SHORT TV GIRL PLAYER --- */
+    .mini-player-bar {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 120;
+      background: #000000;
+      border: 2.5px solid #ff007f;
+      box-shadow: 6px 6px 0px #1a45ff;
+      padding: 8px 16px 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 265px;
+      max-width: 92vw;
+    }
+
+    .cd-disc {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 2px solid #ff007f;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: conic-gradient(
+        from 45deg,
+        #111111 0deg 65deg,
+        #ff007f 65deg 115deg,
+        #111111 115deg 245deg,
+        #1a45ff 245deg 295deg,
+        #111111 295deg 360deg
+      );
+      box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.35);
+      animation: spinCD 4s linear infinite;
+      animation-play-state: paused;
+    }
+
+    .cd-disc.playing {
+      animation-play-state: running;
+    }
+
+    .cd-disc::before {
+      content: '';
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ff007f 0%, #1a45ff 100%);
+      border: 1.5px solid #ffffff;
+    }
+
+    .cd-disc::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #000000;
+      border: 1px solid #ffffff;
+    }
+
+    @keyframes spinCD {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .track-meta {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .track-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.92rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-shadow: 1.5px 1.5px 0px #ff007f;
+    }
+
+    .track-artist {
+      font-size: 0.72rem;
+      color: #8ea4ff;
+      letter-spacing: 0.5px;
+    }
+
+    .play-toggle-btn {
+      background: #ff007f;
+      color: #ffffff;
+      border: 2px solid #1a45ff;
+      width: 32px;
+      height: 32px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .play-toggle-btn:hover {
+      background: #1a45ff;
+      border-color: #ff007f;
+      transform: scale(1.08);
+    }
+
+    /* --- HEART SHAPED CUSTOM CURSOR --- */
+    #cursor-dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 22px;
+      height: 22px;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      will-change: transform;
+      filter: drop-shadow(0 0 5px rgba(255, 0, 127, 0.8));
+    }
+
+    .trail {
+      position: fixed;
+      width: 11px;
+      height: 11px;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      animation: fadeOut 0.45s linear forwards;
+      z-index: 9998;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+    }
+
+    @media (max-width: 768px) {
+      .star-anchor {
+        width: 250px;
+        height: 250px;
+      }
+      .section {
+        padding: 20px 6% 90px;
+        justify-content: center;
+      }
+      .real-moon-wrapper {
+        width: 85px;
+        height: 85px;
+      }
+      .card {
+        box-shadow: 6px 6px 0px #1a45ff;
+      }
+      .mini-player-bar {
+        bottom: 14px;
+        min-width: 245px;
+        padding: 7px 12px 7px 10px;
+      }
+      .cd-disc {
+        width: 38px;
+        height: 38px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Shared SVG Gradients for Layered Petals -->
+  <!-- Shared SVG Gradients for Realistic Layered Petals -->
   <svg width="0" height="0" style="position:absolute;">
     <defs>
       <radialGradient id="petalGradOuter" cx="50%" cy="85%" r="80%">
@@ -29,9 +482,6 @@
 
   <div class="vinyl-noise"></div>
   <div class="crt-raster"></div>
-
-  <!-- WebGL Live Purple Krka Waterfall Canvas -->
-  <canvas id="glWaterfall"></canvas>
 
   <!-- Center Straight Sharp 4-Point Star (Blooms on Scroll) -->
   <div class="star-anchor" id="starAnchor">
@@ -105,6 +555,218 @@
     </svg>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const garden = document.getElementById('flowerGarden');
+    const spreadZones = [
+      { top: 7,  left: 4,  scale: 0.95, angle: 12,  dir: 1 },
+      { top: 14, left: 32, scale: 0.72, angle: 45,  dir: -1 },
+      { top: 8,  left: 64, scale: 0.88, angle: 28,  dir: 1 },
+      { top: 38, left: 84, scale: 0.92, angle: 70,  dir: -1 },
+      { top: 44, left: 3,  scale: 0.75, angle: 18,  dir: -1 },
+      { top: 68, left: 72, scale: 1.00, angle: 52,  dir: 1 },
+      { top: 82, left: 86, scale: 0.78, angle: 35,  dir: -1 },
+      { top: 80, left: 6,  scale: 0.94, angle: 64,  dir: 1 },
+      { top: 74, left: 38, scale: 0.70, angle: 15,  dir: -1 }
+    ];
+
+    const flowerMeta = [];
+
+    // Build curved lotus/rose petal SVG layers
+    function buildDetailedFlowerSVG() {
+      let outerPetals = '';
+      let innerPetals = '';
+
+      for (let i = 0; i < 6; i++) {
+        const deg = i * 60;
+        outerPetals += `
+          <g transform="rotate(${deg} 50 50)">
+            <path class="outer-petal" d="M50,50 C34,36 35,14 50,5 C65,14 66,36 50,50 Z" />
+            <path class="petal-vein" d="M50,45 Q48,28 50,14" />
+          </g>
+        `;
+        innerPetals += `
+          <g transform="rotate(${deg + 30} 50 50)">
+            <path class="inner-petal" d="M50,50 C39,39 40,22 50,15 C60,22 61,39 50,50 Z" />
+          </g>
+        `;
+      }
+
+      return `
+        <svg class="flower-svg" viewBox="0 0 100 100">
+          <g class="outer-layer">${outerPetals}</g>
+          <g class="inner-layer">${innerPetals}</g>
+          <circle class="svg-center-ring" cx="50" cy="50" r="8.5" />
+          <circle class="svg-center-core" cx="50" cy="50" r="3.5" />
+        </svg>
+      `;
+    }
+
+    spreadZones.forEach(z => {
+      const box = document.createElement('div');
+      box.className = 'flower-box';
+
+      const jitterT = z.top + (Math.random() * 5 - 2.5);
+      const jitterL = z.left + (Math.random() * 5 - 2.5);
+
+      box.style.top = `${jitterT}%`;
+      box.style.left = `${jitterL}%`;
+      box.innerHTML = buildDetailedFlowerSVG();
+
+      garden.appendChild(box);
+      flowerMeta.push({
+        box,
+        sizeScale: z.scale,
+        baseAngle: z.angle,
+        spinDir: z.dir
+      });
+    });
+
+    const starSvg = document.getElementById('starSvg');
+    const starMain = document.getElementById('starMain');
+    const starShadow = document.getElementById('starShadow');
+    const realMoon = document.getElementById('realMoon');
+    const outerLayers = document.querySelectorAll('.outer-layer');
+    const innerLayers = document.querySelectorAll('.inner-layer');
+    const centerRings = document.querySelectorAll('.svg-center-ring');
+    const centerCores = document.querySelectorAll('.svg-center-core');
+
+    let currentScroll = 0;
+    let targetScroll = 0;
+
+    window.addEventListener('scroll', () => {
+      targetScroll = window.scrollY;
+    }, { passive: true });
+
+    function render() {
+      currentScroll += (targetScroll - currentScroll) * 0.09;
+
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
+
+      // Straight Sharp Star Bloom
+      const starBloom = 0.08 + (progress * 1.07);
+      const starSpin = progress * 60;
+      const shadowOffset = 4 + (progress * 12);
+
+      starSvg.style.transform = `rotate(${starSpin}deg)`;
+      starMain.style.transform = `scale(${starBloom})`;
+      starShadow.style.transform = `scale(${starBloom}) translate(${shadowOffset}px, ${shadowOffset}px)`;
+
+      // Moon displacement
+      realMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
+
+      // Layered Flowers Bloom
+      const outerBloom = 0.12 + (progress * 1.02);
+      const innerBloom = 0.18 + (progress * 0.88);
+      const centerScale = 0.45 + (progress * 0.6);
+
+      outerLayers.forEach(layer => {
+        layer.style.transformOrigin = '50px 50px';
+        layer.style.transform = `scale(${outerBloom})`;
+      });
+
+      innerLayers.forEach(layer => {
+        layer.style.transformOrigin = '50px 50px';
+        layer.style.transform = `scale(${innerBloom}) rotate(${progress * -25}deg)`;
+      });
+
+      centerRings.forEach(c => {
+        c.style.transformOrigin = '50px 50px';
+        c.style.transform = `scale(${centerScale})`;
+      });
+
+      centerCores.forEach(c => {
+        c.style.transformOrigin = '50px 50px';
+        c.style.transform = `scale(${centerScale})`;
+      });
+
+      flowerMeta.forEach(item => {
+        const spin = item.baseAngle + (progress * 85 * item.spinDir);
+        item.box.style.transform = `scale(${item.sizeScale}) rotate(${spin}deg)`;
+      });
+
+      requestAnimationFrame(render);
+    }
+    requestAnimationFrame(render);
+
+    // Cards observer
+    const sections = document.querySelectorAll('.section');
+    const dots = document.querySelectorAll('.timeline-dot');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const card = entry.target.querySelector('.card');
+          if (card) card.classList.add('visible');
+
+          const index = Array.from(sections).indexOf(entry.target);
+          dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+        }
+      });
+    }, { threshold: 0.4 });
+
+    sections.forEach(sec => observer.observe(sec));
+
+    // Mini CD Player Controls
+    const tvAudio = document.getElementById('tvAudio');
+    const playBtn = document.getElementById('playBtn');
+    const cdDisc = document.getElementById('cdDisc');
+
+    playBtn.addEventListener('click', () => {
+      if (tvAudio.paused) {
+        tvAudio.play().then(() => {
+          cdDisc.classList.add('playing');
+          playBtn.innerHTML = '❚❚';
+        }).catch(() => {
+          cdDisc.classList.toggle('playing');
+          playBtn.innerHTML = cdDisc.classList.contains('playing') ? '❚❚' : '▶';
+        });
+      } else {
+        tvAudio.pause();
+        cdDisc.classList.remove('playing');
+        playBtn.innerHTML = '▶';
+      }
+    });
+
+    // Heart Custom Cursor & Heart Trail
+    const dot = document.getElementById('cursor-dot');
+    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+    let curX = mouseX, curY = mouseY;
+
+    const spawnTrail = (x, y) => {
+      const trail = document.createElement('div');
+      trail.className = 'trail';
+      trail.style.left = `${x}px`;
+      trail.style.top = `${y}px`;
+      trail.innerHTML = `
+        <svg viewBox="0 0 24 24" width="100%" height="100%">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#ff007f" />
+        </svg>
+      `;
+      document.body.appendChild(trail);
+      setTimeout(() => trail.remove(), 450);
+    };
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      spawnTrail(e.clientX, e.clientY);
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      const touch = e.touches[0];
+      mouseX = touch.clientX;
+      mouseY = touch.clientY;
+      spawnTrail(touch.clientX, touch.clientY);
+    });
+
+    function cursorLoop() {
+      curX += (mouseX - curX) * 0.18;
+      curY += (mouseY - curY) * 0.18;
+      dot.style.transform = `translate3d(${curX}px, ${curY}px, 0) translate(-50%, -50%)`;
+      requestAnimationFrame(cursorLoop);
+    }
+    cursorLoop();
+  </script>
 </body>
 </html>
