@@ -58,6 +58,19 @@
       );
     }
 
+    /* --- WEBGL FLUID WATERFALL (RIGHT SIDE) --- */
+    #glWaterfall {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 55vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.85) 35%, #000 75%);
+      mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.85) 35%, #000 75%);
+    }
+
     /* --- SHARP STRAIGHT 4-POINT CENTER STAR --- */
     .star-anchor {
       position: fixed;
@@ -435,6 +448,10 @@
     }
 
     @media (max-width: 768px) {
+      #glWaterfall {
+        width: 100vw;
+        opacity: 0.4;
+      }
       .star-anchor {
         width: 250px;
         height: 250px;
@@ -464,7 +481,7 @@
 </head>
 <body>
 
-  <!-- Shared SVG Gradients for Realistic Layered Petals -->
+  <!-- Shared SVG Gradients for Layered Petals -->
   <svg width="0" height="0" style="position:absolute;">
     <defs>
       <radialGradient id="petalGradOuter" cx="50%" cy="85%" r="80%">
@@ -482,6 +499,9 @@
 
   <div class="vinyl-noise"></div>
   <div class="crt-raster"></div>
+
+  <!-- WebGL Waterfall Canvas -->
+  <canvas id="glWaterfall"></canvas>
 
   <!-- Center Straight Sharp 4-Point Star (Blooms on Scroll) -->
   <div class="star-anchor" id="starAnchor">
@@ -556,6 +576,7 @@
   </div>
 
   <script>
+    // 1. Scattered Detailed Flowers
     const garden = document.getElementById('flowerGarden');
     const spreadZones = [
       { top: 7,  left: 4,  scale: 0.95, angle: 12,  dir: 1 },
@@ -571,7 +592,6 @@
 
     const flowerMeta = [];
 
-    // Build curved lotus/rose petal SVG layers
     function buildDetailedFlowerSVG() {
       let outerPetals = '';
       let innerPetals = '';
@@ -621,6 +641,7 @@
       });
     });
 
+    // 2. Scroll Bloom Engine
     const starSvg = document.getElementById('starSvg');
     const starMain = document.getElementById('starMain');
     const starShadow = document.getElementById('starShadow');
@@ -643,7 +664,6 @@
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
-      // Straight Sharp Star Bloom
       const starBloom = 0.08 + (progress * 1.07);
       const starSpin = progress * 60;
       const shadowOffset = 4 + (progress * 12);
@@ -652,10 +672,8 @@
       starMain.style.transform = `scale(${starBloom})`;
       starShadow.style.transform = `scale(${starBloom}) translate(${shadowOffset}px, ${shadowOffset}px)`;
 
-      // Moon displacement
       realMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
 
-      // Layered Flowers Bloom
       const outerBloom = 0.12 + (progress * 1.02);
       const innerBloom = 0.18 + (progress * 0.88);
       const centerScale = 0.45 + (progress * 0.6);
@@ -689,7 +707,7 @@
     }
     requestAnimationFrame(render);
 
-    // Cards observer
+    // 3. Cards Observer
     const sections = document.querySelectorAll('.section');
     const dots = document.querySelectorAll('.timeline-dot');
 
@@ -707,7 +725,7 @@
 
     sections.forEach(sec => observer.observe(sec));
 
-    // Mini CD Player Controls
+    // 4. Mini CD Player Controls
     const tvAudio = document.getElementById('tvAudio');
     const playBtn = document.getElementById('playBtn');
     const cdDisc = document.getElementById('cdDisc');
@@ -728,7 +746,7 @@
       }
     });
 
-    // Heart Custom Cursor & Heart Trail
+    // 5. Heart Custom Cursor & Trail
     const dot = document.getElementById('cursor-dot');
     let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
     let curX = mouseX, curY = mouseY;
@@ -767,6 +785,126 @@
       requestAnimationFrame(cursorLoop);
     }
     cursorLoop();
+
+    // 6. WebGL GPU Fluid Waterfall Shader (GLSL)
+    const glCanvas = document.getElementById('glWaterfall');
+    const gl = glCanvas.getContext('webgl');
+
+    if (gl) {
+      const resizeGL = () => {
+        glCanvas.width = glCanvas.clientWidth;
+        glCanvas.height = glCanvas.clientHeight;
+        gl.viewport(0, 0, glCanvas.width, glCanvas.height);
+      };
+      resizeGL();
+      window.addEventListener('resize', resizeGL);
+
+      const vsSource = `
+        attribute vec2 pos;
+        void main() { gl_Position = vec4(pos, 0.0, 1.0); }
+      `;
+
+      const fsSource = `
+        precision mediump float;
+        uniform vec2 u_res;
+        uniform float u_time;
+
+        float hash(vec2 p) {
+          return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+        }
+
+        float noise(vec2 p) {
+          vec2 i = floor(p);
+          vec2 f = fract(p);
+          f = f * f * (3.0 - 2.0 * f);
+          return mix(
+            mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),
+            mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x),
+            f.y
+          );
+        }
+
+        float fbm(vec2 p) {
+          float v = 0.0;
+          float a = 0.5;
+          for (int i = 0; i < 5; i++) {
+            v += a * noise(p);
+            p *= 2.05;
+            a *= 0.5;
+          }
+          return v;
+        }
+
+        void main() {
+          vec2 uv = gl_FragCoord.xy / u_res.xy;
+          float poolLine = 0.22;
+          vec3 col = vec3(0.02, 0.0, 0.05);
+
+          if (uv.y > poolLine) {
+            vec2 flowUV = vec2(uv.x * 6.5, uv.y * 1.8 + u_time * 0.55);
+            float n1 = fbm(flowUV);
+            float n2 = fbm(flowUV * 2.2 + vec2(n1 * 1.5, u_time * 0.8));
+            float foam = smoothstep(0.38, 0.82, n1 * 0.6 + n2 * 0.5);
+
+            float cliffMask = smoothstep(0.22, 0.55, fbm(vec2(uv.x * 4.2, uv.y * 0.9)));
+            float waterIntensity = foam * cliffMask;
+
+            vec3 deepViolet = vec3(0.09, 0.01, 0.22);
+            vec3 neonPurple = vec3(0.62, 0.12, 0.95);
+            vec3 brightFoam = vec3(1.0, 0.35, 0.85);
+
+            col = mix(deepViolet, neonPurple, waterIntensity);
+            col = mix(col, brightFoam, pow(waterIntensity, 2.4));
+
+            float splash = exp(-abs(uv.y - poolLine) * 18.0) * (0.5 + 0.5 * n2);
+            col += vec3(0.85, 0.25, 0.95) * splash * 0.75;
+          } else {
+            float depth = uv.y / poolLine;
+            vec2 poolUV = vec2(uv.x * 5.0, depth * 14.0 - u_time * 0.7);
+            float ripple = fbm(poolUV);
+            vec3 poolDark = vec3(0.03, 0.0, 0.08);
+            vec3 poolGlow = vec3(0.55, 0.08, 0.88);
+            col = mix(poolDark, poolGlow, smoothstep(0.35, 0.8, ripple) * depth);
+          }
+
+          col *= smoothstep(0.0, 0.12, uv.y) * smoothstep(1.0, 0.82, uv.y);
+          gl_FragColor = vec4(col, 1.0);
+        }
+      `;
+
+      const compile = (type, src) => {
+        const s = gl.createShader(type);
+        gl.shaderSource(s, src);
+        gl.compileShader(s);
+        return s;
+      };
+
+      const prog = gl.createProgram();
+      gl.attachShader(prog, compile(gl.VERTEX_SHADER, vsSource));
+      gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fsSource));
+      gl.linkProgram(prog);
+      gl.useProgram(prog);
+
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
+
+      const posLoc = gl.getAttribLocation(prog, 'pos');
+      gl.enableVertexAttribArray(posLoc);
+      gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+      const resLoc = gl.getUniformLocation(prog, 'u_res');
+      const timeLoc = gl.getUniformLocation(prog, 'u_time');
+
+      let startTime = performance.now();
+      function renderGL() {
+        gl.uniform2f(resLoc, glCanvas.width, glCanvas.height);
+        gl.uniform1f(timeLoc, (performance.now() - startTime) * 0.001);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+        requestAnimationFrame(renderGL);
+      }
+      renderGL();
+    }
   </script>
 </body>
 </html>
