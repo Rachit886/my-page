@@ -223,7 +223,7 @@
       transform: scale(1.6);
     }
 
-    /* Cards */
+    /* --- DROPDOWN CARDS --- */
     .scroll-container {
       position: relative;
       width: 100%;
@@ -242,18 +242,31 @@
       background: #000000;
       border: 3px solid #ff007f;
       box-shadow: 10px 10px 0px #1a45ff;
-      padding: 40px 32px;
+      padding: 26px 32px;
       max-width: 480px;
       width: 100%;
       opacity: 0;
       transform: translateY(35px);
-      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out, padding 0.35s ease, box-shadow 0.35s ease;
       will-change: transform, opacity;
     }
 
     .card.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    .card:hover,
+    .card.open {
+      padding: 34px 32px 38px;
+      box-shadow: 13px 13px 0px #1a45ff;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
     }
 
     .badge {
@@ -264,8 +277,22 @@
       font-weight: 700;
       background: #1a45ff;
       color: #ffffff;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       font-family: 'Oswald', sans-serif;
+    }
+
+    .drop-arrow {
+      font-size: 0.95rem;
+      color: #ff007f;
+      text-shadow: 2px 2px 0px #1a45ff;
+      transition: transform 0.35s ease;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+
+    .card:hover .drop-arrow,
+    .card.open .drop-arrow {
+      transform: rotate(180deg);
     }
 
     h2 {
@@ -274,7 +301,7 @@
       font-size: 2.3rem;
       letter-spacing: 1.5px;
       line-height: 1.15;
-      margin-bottom: 14px;
+      margin-bottom: 0;
       color: #ffffff;
       text-shadow: 3px 3px 0px #ff007f;
     }
@@ -284,10 +311,27 @@
       text-shadow: 2px 2px 0px #ff007f;
     }
 
+    .dropdown-content {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      margin-top: 0;
+      transition: max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease, margin-top 0.35s ease;
+    }
+
+    .card:hover .dropdown-content,
+    .card.open .dropdown-content {
+      max-height: 260px;
+      opacity: 1;
+      margin-top: 16px;
+    }
+
     p {
       color: #e0e0e0;
       font-size: 1.05rem;
       line-height: 1.65;
+      border-top: 1.5px dashed rgba(255, 0, 127, 0.45);
+      padding-top: 14px;
     }
 
     /* --- BOTTOM CENTER SHORT TV GIRL PLAYER --- */
@@ -511,25 +555,46 @@
   <div class="scroll-container">
     <section class="section">
       <div class="card visible">
-        <span class="badge">SIDE A • TRACK 01</span>
-        <h2>hello <span class="album-blue"><3</span></h2>
-        <p>Dekho, I tried my best to give efforts. I know I can do more, but I really wanted to build something special for you.</p>
+        <div class="card-header">
+          <div>
+            <span class="badge">SIDE A • TRACK 01</span>
+            <h2>hello <span class="album-blue"><3</span></h2>
+          </div>
+          <span class="drop-arrow">▼</span>
+        </div>
+        <div class="dropdown-content">
+          <p>Dekho, I tried my best to give efforts. I know I can do more, but I really wanted to build something special for you.</p>
+        </div>
       </div>
     </section>
 
     <section class="section">
       <div class="card">
-        <span class="badge">SIDE A • TRACK 02</span>
-        <h2>To be honest...</h2>
-        <p>Ever since I started talking to you, I haven't spoken about it directly. I've always been indirect, and sometimes it looks obvious.</p>
+        <div class="card-header">
+          <div>
+            <span class="badge">SIDE A • TRACK 02</span>
+            <h2>To be honest...</h2>
+          </div>
+          <span class="drop-arrow">▼</span>
+        </div>
+        <div class="dropdown-content">
+          <p>Ever since I started talking to you, I haven't spoken about it directly. I've always been indirect, and sometimes it looks obvious.</p>
+        </div>
       </div>
     </section>
 
     <section class="section">
       <div class="card">
-        <span class="badge">SIDE B • THE REVEAL</span>
-        <h2>Finally saying it</h2>
-        <p>I like you soooooooooooo muchhhhhh. Haven't said this ever... and there are more surprises to come.</p>
+        <div class="card-header">
+          <div>
+            <span class="badge">SIDE B • THE REVEAL</span>
+            <h2>Finally saying it</h2>
+          </div>
+          <span class="drop-arrow">▼</span>
+        </div>
+        <div class="dropdown-content">
+          <p>I like you soooooooooooo muchhhhhh. Haven't said this ever... and there are more surprises to come.</p>
+        </div>
       </div>
     </section>
   </div>
@@ -571,7 +636,6 @@
 
     const flowerMeta = [];
 
-    // Build curved lotus/rose petal SVG layers
     function buildDetailedFlowerSVG() {
       let outerPetals = '';
       let innerPetals = '';
@@ -643,7 +707,6 @@
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
-      // Straight Sharp Star Bloom
       const starBloom = 0.08 + (progress * 1.07);
       const starSpin = progress * 60;
       const shadowOffset = 4 + (progress * 12);
@@ -652,10 +715,8 @@
       starMain.style.transform = `scale(${starBloom})`;
       starShadow.style.transform = `scale(${starBloom}) translate(${shadowOffset}px, ${shadowOffset}px)`;
 
-      // Moon displacement
       realMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
 
-      // Layered Flowers Bloom
       const outerBloom = 0.12 + (progress * 1.02);
       const innerBloom = 0.18 + (progress * 0.88);
       const centerScale = 0.45 + (progress * 0.6);
@@ -689,9 +750,16 @@
     }
     requestAnimationFrame(render);
 
-    // Cards observer
+    // Cards observer & mobile tap support for dropdown
     const sections = document.querySelectorAll('.section');
     const dots = document.querySelectorAll('.timeline-dot');
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('open');
+      });
+    });
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
