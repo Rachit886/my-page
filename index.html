@@ -254,7 +254,7 @@
       position: relative;
       width: 100%;
       max-width: 310px;
-      background: rgba(5, 2, 12, 0.92);
+      background: #05020c;
       border: 3px solid #ff007f;
       box-shadow: 10px 10px 0px #1a45ff;
       padding: 14px 14px 18px;
@@ -268,12 +268,12 @@
     }
 
     .keepsake-frame.revealed {
-      opacity: 0.78;
+      opacity: 1;
       transform: translateY(0) rotate(1.5deg);
     }
 
     .keepsake-frame:hover {
-      opacity: 0.96;
+      opacity: 1;
       transform: translateY(-4px) rotate(0deg);
       box-shadow: 14px 14px 0px #1a45ff;
     }
@@ -292,25 +292,22 @@
       height: 100%;
       object-fit: cover;
       object-position: center 18%;
-      filter: contrast(1.06) saturate(1.08);
-      opacity: 0.88;
-      transition: opacity 0.4s ease, transform 0.6s ease;
+      filter: contrast(1.04) saturate(1.06);
+      opacity: 1;
+      transition: transform 0.6s ease;
       display: block;
     }
 
     .keepsake-frame:hover .keepsake-photo {
-      opacity: 1;
       transform: scale(1.03);
     }
 
-    /* Soft dark vignette + dreamy TV Girl pink-blue tint over photo */
+    /* Subtle edge framing without washing out photo clarity */
     .keepsake-photo-wrap::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: 
-        radial-gradient(circle at center, transparent 48%, rgba(0, 0, 0, 0.62) 100%),
-        linear-gradient(155deg, rgba(255, 0, 127, 0.16) 0%, rgba(26, 69, 255, 0.2) 100%);
+      background: radial-gradient(circle at center, transparent 68%, rgba(0, 0, 0, 0.28) 100%);
       pointer-events: none;
     }
 
