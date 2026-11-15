@@ -137,7 +137,7 @@
       100% { transform: translateY(-12px); }
     }
 
-    /* Balanced Scattered Flowers */
+    /* Upgraded Multi-Layered Aesthetic Flowers */
     #flowerGarden {
       position: fixed;
       inset: 0;
@@ -147,10 +147,10 @@
 
     .flower-box {
       position: fixed;
-      width: 88px;
-      height: 88px;
+      width: 105px;
+      height: 105px;
       pointer-events: none;
-      filter: drop-shadow(4px 4px 0px #000000);
+      filter: drop-shadow(0 0 8px rgba(255, 0, 127, 0.45)) drop-shadow(4px 4px 0px #000000);
       will-change: transform;
     }
 
@@ -161,18 +161,37 @@
       shape-rendering: geometricPrecision;
     }
 
-    .svg-petal {
-      fill: #ff007f;
+    .outer-petal {
+      fill: url(#petalGradOuter);
       stroke: #1a45ff;
-      stroke-width: 2.5;
+      stroke-width: 1.8;
+      stroke-linejoin: round;
+    }
+
+    .inner-petal {
+      fill: url(#petalGradInner);
+      stroke: #ff7ac3;
+      stroke-width: 1.2;
+      stroke-linejoin: round;
+    }
+
+    .petal-vein {
+      stroke: rgba(255, 255, 255, 0.45);
+      stroke-width: 1;
+      stroke-linecap: round;
+      fill: none;
+    }
+
+    .svg-center-ring {
+      fill: #1a45ff;
+      stroke: #ff007f;
+      stroke-width: 2;
       transform-origin: 50px 50px;
       will-change: transform;
     }
 
-    .svg-center {
-      fill: #1a45ff;
-      stroke: #ff007f;
-      stroke-width: 2.5;
+    .svg-center-core {
+      fill: #ffffff;
       transform-origin: 50px 50px;
       will-change: transform;
     }
@@ -447,6 +466,22 @@
 </head>
 <body>
 
+  <!-- Shared SVG Gradients for Realistic Layered Petals -->
+  <svg width="0" height="0" style="position:absolute;">
+    <defs>
+      <radialGradient id="petalGradOuter" cx="50%" cy="85%" r="80%">
+        <stop offset="0%" stop-color="#1a45ff" />
+        <stop offset="45%" stop-color="#b8005c" />
+        <stop offset="100%" stop-color="#ff1e90" />
+      </radialGradient>
+      <radialGradient id="petalGradInner" cx="50%" cy="90%" r="75%">
+        <stop offset="0%" stop-color="#4d6fff" />
+        <stop offset="60%" stop-color="#ff007f" />
+        <stop offset="100%" stop-color="#ff85c2" />
+      </radialGradient>
+    </defs>
+  </svg>
+
   <div class="vinyl-noise"></div>
   <div class="crt-raster"></div>
 
@@ -517,7 +552,6 @@
   <div id="cursor-dot"></div>
 
   <script>
-    // 9 Evenly-Spaced Organic Zones so flowers stay nicely spread out (no clumping, no straight grid)
     const garden = document.getElementById('flowerGarden');
     const spreadZones = [
       { top: 7,  left: 4,  scale: 0.95, angle: 12,  dir: 1 },
@@ -533,30 +567,46 @@
 
     const flowerMeta = [];
 
+    // Build curved lotus/rose petal SVG layers
+    function buildDetailedFlowerSVG() {
+      let outerPetals = '';
+      let innerPetals = '';
+
+      for (let i = 0; i < 6; i++) {
+        const deg = i * 60;
+        outerPetals += `
+          <g transform="rotate(${deg} 50 50)">
+            <path class="outer-petal" d="M50,50 C34,36 35,14 50,5 C65,14 66,36 50,50 Z" />
+            <path class="petal-vein" d="M50,45 Q48,28 50,14" />
+          </g>
+        `;
+        innerPetals += `
+          <g transform="rotate(${deg + 30} 50 50)">
+            <path class="inner-petal" d="M50,50 C39,39 40,22 50,15 C60,22 61,39 50,50 Z" />
+          </g>
+        `;
+      }
+
+      return `
+        <svg class="flower-svg" viewBox="0 0 100 100">
+          <g class="outer-layer">${outerPetals}</g>
+          <g class="inner-layer">${innerPetals}</g>
+          <circle class="svg-center-ring" cx="50" cy="50" r="8.5" />
+          <circle class="svg-center-core" cx="50" cy="50" r="3.5" />
+        </svg>
+      `;
+    }
+
     spreadZones.forEach(z => {
       const box = document.createElement('div');
       box.className = 'flower-box';
 
-      // Tiny organic jitter (+/- 3%) so it feels natural without ever overlapping
       const jitterT = z.top + (Math.random() * 5 - 2.5);
       const jitterL = z.left + (Math.random() * 5 - 2.5);
 
       box.style.top = `${jitterT}%`;
       box.style.left = `${jitterL}%`;
-
-      box.innerHTML = `
-        <svg class="flower-svg" viewBox="0 0 100 100">
-          <g class="petals-group">
-            <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" />
-            <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(60deg);" />
-            <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(120deg);" />
-            <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(180deg);" />
-            <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(240deg);" />
-            <ellipse class="svg-petal" cx="50" cy="22" rx="10" ry="22" style="transform: rotate(300deg);" />
-          </g>
-          <circle class="svg-center" cx="50" cy="50" r="11" />
-        </svg>
-      `;
+      box.innerHTML = buildDetailedFlowerSVG();
 
       garden.appendChild(box);
       flowerMeta.push({
@@ -571,8 +621,10 @@
     const starMain = document.getElementById('starMain');
     const starShadow = document.getElementById('starShadow');
     const realMoon = document.getElementById('realMoon');
-    const petalGroups = document.querySelectorAll('.petals-group');
-    const centers = document.querySelectorAll('.svg-center');
+    const outerLayers = document.querySelectorAll('.outer-layer');
+    const innerLayers = document.querySelectorAll('.inner-layer');
+    const centerRings = document.querySelectorAll('.svg-center-ring');
+    const centerCores = document.querySelectorAll('.svg-center-core');
 
     let currentScroll = 0;
     let targetScroll = 0;
@@ -587,7 +639,7 @@
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
-      // Straight Sharp Star Bloom (0.08 bud -> 1.15 full bloom)
+      // Straight Sharp Star Bloom
       const starBloom = 0.08 + (progress * 1.07);
       const starSpin = progress * 60;
       const shadowOffset = 4 + (progress * 12);
@@ -599,16 +651,27 @@
       // Moon displacement
       realMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
 
-      // Flowers Bloom & Gentle Spin
-      const bloom = 0.08 + (progress * 1.05);
+      // Layered Flowers Bloom (Outer & Inner petals open at slightly different speeds)
+      const outerBloom = 0.12 + (progress * 1.02);
+      const innerBloom = 0.18 + (progress * 0.88);
       const centerScale = 0.45 + (progress * 0.6);
 
-      petalGroups.forEach(group => {
-        group.style.transformOrigin = '50px 50px';
-        group.style.transform = `scale(${bloom})`;
+      outerLayers.forEach(layer => {
+        layer.style.transformOrigin = '50px 50px';
+        layer.style.transform = `scale(${outerBloom})`;
       });
 
-      centers.forEach(c => {
+      innerLayers.forEach(layer => {
+        layer.style.transformOrigin = '50px 50px';
+        layer.style.transform = `scale(${innerBloom}) rotate(${progress * -25}deg)`;
+      });
+
+      centerRings.forEach(c => {
+        c.style.transformOrigin = '50px 50px';
+        c.style.transform = `scale(${centerScale})`;
+      });
+
+      centerCores.forEach(c => {
         c.style.transformOrigin = '50px 50px';
         c.style.transform = `scale(${centerScale})`;
       });
