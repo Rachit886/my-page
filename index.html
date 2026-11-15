@@ -106,9 +106,152 @@
       right: 5%;
       width: 120px;
       height: 120px;
-      z-index: 2;
-      pointer-events: none;
+      z-index: 6;
+      pointer-events: auto;
       will-change: transform;
+      transition: filter 0.3s ease;
+    }
+
+    .real-moon-wrapper:hover {
+      filter: drop-shadow(0 0 16px rgba(255, 0, 127, 0.85));
+    }
+
+    /* Delicate pulsing halo & whisper label so she discovers the moon easter egg */
+    .moon-pulse-ring {
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 1.5px dashed rgba(255, 133, 194, 0.55);
+      pointer-events: none;
+      animation: moonHaloPulse 2.8s ease-in-out infinite;
+      transition: opacity 0.4s ease;
+    }
+
+    .real-moon-wrapper.discovered .moon-pulse-ring,
+    .real-moon-wrapper.discovered .moon-hint-tag {
+      opacity: 0;
+    }
+
+    @keyframes moonHaloPulse {
+      0%, 100% { transform: scale(0.96); opacity: 0.35; }
+      50% { transform: scale(1.06); opacity: 0.85; }
+    }
+
+    .moon-hint-tag {
+      position: absolute;
+      bottom: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.65rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #cbd6ff;
+      background: rgba(0, 0, 0, 0.78);
+      border: 1px solid #1a45ff;
+      padding: 2px 7px;
+      white-space: nowrap;
+      opacity: 0.85;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    /* --- TWINKLING RETRO NIGHT SKY STARS --- */
+    #nightSkyStars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .sky-star {
+      position: absolute;
+      border-radius: 50%;
+      animation: twinkleStar ease-in-out infinite alternate;
+      will-change: opacity, transform;
+    }
+
+    @keyframes twinkleStar {
+      0% { opacity: 0.15; transform: scale(0.75); }
+      100% { opacity: 0.85; transform: scale(1.2); }
+    }
+
+    .moon-secret-note {
+      position: fixed;
+      top: calc(7% + 132px);
+      right: 5%;
+      max-width: 240px;
+      background: #000000;
+      border: 2px solid #ff007f;
+      box-shadow: 5px 5px 0px #1a45ff;
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: #ffffff;
+      z-index: 80;
+      opacity: 0;
+      transform: translateY(-8px) scale(0.95);
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .moon-secret-note.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* --- AMBIENT FLOATING MICRO-HEARTS (DEEP BACKGROUND) --- */
+    #ambientHearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .ambient-heart {
+      position: absolute;
+      bottom: -30px;
+      opacity: 0;
+      animation: floatUpHeart linear forwards;
+      will-change: transform, opacity;
+    }
+
+    @keyframes floatUpHeart {
+      0% {
+        transform: translateY(0) scale(0.7) rotate(-8deg);
+        opacity: 0;
+      }
+      15% {
+        opacity: 0.42;
+      }
+      85% {
+        opacity: 0.35;
+      }
+      100% {
+        transform: translateY(-108vh) scale(1.1) rotate(12deg);
+        opacity: 0;
+      }
+    }
+
+    /* Celebratory heart shower burst */
+    .burst-heart {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9990;
+      animation: burstRise 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      will-change: transform, opacity;
+    }
+
+    @keyframes burstRise {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(0.5) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--dx), var(--dy)) scale(1.25) rotate(var(--rot));
+      }
     }
 
     .real-moon {
@@ -362,6 +505,22 @@
       letter-spacing: 0.5px;
     }
 
+    .keepsake-secret-line {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      font-size: 0.82rem;
+      color: #ff85c2;
+      text-align: center;
+      transition: max-height 0.4s ease, opacity 0.4s ease, margin-top 0.4s ease;
+    }
+
+    .keepsake-frame.sparkled .keepsake-secret-line {
+      max-height: 50px;
+      opacity: 1;
+      margin-top: 8px;
+    }
+
     .card {
       background: rgba(0, 0, 0, 0.92);
       border: 3px solid #ff007f;
@@ -457,6 +616,55 @@
       line-height: 1.65;
       border-top: 1.5px dashed rgba(255, 0, 127, 0.45);
       padding-top: 14px;
+    }
+
+    .card-hint-pulse {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.72rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #ff85c2;
+      animation: hintPulse 2.2s ease-in-out infinite;
+    }
+
+    .card:hover .card-hint-pulse,
+    .card.open .card-hint-pulse {
+      display: none;
+    }
+
+    @keyframes hintPulse {
+      0%, 100% { opacity: 0.45; }
+      50% { opacity: 1; }
+    }
+
+    .heart-back-btn {
+      margin-top: 16px;
+      background: #1a45ff;
+      color: #ffffff;
+      border: 2px solid #ff007f;
+      box-shadow: 4px 4px 0px #ff007f;
+      padding: 8px 16px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .heart-back-btn:hover {
+      background: #ff007f;
+      border-color: #1a45ff;
+      box-shadow: 4px 4px 0px #1a45ff;
+      transform: translate(-1px, -1px);
+    }
+
+    .heart-back-btn.sent {
+      background: #ff007f;
+      border-color: #ffffff;
     }
 
     /* --- BOTTOM-CENTER MINI CD PLAYER BAR --- */
@@ -673,6 +881,12 @@
   <div class="vinyl-noise"></div>
   <div class="crt-raster"></div>
 
+  <!-- Scattered Twinkling Night Sky Stars -->
+  <div id="nightSkyStars"></div>
+
+  <!-- Deep Background Ambient Floating Micro-Hearts -->
+  <div id="ambientHearts"></div>
+
   <!-- Center Straight Sharp 4-Point Star (Blooms on Scroll) -->
   <div class="star-anchor" id="starAnchor">
     <svg class="star-svg" id="starSvg" viewBox="0 0 200 200">
@@ -683,9 +897,14 @@
     </svg>
   </div>
 
-  <!-- Floating Moon (Top Right) -->
-  <div class="real-moon-wrapper" id="realMoon">
+  <!-- Interactive Floating Moon (Top Right) -->
+  <div class="real-moon-wrapper" id="realMoon" title="Tap the moon">
+    <div class="moon-pulse-ring"></div>
     <div class="real-moon"></div>
+    <span class="moon-hint-tag">tap moon</span>
+  </div>
+  <div class="moon-secret-note" id="moonSecretNote">
+    you make ordinary days feel like my favorite song &lt;3
   </div>
 
   <!-- Balanced Scattered Flowers Container -->
@@ -706,6 +925,7 @@
           <div>
             <span class="badge">SIDE A • TRACK 01</span>
             <h2>hello <span class="album-blue">&lt;3</span></h2>
+            <span class="card-hint-pulse">hover / tap to open</span>
           </div>
           <span class="drop-arrow">▼</span>
         </div>
@@ -741,11 +961,12 @@
         </div>
         <div class="dropdown-content">
           <p>I like you soooooooooooo muchhhhhh. Haven't said this ever... and there are more surprises to come.</p>
+          <button type="button" class="heart-back-btn" id="sendHeartBtn">♥ send a heart back</button>
         </div>
       </div>
 
       <!-- Tasteful Retro Vinyl-Sleeve Keepsake Frame (Upload your photo as "her.jpg" in GitHub repo) -->
-      <div class="keepsake-frame" id="keepsakeFrame">
+      <div class="keepsake-frame" id="keepsakeFrame" title="Tap for a little surprise">
         <div class="keepsake-photo-wrap">
           <img 
             class="keepsake-photo" 
@@ -764,6 +985,7 @@
           <span class="keepsake-tag">THE MUSE • SIDE B</span>
           <span class="keepsake-note">fav person &lt;3</span>
         </div>
+        <div class="keepsake-secret-line">favorite notification, favorite person.</div>
       </div>
     </section>
   </div>
@@ -790,6 +1012,27 @@
   </div>
 
   <script>
+    // --- 0. SCATTERED TWINKLING NIGHT SKY STARS ---
+    const skyContainer = document.getElementById('nightSkyStars');
+    if (skyContainer) {
+      const starColors = ['#ffffff', '#cbd6ff', '#ff85c2', '#8ea4ff'];
+      for (let i = 0; i < 38; i++) {
+        const st = document.createElement('div');
+        st.className = 'sky-star';
+        const size = Math.random() < 0.7 ? 2 : 3;
+        const color = starColors[i % starColors.length];
+        st.style.width = `${size}px`;
+        st.style.height = `${size}px`;
+        st.style.left = `${Math.random() * 98}%`;
+        st.style.top = `${Math.random() * 96}%`;
+        st.style.background = color;
+        st.style.boxShadow = `0 0 ${size * 2}px ${color}`;
+        st.style.animationDuration = `${2.2 + Math.random() * 3.5}s`;
+        st.style.animationDelay = `${Math.random() * 3}s`;
+        skyContainer.appendChild(st);
+      }
+    }
+
     // --- 1. GENERATE NINE SCATTERED MULTI-LAYERED FLOWERS ---
     const garden = document.getElementById('flowerGarden');
     const spreadZones = [
@@ -935,22 +1178,119 @@
     const dots = document.querySelectorAll('.timeline-dot');
     const cards = document.querySelectorAll('.card');
 
-    // Toggle open state on click/tap for mobile & touchscreens
-    cards.forEach(card => {
-      card.addEventListener('click', () => {
-        card.classList.toggle('open');
-      });
-    });
+    // --- HELPER: CELEBRATORY HEART SHOWER BURST ---
+    function launchHeartBurst(originX, originY, count = 18) {
+      const colors = ['#ff007f', '#1a45ff', '#ff85c2', '#ffffff'];
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement('div');
+        el.className = 'burst-heart';
+        const size = 12 + Math.random() * 14;
+        const dx = (Math.random() - 0.5) * 260;
+        const dy = -80 - Math.random() * 220;
+        const rot = (Math.random() - 0.5) * 90;
+        const fill = colors[i % colors.length];
 
-    // Clickable timeline dots to jump smoothly to each section
-    dots.forEach((dot, idx) => {
-      dot.addEventListener('click', () => {
-        if (sections[idx]) {
-          sections[idx].scrollIntoView({ behavior: 'smooth' });
+        el.style.left = `${originX}px`;
+        el.style.top = `${originY}px`;
+        el.style.width = `${size}px`;
+        el.style.height = `${size}px`;
+        el.style.setProperty('--dx', `${dx}px`);
+        el.style.setProperty('--dy', `${dy}px`);
+        el.style.setProperty('--rot', `${rot}deg`);
+        el.innerHTML = `
+          <svg viewBox="0 0 24 24" width="100%" height="100%">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="${fill}" />
+          </svg>
+        `;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1650);
+      }
+    }
+
+    // Toggle open state on click/tap for mobile & touchscreens + gentle sparkle burst
+    cards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.heart-back-btn')) return;
+        const willOpen = !card.classList.contains('open');
+        card.classList.toggle('open');
+        if (willOpen) {
+          const rect = card.getBoundingClientRect();
+          launchHeartBurst(rect.right - 36, rect.top + 28, 8);
+        }
+      });
+
+      card.addEventListener('mouseenter', () => {
+        if (!card.dataset.sparkledOnce) {
+          card.dataset.sparkledOnce = '1';
+          const rect = card.getBoundingClientRect();
+          launchHeartBurst(rect.right - 36, rect.top + 28, 7);
         }
       });
     });
 
+    // Interactive Moon Secret Wish
+    const moonSecretNote = document.getElementById('moonSecretNote');
+    let moonTimer = null;
+    realMoon.addEventListener('click', (e) => {
+      e.stopPropagation();
+      realMoon.classList.add('discovered');
+      const rect = realMoon.getBoundingClientRect();
+      launchHeartBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 12);
+      moonSecretNote.classList.add('show');
+      clearTimeout(moonTimer);
+      moonTimer = setTimeout(() => {
+        moonSecretNote.classList.remove('show');
+      }, 3500);
+    });
+
+    // Interactive Polaroid Keepsake Frame Click
+    keepsakeFrame.addEventListener('click', () => {
+      keepsakeFrame.classList.toggle('sparkled');
+      const rect = keepsakeFrame.getBoundingClientRect();
+      launchHeartBurst(rect.left + rect.width / 2, rect.top + rect.height * 0.4, 14);
+    });
+
+    // Final Reveal "Send a Heart Back" Button
+    const sendHeartBtn = document.getElementById('sendHeartBtn');
+    if (sendHeartBtn) {
+      sendHeartBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const rect = sendHeartBtn.getBoundingClientRect();
+        launchHeartBurst(rect.left + rect.width / 2, rect.top, 26);
+        sendHeartBtn.classList.add('sent');
+        sendHeartBtn.innerHTML = '♥ heart received &lt;3';
+      });
+    }
+
+    // Subtle Ambient Floating Micro-Hearts in Background
+    const ambientContainer = document.getElementById('ambientHearts');
+    function spawnAmbientHeart() {
+      if (!ambientContainer) return;
+      const h = document.createElement('div');
+      h.className = 'ambient-heart';
+      const size = 8 + Math.random() * 10;
+      const duration = 9 + Math.random() * 7;
+      const fill = Math.random() > 0.45 ? '#ff007f' : '#1a45ff';
+
+      h.style.left = `${Math.random() * 96}%`;
+      h.style.width = `${size}px`;
+      h.style.height = `${size}px`;
+      h.style.animationDuration = `${duration}s`;
+      h.innerHTML = `
+        <svg viewBox="0 0 24 24" width="100%" height="100%">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="${fill}" />
+        </svg>
+      `;
+      ambientContainer.appendChild(h);
+      setTimeout(() => h.remove(), duration * 1000);
+    }
+
+    for (let i = 0; i < 6; i++) {
+      setTimeout(spawnAmbientHeart, i * 900);
+    }
+    setInterval(spawnAmbientHeart, 2200);
+
+    // Intersection Observer for revealing cards, timeline dots & Polaroid frame
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -1043,6 +1383,8 @@
         isPlaying = true;
         cdDisc.classList.add('playing');
         playBtn.innerHTML = '❚❚';
+        const rect = playBtn.getBoundingClientRect();
+        launchHeartBurst(rect.left + rect.width / 2, rect.top, 10);
 
         // Try playing song.mp3 first; if unavailable in preview, use ambient synth fallback
         const playPromise = tvAudio.play();
