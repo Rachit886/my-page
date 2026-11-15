@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>hello <3</title>
+  <title>hello &lt;3</title>
+  <!-- Google Fonts: Courier Prime & Oswald for retro vinyl/cassette aesthetic -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,700;1,700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
   <style>
+    /* Global reset & hide default OS cursor in favor of custom heart cursor */
     * {
       margin: 0;
       padding: 0;
@@ -28,6 +30,7 @@
       position: relative;
     }
 
+    /* Subtle analog vinyl grain overlay */
     .vinyl-noise {
       position: fixed;
       top: 0;
@@ -41,6 +44,7 @@
       background-size: 3px 3px;
     }
 
+    /* Retro CRT horizontal scanline raster */
     .crt-raster {
       position: fixed;
       top: 0;
@@ -95,7 +99,7 @@
       fill: #ff007f;
     }
 
-    /* Natural Moon */
+    /* --- FLOATING REALISTIC MOON (TOP-RIGHT) --- */
     .real-moon-wrapper {
       position: fixed;
       top: 7%;
@@ -120,6 +124,7 @@
       animation: moonFloat 7s ease-in-out infinite alternate;
     }
 
+    /* Lunar surface craters */
     .real-moon::before {
       content: '';
       position: absolute;
@@ -137,7 +142,7 @@
       100% { transform: translateY(-12px); }
     }
 
-    /* Upgraded Multi-Layered Aesthetic Flowers */
+    /* --- MULTI-LAYERED SCATTERED FLOWERS --- */
     #flowerGarden {
       position: fixed;
       inset: 0;
@@ -196,7 +201,7 @@
       will-change: transform;
     }
 
-    /* Timeline Dots */
+    /* --- RIGHT-SIDE TIMELINE INDICATOR DOTS --- */
     .timeline {
       position: fixed;
       right: 18px;
@@ -223,7 +228,7 @@
       transform: scale(1.6);
     }
 
-    /* --- DROPDOWN CARDS --- */
+    /* --- INTERACTIVE DROPDOWN CARDS --- */
     .scroll-container {
       position: relative;
       width: 100%;
@@ -238,8 +243,130 @@
       padding: 20px 8%;
     }
 
+    /* Final Reveal section splits cleanly into Left Card + Right Keepsake Frame */
+    .reveal-section {
+      justify-content: space-between;
+      gap: 48px;
+    }
+
+    /* --- TASTEFUL TV GIRL VINYL-SLEEVE KEEPSAKE FRAME (SIDE B) --- */
+    .keepsake-frame {
+      position: relative;
+      width: 100%;
+      max-width: 310px;
+      background: rgba(5, 2, 12, 0.92);
+      border: 3px solid #ff007f;
+      box-shadow: 10px 10px 0px #1a45ff;
+      padding: 14px 14px 18px;
+      margin-right: 4%;
+      opacity: 0;
+      transform: translateY(28px) rotate(1.5deg);
+      transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+      will-change: transform, opacity;
+      pointer-events: auto;
+      flex-shrink: 0;
+    }
+
+    .keepsake-frame.revealed {
+      opacity: 0.78;
+      transform: translateY(0) rotate(1.5deg);
+    }
+
+    .keepsake-frame:hover {
+      opacity: 0.96;
+      transform: translateY(-4px) rotate(0deg);
+      box-shadow: 14px 14px 0px #1a45ff;
+    }
+
+    .keepsake-photo-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      border: 2px solid #1a45ff;
+      background: radial-gradient(circle at 50% 35%, #2b0938 0%, #09061a 65%, #000000 100%);
+    }
+
+    .keepsake-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 18%;
+      filter: contrast(1.06) saturate(1.08);
+      opacity: 0.88;
+      transition: opacity 0.4s ease, transform 0.6s ease;
+      display: block;
+    }
+
+    .keepsake-frame:hover .keepsake-photo {
+      opacity: 1;
+      transform: scale(1.03);
+    }
+
+    /* Soft dark vignette + dreamy TV Girl pink-blue tint over photo */
+    .keepsake-photo-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at center, transparent 48%, rgba(0, 0, 0, 0.62) 100%),
+        linear-gradient(155deg, rgba(255, 0, 127, 0.16) 0%, rgba(26, 69, 255, 0.2) 100%);
+      pointer-events: none;
+    }
+
+    .keepsake-fallback {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      color: #ff85c2;
+      gap: 10px;
+    }
+
+    .keepsake-fallback svg {
+      width: 54px;
+      height: 54px;
+      opacity: 0.85;
+    }
+
+    .keepsake-fallback span {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #cbd6ff;
+    }
+
+    .keepsake-caption {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      padding-top: 8px;
+      border-top: 1.5px dashed rgba(255, 0, 127, 0.45);
+    }
+
+    .keepsake-tag {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.74rem;
+      letter-spacing: 2px;
+      color: #ffffff;
+      background: #ff007f;
+      padding: 2px 8px;
+    }
+
+    .keepsake-note {
+      font-size: 0.78rem;
+      color: #8ea4ff;
+      letter-spacing: 0.5px;
+    }
+
     .card {
-      background: #000000;
+      background: rgba(0, 0, 0, 0.92);
       border: 3px solid #ff007f;
       box-shadow: 10px 10px 0px #1a45ff;
       padding: 26px 32px;
@@ -249,6 +376,7 @@
       transform: translateY(35px);
       transition: opacity 0.5s ease-out, transform 0.5s ease-out, padding 0.35s ease, box-shadow 0.35s ease;
       will-change: transform, opacity;
+      pointer-events: auto;
     }
 
     .card.visible {
@@ -334,7 +462,7 @@
       padding-top: 14px;
     }
 
-    /* --- BOTTOM CENTER SHORT TV GIRL PLAYER --- */
+    /* --- BOTTOM-CENTER MINI CD PLAYER BAR --- */
     .mini-player-bar {
       position: fixed;
       bottom: 22px;
@@ -478,6 +606,7 @@
       100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
     }
 
+    /* Responsive adjustments for mobile viewports */
     @media (max-width: 768px) {
       .star-anchor {
         width: 250px;
@@ -487,12 +616,31 @@
         padding: 20px 6% 90px;
         justify-content: center;
       }
+      .reveal-section {
+        flex-direction: column;
+        padding-top: 80px;
+        padding-bottom: 110px;
+        gap: 32px;
+      }
+      .keepsake-frame {
+        max-width: 265px;
+        margin-right: 0;
+        box-shadow: 6px 6px 0px #1a45ff;
+      }
       .real-moon-wrapper {
         width: 85px;
         height: 85px;
       }
       .card {
         box-shadow: 6px 6px 0px #1a45ff;
+        padding: 22px 24px;
+      }
+      .card:hover,
+      .card.open {
+        padding: 26px 24px 30px;
+      }
+      h2 {
+        font-size: 1.9rem;
       }
       .mini-player-bar {
         bottom: 14px;
@@ -508,7 +656,7 @@
 </head>
 <body>
 
-  <!-- Shared SVG Gradients for Realistic Layered Petals -->
+  <!-- Shared SVG Gradients for Layered Lotus/Rose Petals -->
   <svg width="0" height="0" style="position:absolute;">
     <defs>
       <radialGradient id="petalGradOuter" cx="50%" cy="85%" r="80%">
@@ -524,6 +672,7 @@
     </defs>
   </svg>
 
+  <!-- Retro Screen Overlays -->
   <div class="vinyl-noise"></div>
   <div class="crt-raster"></div>
 
@@ -537,7 +686,7 @@
     </svg>
   </div>
 
-  <!-- Moon -->
+  <!-- Floating Moon (Top Right) -->
   <div class="real-moon-wrapper" id="realMoon">
     <div class="real-moon"></div>
   </div>
@@ -545,20 +694,21 @@
   <!-- Balanced Scattered Flowers Container -->
   <div id="flowerGarden"></div>
 
-  <!-- Timeline Dots -->
+  <!-- Fixed Right Timeline Indicator Dots -->
   <div class="timeline">
     <div class="timeline-dot active"></div>
     <div class="timeline-dot"></div>
     <div class="timeline-dot"></div>
   </div>
 
+  <!-- Main Scroll Sections with Hover/Tap Dropdown Cards -->
   <div class="scroll-container">
     <section class="section">
       <div class="card visible">
         <div class="card-header">
           <div>
             <span class="badge">SIDE A • TRACK 01</span>
-            <h2>hello <span class="album-blue"><3</span></h2>
+            <h2>hello <span class="album-blue">&lt;3</span></h2>
           </div>
           <span class="drop-arrow">▼</span>
         </div>
@@ -583,7 +733,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section reveal-section">
       <div class="card">
         <div class="card-header">
           <div>
@@ -594,6 +744,28 @@
         </div>
         <div class="dropdown-content">
           <p>I like you soooooooooooo muchhhhhh. Haven't said this ever... and there are more surprises to come.</p>
+        </div>
+      </div>
+
+      <!-- Tasteful Retro Vinyl-Sleeve Keepsake Frame (Upload your photo as "her.jpg" in GitHub repo) -->
+      <div class="keepsake-frame" id="keepsakeFrame">
+        <div class="keepsake-photo-wrap">
+          <img 
+            class="keepsake-photo" 
+            src="her.jpg" 
+            alt="The Muse"
+            onerror="this.style.display='none'; document.getElementById('keepsakeFallback').style.display='flex';"
+          >
+          <div class="keepsake-fallback" id="keepsakeFallback">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ff007f" stroke-width="1.6">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <span>her.jpg • Side B</span>
+          </div>
+        </div>
+        <div class="keepsake-caption">
+          <span class="keepsake-tag">THE MUSE • SIDE B</span>
+          <span class="keepsake-note">fav person &lt;3</span>
         </div>
       </div>
     </section>
@@ -612,7 +784,7 @@
     </audio>
   </div>
 
-  <!-- Heart Shaped Cursor -->
+  <!-- Custom Heart Shaped Cursor -->
   <div id="cursor-dot">
     <svg viewBox="0 0 24 24" width="100%" height="100%">
       <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" 
@@ -621,6 +793,7 @@
   </div>
 
   <script>
+    // --- 1. GENERATE NINE SCATTERED MULTI-LAYERED FLOWERS ---
     const garden = document.getElementById('flowerGarden');
     const spreadZones = [
       { top: 7,  left: 4,  scale: 0.95, angle: 12,  dir: 1 },
@@ -636,6 +809,10 @@
 
     const flowerMeta = [];
 
+    /**
+     * Builds the dual-layered SVG lotus/rose markup with outer petals,
+     * subtle veins, inner offset petals, and central core rings.
+     */
     function buildDetailedFlowerSVG() {
       let outerPetals = '';
       let innerPetals = '';
@@ -669,6 +846,7 @@
       const box = document.createElement('div');
       box.className = 'flower-box';
 
+      // Slight random offset for organic placement without overlapping
       const jitterT = z.top + (Math.random() * 5 - 2.5);
       const jitterL = z.left + (Math.random() * 5 - 2.5);
 
@@ -685,10 +863,12 @@
       });
     });
 
+    // --- 2. SMOOTH SCROLL-DRIVEN BLOOM & PARALLAX LOOP ---
     const starSvg = document.getElementById('starSvg');
     const starMain = document.getElementById('starMain');
     const starShadow = document.getElementById('starShadow');
     const realMoon = document.getElementById('realMoon');
+    const keepsakeFrame = document.getElementById('keepsakeFrame');
     const outerLayers = document.querySelectorAll('.outer-layer');
     const innerLayers = document.querySelectorAll('.inner-layer');
     const centerRings = document.querySelectorAll('.svg-center-ring');
@@ -702,11 +882,13 @@
     }, { passive: true });
 
     function render() {
+      // Smoothly interpolate scroll value for fluid inertia
       currentScroll += (targetScroll - currentScroll) * 0.09;
 
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
+      // 4-point center star bloom & offset shadow shift
       const starBloom = 0.08 + (progress * 1.07);
       const starSpin = progress * 60;
       const shadowOffset = 4 + (progress * 12);
@@ -715,8 +897,10 @@
       starMain.style.transform = `scale(${starBloom})`;
       starShadow.style.transform = `scale(${starBloom}) translate(${shadowOffset}px, ${shadowOffset}px)`;
 
+      // Subtle downward moon parallax
       realMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
 
+      // Independent outer & inner flower petal blooming
       const outerBloom = 0.12 + (progress * 1.02);
       const innerBloom = 0.18 + (progress * 0.88);
       const centerScale = 0.45 + (progress * 0.6);
@@ -748,16 +932,25 @@
 
       requestAnimationFrame(render);
     }
-    requestAnimationFrame(render);
 
-    // Cards observer & mobile tap support for dropdown
+    // --- 3. DROPDOWN CARDS & TIMELINE INTERSECTION OBSERVER ---
     const sections = document.querySelectorAll('.section');
     const dots = document.querySelectorAll('.timeline-dot');
     const cards = document.querySelectorAll('.card');
 
+    // Toggle open state on click/tap for mobile & touchscreens
     cards.forEach(card => {
       card.addEventListener('click', () => {
         card.classList.toggle('open');
+      });
+    });
+
+    // Clickable timeline dots to jump smoothly to each section
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => {
+        if (sections[idx]) {
+          sections[idx].scrollIntoView({ behavior: 'smooth' });
+        }
       });
     });
 
@@ -767,41 +960,123 @@
           const card = entry.target.querySelector('.card');
           if (card) card.classList.add('visible');
 
+          const frame = entry.target.querySelector('.keepsake-frame');
+          if (frame) frame.classList.add('revealed');
+
           const index = Array.from(sections).indexOf(entry.target);
           dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
         }
       });
-    }, { threshold: 0.4 });
+    }, { threshold: 0.35 });
 
     sections.forEach(sec => observer.observe(sec));
 
-    // Mini CD Player Controls
+    // --- 4. MINI CD PLAYER WITH WEB AUDIO LO-FI SYNTH FALLBACK ---
     const tvAudio = document.getElementById('tvAudio');
     const playBtn = document.getElementById('playBtn');
     const cdDisc = document.getElementById('cdDisc');
 
+    let isPlaying = false;
+    let audioCtx = null;
+    let synthInterval = null;
+
+    /**
+     * Gentle Web Audio API lo-fi dream-pop chord loop fallback
+     * so the preview plays soothing ambient chords when song.mp3 is absent.
+     */
+    function startAmbientSynthFallback() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!audioCtx) {
+          audioCtx = new AudioContext();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        // Dreamy Lovers Rock inspired major-7th chord progression (Hz)
+        const chords = [
+          [261.63, 329.63, 392.00, 493.88], // Cmaj7
+          [220.00, 261.63, 329.63, 392.00], // Am7
+          [174.61, 220.00, 261.63, 329.63], // Fmaj7
+          [196.00, 246.94, 293.66, 349.23]  // G7
+        ];
+        let step = 0;
+
+        const playChord = () => {
+          if (!isPlaying || !audioCtx) return;
+          const now = audioCtx.currentTime;
+          const notes = chords[step % chords.length];
+          step++;
+
+          notes.forEach(freq => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            // Subtle warm pitch detune for vintage tape feel
+            osc.frequency.setValueAtTime(freq + (Math.random() * 1.4 - 0.7), now);
+
+            gain.gain.setValueAtTime(0.0001, now);
+            gain.gain.exponentialRampToValueAtTime(0.032, now + 0.35);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.3);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now);
+            osc.stop(now + 2.4);
+          });
+        };
+
+        playChord();
+        synthInterval = setInterval(playChord, 2400);
+      } catch (e) {
+        // Fallback silently if Web Audio is restricted
+      }
+    }
+
+    function stopAmbientSynthFallback() {
+      if (synthInterval) {
+        clearInterval(synthInterval);
+        synthInterval = null;
+      }
+    }
+
     playBtn.addEventListener('click', () => {
-      if (tvAudio.paused) {
-        tvAudio.play().then(() => {
-          cdDisc.classList.add('playing');
-          playBtn.innerHTML = '❚❚';
-        }).catch(() => {
-          cdDisc.classList.toggle('playing');
-          playBtn.innerHTML = cdDisc.classList.contains('playing') ? '❚❚' : '▶';
-        });
+      if (!isPlaying) {
+        isPlaying = true;
+        cdDisc.classList.add('playing');
+        playBtn.innerHTML = '❚❚';
+
+        // Try playing song.mp3 first; if unavailable in preview, use ambient synth fallback
+        const playPromise = tvAudio.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            startAmbientSynthFallback();
+          });
+        }
       } else {
+        isPlaying = false;
         tvAudio.pause();
+        stopAmbientSynthFallback();
         cdDisc.classList.remove('playing');
         playBtn.innerHTML = '▶';
       }
     });
 
-    // Heart Custom Cursor & Heart Trail
+    // --- 5. CUSTOM HEART CURSOR & FADING HEART TRAIL ---
     const dot = document.getElementById('cursor-dot');
-    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-    let curX = mouseX, curY = mouseY;
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let curX = mouseX;
+    let curY = mouseY;
+    let lastTrailTime = 0;
 
     const spawnTrail = (x, y) => {
+      const now = performance.now();
+      // Throttle trail creation slightly for smooth 60fps performance
+      if (now - lastTrailTime < 28) return;
+      lastTrailTime = now;
+
       const trail = document.createElement('div');
       trail.className = 'trail';
       trail.style.left = `${x}px`;
@@ -819,22 +1094,29 @@
       mouseX = e.clientX;
       mouseY = e.clientY;
       spawnTrail(e.clientX, e.clientY);
-    });
+    }, { passive: true });
 
     window.addEventListener('touchmove', (e) => {
-      const touch = e.touches[0];
-      mouseX = touch.clientX;
-      mouseY = touch.clientY;
-      spawnTrail(touch.clientX, touch.clientY);
-    });
+      if (e.touches && e.touches.length > 0) {
+        const touch = e.touches[0];
+        mouseX = touch.clientX;
+        mouseY = touch.clientY;
+        spawnTrail(touch.clientX, touch.clientY);
+      }
+    }, { passive: true });
 
     function cursorLoop() {
-      curX += (mouseX - curX) * 0.18;
-      curY += (mouseY - curY) * 0.18;
+      curX += (mouseX - curX) * 0.22;
+      curY += (mouseY - curY) * 0.22;
       dot.style.transform = `translate3d(${curX}px, ${curY}px, 0) translate(-50%, -50%)`;
       requestAnimationFrame(cursorLoop);
     }
-    cursorLoop();
+
+    // Start animation loops on window load
+    window.onload = function () {
+      requestAnimationFrame(render);
+      cursorLoop();
+    };
   </script>
 </body>
 </html>
