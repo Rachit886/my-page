@@ -1031,14 +1031,14 @@
       <div class="card visible">
         <div class="card-header">
           <div>
-            <span class="badge">SIDE A • TRACK 01</span>
-            <h2>hello <span class="album-blue">&lt;3</span></h2>
-            <span class="card-hint-pulse">hover or tap to open ✦</span>
+            <span class="badge">01 • HEY</span>
+            <h2>hey <span class="album-blue">&lt;3</span></h2>
+            <span class="card-hint-pulse">tap to open ✦</span>
           </div>
           <span class="drop-arrow">▼</span>
         </div>
         <div class="dropdown-content">
-          <p>Dekho, I tried my best to give efforts. I know I can do more, but I really wanted to build something special for you.</p>
+          <p>just made this small page for you. nothing too serious, just thought you'd like the vibe.</p>
         </div>
       </div>
     </section>
@@ -1047,13 +1047,13 @@
       <div class="card">
         <div class="card-header">
           <div>
-            <span class="badge">SIDE A • TRACK 02</span>
-            <h2>To be honest...</h2>
+            <span class="badge">02 • HONESTLY</span>
+            <h2>just a little note</h2>
           </div>
           <span class="drop-arrow">▼</span>
         </div>
         <div class="dropdown-content">
-          <p>Ever since I started talking to you, I haven't spoken about it directly. I've always been indirect, and sometimes it looks obvious.</p>
+          <p>we haven't talked a lot yet, but there's something really sweet and effortless about your presence.</p>
         </div>
       </div>
     </section>
@@ -1062,14 +1062,14 @@
       <div class="card">
         <div class="card-header">
           <div>
-            <span class="badge">SIDE B • THE REVEAL</span>
-            <h2>Finally saying it</h2>
+            <span class="badge">03 • ALSO</span>
+            <h2>stay the same</h2>
           </div>
           <span class="drop-arrow">▼</span>
         </div>
         <div class="dropdown-content">
-          <p>I like you soooooooooooo muchhhhhh. Haven't said this ever... and there are more surprises to come.</p>
-          <button class="heart-back-btn" id="sendHeartBtn" type="button">♥ send a heart back</button>
+          <p>that's pretty much it—just wanted to put a small smile on your face today.</p>
+          <button class="heart-back-btn" id="sendHeartBtn" type="button">♥ send a smile back</button>
         </div>
       </div>
 
@@ -1086,21 +1086,21 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="#ff007f" stroke-width="1.8">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
             </svg>
-            <span>her.jpg • side b cover</span>
+            <span>her.jpg</span>
           </div>
         </div>
         <div class="keepsake-caption">
-          <span class="keepsake-tag">THE MUSE</span>
-          <span class="keepsake-note">side b • track 03 &lt;3</span>
+          <span class="keepsake-tag">MAIN CHARACTER</span>
+          <span class="keepsake-note">effortless &lt;3</span>
         </div>
-        <div class="keepsake-secret-line">favorite notification, favorite person.</div>
+        <div class="keepsake-secret-line">genuinely one of a kind.</div>
       </div>
     </section>
 
     <!-- Funny Post-Credits Bonus Ending -->
     <section class="bonus-ending-section">
       <div class="bonus-trigger-card">
-        <span class="bonus-label">HIDDEN TRACK • OUTRO</span>
+        <span class="bonus-label">P.S.</span>
         <p class="bonus-subtext">one last tiny thing before you leave...</p>
         <button class="funny-reveal-btn" id="funnyEndingBtn" type="button">tap for a tiny surprise ✦</button>
 
@@ -1108,7 +1108,7 @@
           <div class="funny-photo-box">
             <img
               src="funny.jpg"
-              alt="Please maan jao"
+              alt="Funny ending"
               onerror="this.src='https://placehold.co/300x400/05020c/ff007f?text=funny.jpg';"
             />
             <div class="funny-caption">me begging the universe for a chance 🙏😭&lt;3</div>
@@ -1386,7 +1386,7 @@
         const rect = sendHeartBtn.getBoundingClientRect();
         launchHeartBurst(rect.left + rect.width / 2, rect.top, 26);
         sendHeartBtn.classList.add('sent');
-        sendHeartBtn.innerHTML = '♥ heart received &lt;3';
+        sendHeartBtn.innerHTML = '♥ smile received &lt;3';
       });
     }
 
@@ -1399,7 +1399,7 @@
         const opening = !funnyPopup.classList.contains('open');
         funnyPopup.classList.toggle('open');
         if (opening) {
-          funnyEndingBtn.textContent = 'haan bol do ab 🙏✨';
+          funnyEndingBtn.textContent = 'mission accomplished 🙏✨';
           const rect = funnyEndingBtn.getBoundingClientRect();
           launchHeartBurst(rect.left + rect.width / 2, rect.top, 22);
         } else {
