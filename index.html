@@ -1397,7 +1397,7 @@
 
     // Interactive Polaroid Keepsake Frame Click
     keepsakeFrame.addEventListener('click', () => {
-      sendPing('Smile Received 💗', 'Mission accomplished! Tanishka ne officially apni smile bhej di hai ✨💖', 0);
+      sendPing('Photo Tapped', 'Usne her.jpg wali photo par tap kiya!');
       keepsakeFrame.classList.toggle('sparkled');
       const rect = keepsakeFrame.getBoundingClientRect();
       launchHeartBurst(rect.left + rect.width / 2, rect.top + rect.height * 0.4, 14);
@@ -1408,7 +1408,7 @@
     if (sendHeartBtn) {
       sendHeartBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        sendPing('Smile Sent Back!', 'Usne "send a smile back" button dabaya ♥', 0);
+        sendPing('Smile Received 💗', 'Mission accomplished! Tanishka ne officially apni smile bhej di hai ✨💖', 0);
         const rect = sendHeartBtn.getBoundingClientRect();
         launchHeartBurst(rect.left + rect.width / 2, rect.top, 22);
         sendHeartBtn.classList.add('sent');
