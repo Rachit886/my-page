@@ -1408,7 +1408,7 @@
     if (sendHeartBtn) {
       sendHeartBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        sendPing('Smile Received 💗', 'Mission accomplished! Tanishka ne officially apni smile bhej di hai ✨💖', 0);
+        sendPing('Smile Received', 'Mission accomplished! Tanishka ne officially apni smile bhej di hai ✨💖', 0);
         const rect = sendHeartBtn.getBoundingClientRect();
         launchHeartBurst(rect.left + rect.width / 2, rect.top, 22);
         sendHeartBtn.classList.add('sent');
