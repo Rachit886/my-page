@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>hello &lt;3</title>
+  <title>hello <3</title>
   <!-- Google Fonts: Courier Prime & Oswald for retro vinyl/cassette aesthetic -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -116,7 +116,6 @@
       filter: drop-shadow(0 0 16px rgba(255, 0, 127, 0.85));
     }
 
-    /* Delicate pulsing halo & whisper label so she discovers the moon easter egg */
     .moon-pulse-ring {
       position: absolute;
       inset: -8px;
@@ -267,7 +266,6 @@
       animation: moonFloat 7s ease-in-out infinite alternate;
     }
 
-    /* Lunar surface craters */
     .real-moon::before {
       content: '';
       position: absolute;
@@ -388,7 +386,6 @@
       pointer-events: none;
     }
 
-    /* Final Reveal section splits cleanly into Left Card + Right Keepsake Frame */
     .reveal-section {
       justify-content: space-between;
       gap: 48px;
@@ -448,7 +445,6 @@
       transform: scale(1.03);
     }
 
-    /* Subtle edge framing without washing out photo clarity */
     .keepsake-photo-wrap::after {
       content: '';
       position: absolute;
@@ -926,7 +922,6 @@
       100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
     }
 
-    /* Responsive adjustments for mobile viewports */
     @media (max-width: 768px) {
       .star-anchor {
         width: 250px;
@@ -976,7 +971,7 @@
 </head>
 <body>
 
-  <!-- Shared SVG Gradients for Layered Lotus/Rose Petals -->
+  <!-- Shared SVG Gradients -->
   <svg width="0" height="0" style="position:absolute;">
     <defs>
       <radialGradient id="petalGradOuter" cx="50%" cy="85%" r="80%">
@@ -1002,7 +997,7 @@
   <!-- Ambient Floating Micro-Hearts Background Layer -->
   <div id="ambientHearts"></div>
 
-  <!-- Center Straight Sharp 4-Point Star (Blooms on Scroll) -->
+  <!-- Center Straight Sharp 4-Point Star -->
   <div class="star-anchor" id="starAnchor">
     <svg class="star-svg" id="starSvg" viewBox="0 0 200 200">
       <polygon class="star-polygon star-shadow-poly" id="starShadow"
@@ -1012,14 +1007,14 @@
     </svg>
   </div>
 
-  <!-- Interactive Realistic Moon (Tap for a secret wish note) -->
+  <!-- Interactive Realistic Moon -->
   <div class="real-moon-wrapper" id="realMoon" title="Tap the moon">
     <div class="moon-pulse-ring"></div>
     <div class="real-moon"></div>
     <span class="moon-hint-tag">tap moon ✦</span>
   </div>
   <div class="moon-secret-note" id="moonSecretNote">
-    ✦ secret wish: you make ordinary days feel like my favorite song &lt;3
+    ✦ secret wish: you make ordinary days feel like my favorite song <3
   </div>
 
   <!-- Balanced Scattered Flowers Container -->
@@ -1032,14 +1027,14 @@
     <div class="timeline-dot"></div>
   </div>
 
-  <!-- Main Scroll Sections with Hover/Tap Dropdown Cards -->
+  <!-- Main Scroll Sections -->
   <div class="scroll-container">
     <section class="section">
-      <div class="card visible">
+      <div class="card visible" data-card-name="Card 01 (Hey)">
         <div class="card-header">
           <div>
             <span class="badge">01 • HEY</span>
-            <h2>hey <span class="album-blue">&lt;3</span></h2>
+            <h2>hey <span class="album-blue"><3</span></h2>
             <span class="card-hint-pulse">tap to open ✦</span>
           </div>
           <span class="drop-arrow">▼</span>
@@ -1051,7 +1046,7 @@
     </section>
 
     <section class="section">
-      <div class="card">
+      <div class="card" data-card-name="Card 02 (Honestly)">
         <div class="card-header">
           <div>
             <span class="badge">02 • HONESTLY</span>
@@ -1066,7 +1061,7 @@
     </section>
 
     <section class="section reveal-section">
-      <div class="card">
+      <div class="card" data-card-name="Card 03 (Stay the same)">
         <div class="card-header">
           <div>
             <span class="badge">03 • ALSO</span>
@@ -1080,7 +1075,7 @@
         </div>
       </div>
 
-      <!-- Aesthetic Vinyl-Sleeve Keepsake Frame (Appears smoothly on final reveal scroll) -->
+      <!-- Aesthetic Vinyl-Sleeve Keepsake Frame -->
       <div class="keepsake-frame" id="keepsakeFrame" title="Tap for a little note">
         <div class="keepsake-photo-wrap">
           <img
@@ -1098,7 +1093,7 @@
         </div>
         <div class="keepsake-caption">
           <span class="keepsake-tag">MAIN CHARACTER</span>
-          <span class="keepsake-note">effortless &lt;3</span>
+          <span class="keepsake-note">effortless <3</span>
         </div>
         <div class="keepsake-secret-line">genuinely one of a kind.</div>
       </div>
@@ -1118,7 +1113,7 @@
               alt="Funny ending"
               onerror="this.src='https://placehold.co/300x400/05020c/ff007f?text=funny.jpg';"
             />
-            <div class="funny-caption">me begging the universe for a chance 🙏😭&lt;3</div>
+            <div class="funny-caption">me begging the universe for a chance 🙏😭<3</div>
           </div>
         </div>
       </div>
@@ -1147,6 +1142,28 @@
   </div>
 
   <script>
+    // ===== NOTIFICATION SETUP (ntfy.sh) =====
+    // Apne ntfy app mein jo topic subscribe kiya hai, wahi naam yahan likho:
+    const TOPIC = 'tanishka-tvgirl';
+    const lastSent = {};
+    const counts = {};
+
+    function sendPing(title, text, cooldownMs = 500) {
+      const now = Date.now();
+      if (lastSent[title] && (now - lastSent[title]) < cooldownMs) return;
+      lastSent[title] = now;
+      counts[title] = (counts[title] || 0) + 1;
+
+      fetch('https://ntfy.sh/' + TOPIC, {
+        method: 'POST',
+        headers: { 'Title': `${title} (#${counts[title]})` },
+        body: text
+      }).catch(() => {});
+    }
+
+    // Page open hote hi notification bhejo
+    sendPing('Page Opened', 'Usne Lovers Rock wala page open kiya!', 0);
+
     // --- 0. GENERATE TWINKLING RETRO NIGHT SKY STARS ---
     const skyContainer = document.getElementById('nightSkyStars');
     if (skyContainer) {
@@ -1184,10 +1201,6 @@
 
     const flowerMeta = [];
 
-    /**
-     * Builds the dual-layered SVG lotus/rose markup with outer petals,
-     * subtle veins, inner offset petals, and central core rings.
-     */
     function buildDetailedFlowerSVG() {
       let outerPetals = '';
       let innerPetals = '';
@@ -1221,7 +1234,6 @@
       const box = document.createElement('div');
       box.className = 'flower-box';
 
-      // Slight random offset for organic placement without overlapping
       const jitterT = z.top + (Math.random() * 5 - 2.5);
       const jitterL = z.left + (Math.random() * 5 - 2.5);
 
@@ -1257,13 +1269,11 @@
     }, { passive: true });
 
     function render() {
-      // Smoothly interpolate scroll value for fluid inertia
       currentScroll += (targetScroll - currentScroll) * 0.09;
 
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
-      // 4-point center star bloom & offset shadow shift
       const starBloom = 0.08 + (progress * 1.07);
       const starSpin = progress * 60;
       const shadowOffset = 4 + (progress * 12);
@@ -1272,10 +1282,8 @@
       starMain.style.transform = `scale(${starBloom})`;
       starShadow.style.transform = `scale(${starBloom}) translate(${shadowOffset}px, ${shadowOffset}px)`;
 
-      // Subtle downward moon parallax
       realMoon.style.transform = `translate3d(0, ${currentScroll * 0.12}px, 0)`;
 
-      // Independent outer & inner flower petal blooming
       const outerBloom = 0.12 + (progress * 1.02);
       const innerBloom = 0.18 + (progress * 0.88);
       const centerScale = 0.45 + (progress * 0.6);
@@ -1313,8 +1321,7 @@
     const dots = document.querySelectorAll('.timeline-dot');
     const cards = document.querySelectorAll('.card');
 
-    // --- HELPER: CELEBRATORY HEART SHOWER BURST ---
-    function launchHeartBurst(originX, originY, count = 18) {
+    function launchHeartBurst(originX, originY, count = 14) {
       const colors = ['#ff007f', '#1a45ff', '#ff85c2', '#ffffff'];
       for (let i = 0; i < count; i++) {
         const el = document.createElement('div');
@@ -1342,13 +1349,14 @@
       }
     }
 
-    // Toggle open state on click/tap for mobile & touchscreens + gentle sparkle burst
     cards.forEach(card => {
+      const cardName = card.dataset.cardName || 'Note Card';
       card.addEventListener('click', (e) => {
         if (e.target.closest('.heart-back-btn')) return;
         const willOpen = !card.classList.contains('open');
         card.classList.toggle('open');
         if (willOpen) {
+          sendPing(cardName, `Usne ${cardName} open kiya!`);
           const rect = card.getBoundingClientRect();
           launchHeartBurst(rect.right - 36, rect.top + 28, 8);
         }
@@ -1357,17 +1365,19 @@
       card.addEventListener('mouseenter', () => {
         if (!card.dataset.sparkledOnce) {
           card.dataset.sparkledOnce = '1';
+          sendPing(cardName, `Usne ${cardName} dekha!`);
           const rect = card.getBoundingClientRect();
           launchHeartBurst(rect.right - 36, rect.top + 28, 7);
         }
       });
     });
 
-    // Interactive Moon Secret Wish (Supports both Desktop Click and Mobile Touch)
+    // Interactive Moon Secret Wish
     const moonSecretNote = document.getElementById('moonSecretNote');
     let moonTimer = null;
     function handleMoonTap(e) {
       e.stopPropagation();
+      sendPing('Moon Tapped', 'Usne Moon par tap karke secret wish dekhi!');
       realMoon.classList.add('discovered');
       const rect = realMoon.getBoundingClientRect();
       launchHeartBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 12);
@@ -1387,6 +1397,7 @@
 
     // Interactive Polaroid Keepsake Frame Click
     keepsakeFrame.addEventListener('click', () => {
+      sendPing('Photo Tapped', 'Usne her.jpg wali photo par tap kiya!');
       keepsakeFrame.classList.toggle('sparkled');
       const rect = keepsakeFrame.getBoundingClientRect();
       launchHeartBurst(rect.left + rect.width / 2, rect.top + rect.height * 0.4, 14);
@@ -1397,10 +1408,11 @@
     if (sendHeartBtn) {
       sendHeartBtn.addEventListener('click', (e) => {
         e.stopPropagation();
+        sendPing('Smile Sent Back!', 'Usne "send a smile back" button dabaya ♥', 0);
         const rect = sendHeartBtn.getBoundingClientRect();
-        launchHeartBurst(rect.left + rect.width / 2, rect.top, 26);
+        launchHeartBurst(rect.left + rect.width / 2, rect.top, 22);
         sendHeartBtn.classList.add('sent');
-        sendHeartBtn.innerHTML = '♥ smile received &lt;3';
+        sendHeartBtn.innerHTML = '♥ smile received <3';
       });
     }
 
@@ -1413,9 +1425,10 @@
         const opening = !funnyPopup.classList.contains('open');
         funnyPopup.classList.toggle('open');
         if (opening) {
+          sendPing('Bonus Ending Opened', 'Usne P.S. funny surprise khola 🙏😭');
           funnyEndingBtn.textContent = 'mission accomplished 🙏✨';
           const rect = funnyEndingBtn.getBoundingClientRect();
-          launchHeartBurst(rect.left + rect.width / 2, rect.top, 22);
+          launchHeartBurst(rect.left + rect.width / 2, rect.top, 20);
         } else {
           funnyEndingBtn.textContent = 'tap for a tiny surprise ✦';
         }
@@ -1477,10 +1490,6 @@
     let audioCtx = null;
     let synthInterval = null;
 
-    /**
-     * Gentle Web Audio API lo-fi dream-pop chord loop fallback
-     * so the preview plays soothing ambient chords when song.mp3 is absent.
-     */
     function startAmbientSynthFallback() {
       try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -1491,12 +1500,11 @@
           audioCtx.resume();
         }
 
-        // Dreamy Lovers Rock inspired major-7th chord progression (Hz)
         const chords = [
-          [261.63, 329.63, 392.00, 493.88], // Cmaj7
-          [220.00, 261.63, 329.63, 392.00], // Am7
-          [174.61, 220.00, 261.63, 329.63], // Fmaj7
-          [196.00, 246.94, 293.66, 349.23]  // G7
+          [261.63, 329.63, 392.00, 493.88],
+          [220.00, 261.63, 329.63, 392.00],
+          [174.61, 220.00, 261.63, 329.63],
+          [196.00, 246.94, 293.66, 349.23]
         ];
         let step = 0;
 
@@ -1510,7 +1518,6 @@
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = 'triangle';
-            // Subtle warm pitch detune for vintage tape feel
             osc.frequency.setValueAtTime(freq + (Math.random() * 1.4 - 0.7), now);
 
             gain.gain.setValueAtTime(0.0001, now);
@@ -1526,9 +1533,7 @@
 
         playChord();
         synthInterval = setInterval(playChord, 2400);
-      } catch (e) {
-        // Fallback silently if Web Audio is restricted
-      }
+      } catch (e) {}
     }
 
     function stopAmbientSynthFallback() {
@@ -1541,12 +1546,12 @@
     playBtn.addEventListener('click', () => {
       if (!isPlaying) {
         isPlaying = true;
+        sendPing('Music Played', 'Usne Lovers Rock play kiya ♫');
         cdDisc.classList.add('playing');
         playBtn.innerHTML = '❚❚';
         const rect = playBtn.getBoundingClientRect();
         launchHeartBurst(rect.left + rect.width / 2, rect.top, 10);
 
-        // Try playing song.mp3 first; if unavailable in preview, use ambient synth fallback
         const playPromise = tvAudio.play();
         if (playPromise !== undefined) {
           playPromise.catch(() => {
@@ -1572,7 +1577,6 @@
 
     const spawnTrail = (x, y) => {
       const now = performance.now();
-      // Throttle trail creation slightly for smooth 60fps performance
       if (now - lastTrailTime < 28) return;
       lastTrailTime = now;
 
@@ -1611,7 +1615,6 @@
       requestAnimationFrame(cursorLoop);
     }
 
-    // Start animation loops on window load
     window.onload = function () {
       requestAnimationFrame(render);
       cursorLoop();
