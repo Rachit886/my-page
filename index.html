@@ -4,16 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>hello <3</title>
+  <!-- Google Fonts: Courier Prime & Oswald for retro vinyl/cassette aesthetic -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,700;1,700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
   <style>
+    /* Global reset & hide default OS cursor in favor of custom heart cursor */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       cursor: none;
-      -webkit-tap-highlight-color: transparent;
     }
 
     html {
@@ -32,19 +33,24 @@
     /* Subtle analog vinyl grain overlay */
     .vinyl-noise {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
       z-index: 10;
-      opacity: 0.14;
+      opacity: 0.15;
       background-image: repeating-radial-gradient(#ff007f 0 0.0001%, #1a45ff 0 0.0002%);
       background-size: 3px 3px;
-      transform: translateZ(0);
     }
 
     /* Retro CRT horizontal scanline raster */
     .crt-raster {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
       z-index: 9;
       background: repeating-linear-gradient(
@@ -54,7 +60,6 @@
         transparent 1px,
         transparent 3px
       );
-      transform: translateZ(0);
     }
 
     /* --- SHARP STRAIGHT 4-POINT CENTER STAR --- */
@@ -62,7 +67,7 @@
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate3d(-50%, -50%, 0);
+      transform: translate(-50%, -50%);
       width: 380px;
       height: 380px;
       pointer-events: none;
@@ -77,6 +82,7 @@
       width: 100%;
       height: 100%;
       overflow: visible;
+      shape-rendering: crispEdges;
       will-change: transform;
     }
 
@@ -85,8 +91,13 @@
       will-change: transform;
     }
 
-    .star-shadow-poly { fill: #1a45ff; }
-    .star-main-poly { fill: #ff007f; }
+    .star-shadow-poly {
+      fill: #1a45ff;
+    }
+
+    .star-main-poly {
+      fill: #ff007f;
+    }
 
     /* --- FLOATING REALISTIC MOON (TOP-RIGHT) --- */
     .real-moon-wrapper {
@@ -98,6 +109,11 @@
       z-index: 3;
       pointer-events: auto;
       will-change: transform;
+      transition: filter 0.3s ease;
+    }
+
+    .real-moon-wrapper:hover {
+      filter: drop-shadow(0 0 16px rgba(255, 0, 127, 0.85));
     }
 
     .moon-pulse-ring {
@@ -145,19 +161,18 @@
       pointer-events: none;
       z-index: 1;
       overflow: hidden;
-      transform: translateZ(0);
     }
 
     .sky-star {
       position: absolute;
       border-radius: 50%;
       animation: twinkleStar ease-in-out infinite alternate;
-      will-change: opacity;
+      will-change: opacity, transform;
     }
 
     @keyframes twinkleStar {
-      0% { opacity: 0.2; }
-      100% { opacity: 0.9; }
+      0% { opacity: 0.15; transform: scale(0.75); }
+      100% { opacity: 0.85; transform: scale(1.2); }
     }
 
     .moon-secret-note {
@@ -174,24 +189,23 @@
       color: #ffffff;
       z-index: 80;
       opacity: 0;
-      transform: translate3d(0, -8px, 0) scale(0.95);
+      transform: translateY(-8px) scale(0.95);
       pointer-events: none;
-      transition: opacity 0.35s ease, transform 0.35s ease;
+      transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
     .moon-secret-note.show {
       opacity: 1;
-      transform: translate3d(0, 0, 0) scale(1);
+      transform: translateY(0) scale(1);
     }
 
-    /* --- AMBIENT FLOATING MICRO-HEARTS --- */
+    /* --- AMBIENT FLOATING MICRO-HEARTS (DEEP BACKGROUND) --- */
     #ambientHearts {
       position: fixed;
       inset: 0;
       pointer-events: none;
       z-index: 1;
       overflow: hidden;
-      transform: translateZ(0);
     }
 
     .ambient-heart {
@@ -203,10 +217,20 @@
     }
 
     @keyframes floatUpHeart {
-      0% { transform: translate3d(0, 0, 0) scale(0.7) rotate(-8deg); opacity: 0; }
-      15% { opacity: 0.42; }
-      85% { opacity: 0.35; }
-      100% { transform: translate3d(0, -108vh, 0) scale(1.1) rotate(12deg); opacity: 0; }
+      0% {
+        transform: translateY(0) scale(0.7) rotate(-8deg);
+        opacity: 0;
+      }
+      15% {
+        opacity: 0.42;
+      }
+      85% {
+        opacity: 0.35;
+      }
+      100% {
+        transform: translateY(-108vh) scale(1.1) rotate(12deg);
+        opacity: 0;
+      }
     }
 
     /* Celebratory heart shower burst */
@@ -214,13 +238,19 @@
       position: fixed;
       pointer-events: none;
       z-index: 9990;
-      animation: burstRise 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: burstRise 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       will-change: transform, opacity;
     }
 
     @keyframes burstRise {
-      0% { opacity: 1; transform: translate3d(0, 0, 0) scale(0.5) rotate(0deg); }
-      100% { opacity: 0; transform: translate3d(var(--dx), var(--dy), 0) scale(1.25) rotate(var(--rot)); }
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(0.5) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--dx), var(--dy)) scale(1.25) rotate(var(--rot));
+      }
     }
 
     .real-moon {
@@ -228,11 +258,12 @@
       height: 100%;
       border-radius: 50%;
       background: radial-gradient(circle at 35% 35%, #ffffff 0%, #cbd6ff 40%, #5067cf 75%, #050b28 100%);
-      box-shadow: 0 0 18px rgba(26, 69, 255, 0.65), 0 0 36px rgba(255, 0, 127, 0.35);
+      box-shadow: 
+        0 0 20px rgba(26, 69, 255, 0.7),
+        0 0 50px rgba(255, 0, 127, 0.4);
       position: relative;
       overflow: hidden;
       animation: moonFloat 7s ease-in-out infinite alternate;
-      will-change: transform;
     }
 
     .real-moon::before {
@@ -248,17 +279,16 @@
     }
 
     @keyframes moonFloat {
-      0% { transform: translate3d(0, 0px, 0); }
-      100% { transform: translate3d(0, -12px, 0); }
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-12px); }
     }
 
-    /* --- MULTI-LAYERED SCATTERED FLOWERS (GPU Optimized) --- */
+    /* --- MULTI-LAYERED SCATTERED FLOWERS --- */
     #flowerGarden {
       position: fixed;
       inset: 0;
       pointer-events: none;
       z-index: 2;
-      transform: translateZ(0);
     }
 
     .flower-box {
@@ -266,6 +296,7 @@
       width: 105px;
       height: 105px;
       pointer-events: none;
+      filter: drop-shadow(0 0 8px rgba(255, 0, 127, 0.45)) drop-shadow(4px 4px 0px #000000);
       will-change: transform;
     }
 
@@ -273,6 +304,7 @@
       width: 100%;
       height: 100%;
       overflow: visible;
+      shape-rendering: geometricPrecision;
     }
 
     .outer-petal {
@@ -327,7 +359,7 @@
       height: 9px;
       border: 2px solid #1a45ff;
       background: #000000;
-      transition: transform 0.25s ease, background 0.25s ease;
+      transition: all 0.25s ease;
     }
 
     .timeline-dot.active {
@@ -371,8 +403,8 @@
       padding: 14px 14px 18px;
       margin-right: 4%;
       opacity: 0;
-      transform: translate3d(0, 28px, 0) rotate(1.5deg);
-      transition: opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: translateY(28px) rotate(1.5deg);
+      transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
       will-change: transform, opacity;
       pointer-events: auto;
       flex-shrink: 0;
@@ -380,7 +412,13 @@
 
     .keepsake-frame.revealed {
       opacity: 1;
-      transform: translate3d(0, 0, 0) rotate(1.5deg);
+      transform: translateY(0) rotate(1.5deg);
+    }
+
+    .keepsake-frame:hover {
+      opacity: 1;
+      transform: translateY(-4px) rotate(0deg);
+      box-shadow: 14px 14px 0px #1a45ff;
     }
 
     .keepsake-photo-wrap {
@@ -397,7 +435,14 @@
       height: 100%;
       object-fit: cover;
       object-position: center 18%;
+      filter: contrast(1.04) saturate(1.06);
+      opacity: 1;
+      transition: transform 0.6s ease;
       display: block;
+    }
+
+    .keepsake-frame:hover .keepsake-photo {
+      transform: scale(1.03);
     }
 
     .keepsake-photo-wrap::after {
@@ -421,7 +466,12 @@
       gap: 10px;
     }
 
-    .keepsake-fallback svg { width: 54px; height: 54px; opacity: 0.85; }
+    .keepsake-fallback svg {
+      width: 54px;
+      height: 54px;
+      opacity: 0.85;
+    }
+
     .keepsake-fallback span {
       font-family: 'Oswald', sans-serif;
       font-size: 0.8rem;
@@ -473,27 +523,28 @@
     .card {
       position: relative;
       z-index: 6;
-      background: rgba(0, 0, 0, 0.94);
+      background: rgba(0, 0, 0, 0.92);
       border: 3px solid #ff007f;
       box-shadow: 10px 10px 0px #1a45ff;
       padding: 26px 32px;
       max-width: 480px;
       width: 100%;
       opacity: 0;
-      transform: translate3d(0, 35px, 0);
-      transition: opacity 0.5s ease-out, transform 0.5s ease-out, padding 0.3s ease;
+      transform: translateY(35px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out, padding 0.35s ease, box-shadow 0.35s ease;
       will-change: transform, opacity;
       pointer-events: auto;
     }
 
     .card.visible {
       opacity: 1;
-      transform: translate3d(0, 0, 0);
+      transform: translateY(0);
     }
 
     .card:hover,
     .card.open {
       padding: 34px 32px 38px;
+      box-shadow: 13px 13px 0px #1a45ff;
     }
 
     .card-header {
@@ -519,7 +570,7 @@
       font-size: 0.95rem;
       color: #ff007f;
       text-shadow: 2px 2px 0px #1a45ff;
-      transition: transform 0.3s ease;
+      transition: transform 0.35s ease;
       margin-top: 4px;
       flex-shrink: 0;
     }
@@ -550,7 +601,7 @@
       opacity: 0;
       overflow: hidden;
       margin-top: 0;
-      transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease, margin-top 0.3s ease;
+      transition: max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease, margin-top 0.35s ease;
     }
 
     .card:hover .dropdown-content,
@@ -602,10 +653,16 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      transition: transform 0.15s ease, background 0.15s ease;
+      transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .heart-back-btn:active { transform: scale(0.96); }
+    .heart-back-btn:hover {
+      background: #ff007f;
+      border-color: #1a45ff;
+      box-shadow: 4px 4px 0px #1a45ff;
+      transform: translate(-1px, -1px);
+    }
+
     .heart-back-btn.sent {
       background: #ff007f;
       border-color: #ffffff;
@@ -633,6 +690,12 @@
       max-width: 390px;
       width: 100%;
       pointer-events: auto;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .bonus-trigger-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 11px 11px 0px #1a45ff;
     }
 
     .bonus-label {
@@ -664,16 +727,22 @@
       font-size: 0.95rem;
       letter-spacing: 1.5px;
       text-transform: uppercase;
+      transition: transform 0.15s ease, background 0.15s ease;
     }
 
-    .funny-reveal-btn:active { transform: scale(0.96); }
+    .funny-reveal-btn:hover {
+      background: #ff007f;
+      border-color: #1a45ff;
+      box-shadow: 5px 5px 0px #1a45ff;
+      transform: scale(1.04);
+    }
 
     .funny-polaroid-popup {
       max-height: 0;
       opacity: 0;
       overflow: hidden;
-      transform: scale(0.9) rotate(-3deg);
-      transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease, transform 0.45s ease, margin-top 0.4s ease;
+      transform: scale(0.85) rotate(-3deg);
+      transition: max-height 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), margin-top 0.45s ease;
     }
 
     .funny-polaroid-popup.open {
@@ -714,7 +783,7 @@
       position: fixed;
       bottom: 22px;
       left: 50%;
-      transform: translate3d(-50%, 0, 0);
+      transform: translateX(-50%);
       z-index: 120;
       background: #000000;
       border: 2.5px solid #ff007f;
@@ -745,12 +814,14 @@
         #1a45ff 245deg 295deg,
         #111111 295deg 360deg
       );
+      box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.35);
       animation: spinCD 4s linear infinite;
       animation-play-state: paused;
-      will-change: transform;
     }
 
-    .cd-disc.playing { animation-play-state: running; }
+    .cd-disc.playing {
+      animation-play-state: running;
+    }
 
     .cd-disc::before {
       content: '';
@@ -813,9 +884,16 @@
       justify-content: center;
       align-items: center;
       flex-shrink: 0;
+      transition: transform 0.15s ease, background 0.15s ease;
     }
 
-    /* --- HEART SHAPED CUSTOM CURSOR (Desktop Only) --- */
+    .play-toggle-btn:hover {
+      background: #1a45ff;
+      border-color: #ff007f;
+      transform: scale(1.08);
+    }
+
+    /* --- HEART SHAPED CUSTOM CURSOR --- */
     #cursor-dot {
       position: fixed;
       top: 0;
@@ -826,6 +904,7 @@
       transform: translate(-50%, -50%);
       z-index: 9999;
       will-change: transform;
+      filter: drop-shadow(0 0 5px rgba(255, 0, 127, 0.8));
     }
 
     .trail {
@@ -843,22 +922,50 @@
       100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
     }
 
-    @media (hover: none) and (pointer: coarse) {
-      #cursor-dot, .trail { display: none !important; }
-      * { cursor: auto !important; }
-    }
-
     @media (max-width: 768px) {
-      .star-anchor { width: 250px; height: 250px; }
-      .section { padding: 20px 6% 90px; justify-content: center; }
-      .reveal-section { flex-direction: column; padding-top: 80px; padding-bottom: 110px; gap: 32px; }
-      .keepsake-frame { max-width: 265px; margin-right: 0; box-shadow: 6px 6px 0px #1a45ff; }
-      .real-moon-wrapper { width: 85px; height: 85px; }
-      .card { box-shadow: 6px 6px 0px #1a45ff; padding: 22px 24px; }
-      .card:hover, .card.open { padding: 26px 24px 30px; }
-      h2 { font-size: 1.9rem; }
-      .mini-player-bar { bottom: 14px; min-width: 245px; padding: 7px 12px 7px 10px; }
-      .cd-disc { width: 38px; height: 38px; }
+      .star-anchor {
+        width: 250px;
+        height: 250px;
+      }
+      .section {
+        padding: 20px 6% 90px;
+        justify-content: center;
+      }
+      .reveal-section {
+        flex-direction: column;
+        padding-top: 80px;
+        padding-bottom: 110px;
+        gap: 32px;
+      }
+      .keepsake-frame {
+        max-width: 265px;
+        margin-right: 0;
+        box-shadow: 6px 6px 0px #1a45ff;
+      }
+      .real-moon-wrapper {
+        width: 85px;
+        height: 85px;
+      }
+      .card {
+        box-shadow: 6px 6px 0px #1a45ff;
+        padding: 22px 24px;
+      }
+      .card:hover,
+      .card.open {
+        padding: 26px 24px 30px;
+      }
+      h2 {
+        font-size: 1.9rem;
+      }
+      .mini-player-bar {
+        bottom: 14px;
+        min-width: 245px;
+        padding: 7px 12px 7px 10px;
+      }
+      .cd-disc {
+        width: 38px;
+        height: 38px;
+      }
     }
   </style>
 </head>
@@ -972,7 +1079,6 @@
       <div class="keepsake-frame" id="keepsakeFrame" title="Tap for a little note">
         <div class="keepsake-photo-wrap">
           <img
-            id="keepsakeImg"
             src="her.jpg"
             alt="Special memory"
             class="keepsake-photo"
@@ -1003,7 +1109,6 @@
         <div class="funny-polaroid-popup" id="funnyPopup">
           <div class="funny-photo-box">
             <img
-              id="funnyImg"
               src="funny.jpg"
               alt="Funny ending"
               onerror="this.src='https://placehold.co/300x400/05020c/ff007f?text=funny.jpg';"
@@ -1038,6 +1143,7 @@
 
   <script>
     // ===== NOTIFICATION SETUP (ntfy.sh) =====
+    // Apne ntfy app mein jo topic subscribe kiya hai, wahi naam yahan likho:
     const TOPIC = 'tanishka-tvgirl';
     const lastSent = {};
     const counts = {};
@@ -1055,6 +1161,7 @@
       }).catch(() => {});
     }
 
+    // Page open hote hi notification bhejo
     sendPing('Page Opened', 'Usne Lovers Rock wala page open kiya!', 0);
 
     // --- 0. GENERATE TWINKLING RETRO NIGHT SKY STARS ---
@@ -1071,6 +1178,7 @@
         st.style.left = `${Math.random() * 98}%`;
         st.style.top = `${Math.random() * 96}%`;
         st.style.background = color;
+        st.style.boxShadow = `0 0 ${size * 2}px ${color}`;
         st.style.animationDuration = `${2.2 + Math.random() * 3.5}s`;
         st.style.animationDelay = `${Math.random() * 3}s`;
         skyContainer.appendChild(st);
@@ -1125,11 +1233,14 @@
     spreadZones.forEach(z => {
       const box = document.createElement('div');
       box.className = 'flower-box';
+
       const jitterT = z.top + (Math.random() * 5 - 2.5);
       const jitterL = z.left + (Math.random() * 5 - 2.5);
+
       box.style.top = `${jitterT}%`;
       box.style.left = `${jitterL}%`;
       box.innerHTML = buildDetailedFlowerSVG();
+
       garden.appendChild(box);
       flowerMeta.push({
         box,
@@ -1139,7 +1250,7 @@
       });
     });
 
-    // --- 2. ON-DEMAND SMOOTH SCROLL-DRIVEN BLOOM & PARALLAX ---
+    // --- 2. SMOOTH SCROLL-DRIVEN BLOOM & PARALLAX LOOP ---
     const starSvg = document.getElementById('starSvg');
     const starMain = document.getElementById('starMain');
     const starShadow = document.getElementById('starShadow');
@@ -1150,28 +1261,18 @@
     const centerRings = document.querySelectorAll('.svg-center-ring');
     const centerCores = document.querySelectorAll('.svg-center-core');
 
-    let currentScroll = window.scrollY;
-    let targetScroll = window.scrollY;
-    let totalScrollCache = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
-    let renderActive = false;
-
-    window.addEventListener('resize', () => {
-      totalScrollCache = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
-    }, { passive: true });
+    let currentScroll = 0;
+    let targetScroll = 0;
 
     window.addEventListener('scroll', () => {
       targetScroll = window.scrollY;
-      if (!renderActive) {
-        renderActive = true;
-        requestAnimationFrame(render);
-      }
     }, { passive: true });
 
     function render() {
-      const diff = targetScroll - currentScroll;
-      currentScroll += diff * 0.12;
+      currentScroll += (targetScroll - currentScroll) * 0.09;
 
-      const progress = Math.min(Math.max(currentScroll / totalScrollCache, 0), 1);
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = totalScroll > 0 ? Math.min(Math.max(currentScroll / totalScroll, 0), 1) : 0;
 
       const starBloom = 0.08 + (progress * 1.07);
       const starSpin = progress * 60;
@@ -1187,45 +1288,47 @@
       const innerBloom = 0.18 + (progress * 0.88);
       const centerScale = 0.45 + (progress * 0.6);
 
-      for (let i = 0; i < outerLayers.length; i++) {
-        outerLayers[i].style.transform = `scale(${outerBloom})`;
-        innerLayers[i].style.transform = `scale(${innerBloom}) rotate(${progress * -25}deg)`;
-        centerRings[i].style.transform = `scale(${centerScale})`;
-        centerCores[i].style.transform = `scale(${centerScale})`;
-      }
+      outerLayers.forEach(layer => {
+        layer.style.transformOrigin = '50px 50px';
+        layer.style.transform = `scale(${outerBloom})`;
+      });
 
-      for (let i = 0; i < flowerMeta.length; i++) {
-        const item = flowerMeta[i];
+      innerLayers.forEach(layer => {
+        layer.style.transformOrigin = '50px 50px';
+        layer.style.transform = `scale(${innerBloom}) rotate(${progress * -25}deg)`;
+      });
+
+      centerRings.forEach(c => {
+        c.style.transformOrigin = '50px 50px';
+        c.style.transform = `scale(${centerScale})`;
+      });
+
+      centerCores.forEach(c => {
+        c.style.transformOrigin = '50px 50px';
+        c.style.transform = `scale(${centerScale})`;
+      });
+
+      flowerMeta.forEach(item => {
         const spin = item.baseAngle + (progress * 85 * item.spinDir);
         item.box.style.transform = `scale(${item.sizeScale}) rotate(${spin}deg)`;
-      }
+      });
 
-      if (Math.abs(diff) > 0.35) {
-        requestAnimationFrame(render);
-      } else {
-        renderActive = false;
-      }
+      requestAnimationFrame(render);
     }
-
-    // Pre-decode images so scroll never stutters when cards appear
-    ['keepsakeImg', 'funnyImg'].forEach(id => {
-      const img = document.getElementById(id);
-      if (img && img.decode) img.decode().catch(() => {});
-    });
 
     // --- 3. DROPDOWN CARDS & TIMELINE INTERSECTION OBSERVER ---
     const sections = document.querySelectorAll('.section');
     const dots = document.querySelectorAll('.timeline-dot');
     const cards = document.querySelectorAll('.card');
 
-    function launchHeartBurst(originX, originY, count = 10) {
+    function launchHeartBurst(originX, originY, count = 14) {
       const colors = ['#ff007f', '#1a45ff', '#ff85c2', '#ffffff'];
       for (let i = 0; i < count; i++) {
         const el = document.createElement('div');
         el.className = 'burst-heart';
         const size = 12 + Math.random() * 14;
-        const dx = (Math.random() - 0.5) * 240;
-        const dy = -80 - Math.random() * 200;
+        const dx = (Math.random() - 0.5) * 260;
+        const dy = -80 - Math.random() * 220;
         const rot = (Math.random() - 0.5) * 90;
         const fill = colors[i % colors.length];
 
@@ -1236,9 +1339,13 @@
         el.style.setProperty('--dx', `${dx}px`);
         el.style.setProperty('--dy', `${dy}px`);
         el.style.setProperty('--rot', `${rot}deg`);
-        el.innerHTML = `<svg viewBox="0 0 24 24" width="100%" height="100%"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="${fill}" /></svg>`;
+        el.innerHTML = `
+          <svg viewBox="0 0 24 24" width="100%" height="100%">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="${fill}" />
+          </svg>
+        `;
         document.body.appendChild(el);
-        setTimeout(() => el.remove(), 1550);
+        setTimeout(() => el.remove(), 1650);
       }
     }
 
@@ -1250,6 +1357,15 @@
         card.classList.toggle('open');
         if (willOpen) {
           sendPing(cardName, `Usne ${cardName} open kiya!`);
+          const rect = card.getBoundingClientRect();
+          launchHeartBurst(rect.right - 36, rect.top + 28, 8);
+        }
+      });
+
+      card.addEventListener('mouseenter', () => {
+        if (!card.dataset.sparkledOnce) {
+          card.dataset.sparkledOnce = '1';
+          sendPing(cardName, `Usne ${cardName} dekha!`);
           const rect = card.getBoundingClientRect();
           launchHeartBurst(rect.right - 36, rect.top + 28, 7);
         }
@@ -1264,7 +1380,7 @@
       sendPing('Moon Tapped', 'Usne Moon par tap karke secret wish dekhi!');
       realMoon.classList.add('discovered');
       const rect = realMoon.getBoundingClientRect();
-      launchHeartBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 10);
+      launchHeartBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 12);
       moonSecretNote.classList.toggle('show');
       clearTimeout(moonTimer);
       if (moonSecretNote.classList.contains('show')) {
@@ -1284,7 +1400,7 @@
       sendPing('Photo Tapped', 'Usne her.jpg wali photo par tap kiya!');
       keepsakeFrame.classList.toggle('sparkled');
       const rect = keepsakeFrame.getBoundingClientRect();
-      launchHeartBurst(rect.left + rect.width / 2, rect.top + rect.height * 0.4, 10);
+      launchHeartBurst(rect.left + rect.width / 2, rect.top + rect.height * 0.4, 14);
     });
 
     // Final Reveal "Send a Heart Back" Button
@@ -1294,7 +1410,7 @@
         e.stopPropagation();
         sendPing('Smile Received', 'Mission accomplished! Tanishka ne officially apni smile bhej di hai ✨💖', 0);
         const rect = sendHeartBtn.getBoundingClientRect();
-        launchHeartBurst(rect.left + rect.width / 2, rect.top, 16);
+        launchHeartBurst(rect.left + rect.width / 2, rect.top, 22);
         sendHeartBtn.classList.add('sent');
         sendHeartBtn.innerHTML = '♥ smile received <3';
       });
@@ -1312,7 +1428,7 @@
           sendPing('Bonus Ending Opened', 'Usne P.S. funny surprise khola 🙏😭');
           funnyEndingBtn.textContent = 'mission accomplished 🙏✨';
           const rect = funnyEndingBtn.getBoundingClientRect();
-          launchHeartBurst(rect.left + rect.width / 2, rect.top, 14);
+          launchHeartBurst(rect.left + rect.width / 2, rect.top, 20);
         } else {
           funnyEndingBtn.textContent = 'tap for a tiny surprise ✦';
         }
@@ -1333,13 +1449,19 @@
       h.style.width = `${size}px`;
       h.style.height = `${size}px`;
       h.style.animationDuration = `${duration}s`;
-      h.innerHTML = `<svg viewBox="0 0 24 24" width="100%" height="100%"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="${fill}" /></svg>`;
+      h.innerHTML = `
+        <svg viewBox="0 0 24 24" width="100%" height="100%">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="${fill}" />
+        </svg>
+      `;
       ambientContainer.appendChild(h);
       setTimeout(() => h.remove(), duration * 1000);
     }
 
-    for (let i = 0; i < 4; i++) setTimeout(spawnAmbientHeart, i * 1100);
-    setInterval(spawnAmbientHeart, 2800);
+    for (let i = 0; i < 6; i++) {
+      setTimeout(spawnAmbientHeart, i * 900);
+    }
+    setInterval(spawnAmbientHeart, 2200);
 
     // Intersection Observer for revealing cards, timeline dots & Polaroid frame
     const observer = new IntersectionObserver((entries) => {
@@ -1371,8 +1493,12 @@
     function startAmbientSynthFallback() {
       try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (!audioCtx) audioCtx = new AudioContext();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
+        if (!audioCtx) {
+          audioCtx = new AudioContext();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
 
         const chords = [
           [261.63, 329.63, 392.00, 493.88],
@@ -1424,7 +1550,7 @@
         cdDisc.classList.add('playing');
         playBtn.innerHTML = '❚❚';
         const rect = playBtn.getBoundingClientRect();
-        launchHeartBurst(rect.left + rect.width / 2, rect.top, 8);
+        launchHeartBurst(rect.left + rect.width / 2, rect.top, 10);
 
         const playPromise = tvAudio.play();
         if (playPromise !== undefined) {
@@ -1441,47 +1567,58 @@
       }
     });
 
-    // --- 5. CUSTOM HEART CURSOR (Desktop Mouse Only) ---
-    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-    if (!isTouchDevice) {
-      const dot = document.getElementById('cursor-dot');
-      let mouseX = window.innerWidth / 2;
-      let mouseY = window.innerHeight / 2;
-      let curX = mouseX;
-      let curY = mouseY;
-      let lastTrailTime = 0;
+    // --- 5. CUSTOM HEART CURSOR & FADING HEART TRAIL ---
+    const dot = document.getElementById('cursor-dot');
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let curX = mouseX;
+    let curY = mouseY;
+    let lastTrailTime = 0;
 
-      const spawnTrail = (x, y) => {
-        const now = performance.now();
-        if (now - lastTrailTime < 32) return;
-        lastTrailTime = now;
+    const spawnTrail = (x, y) => {
+      const now = performance.now();
+      if (now - lastTrailTime < 28) return;
+      lastTrailTime = now;
 
-        const trail = document.createElement('div');
-        trail.className = 'trail';
-        trail.style.left = `${x}px`;
-        trail.style.top = `${y}px`;
-        trail.innerHTML = `<svg viewBox="0 0 24 24" width="100%" height="100%"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#ff007f" /></svg>`;
-        document.body.appendChild(trail);
-        setTimeout(() => trail.remove(), 450);
-      };
+      const trail = document.createElement('div');
+      trail.className = 'trail';
+      trail.style.left = `${x}px`;
+      trail.style.top = `${y}px`;
+      trail.innerHTML = `
+        <svg viewBox="0 0 24 24" width="100%" height="100%">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#ff007f" />
+        </svg>
+      `;
+      document.body.appendChild(trail);
+      setTimeout(() => trail.remove(), 450);
+    };
 
-      window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        spawnTrail(e.clientX, e.clientY);
-      }, { passive: true });
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      spawnTrail(e.clientX, e.clientY);
+    }, { passive: true });
 
-      function cursorLoop() {
-        curX += (mouseX - curX) * 0.22;
-        curY += (mouseY - curY) * 0.22;
-        dot.style.transform = `translate3d(${curX}px, ${curY}px, 0) translate(-50%, -50%)`;
-        requestAnimationFrame(cursorLoop);
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches && e.touches.length > 0) {
+        const touch = e.touches[0];
+        mouseX = touch.clientX;
+        mouseY = touch.clientY;
+        spawnTrail(touch.clientX, touch.clientY);
       }
+    }, { passive: true });
+
+    function cursorLoop() {
+      curX += (mouseX - curX) * 0.22;
+      curY += (mouseY - curY) * 0.22;
+      dot.style.transform = `translate3d(${curX}px, ${curY}px, 0) translate(-50%, -50%)`;
       requestAnimationFrame(cursorLoop);
     }
 
-    // Initial render
-    requestAnimationFrame(render);
+    window.onload = function () {
+      requestAnimationFrame(render);
+      cursorLoop();
+    };
   </script>
 </body>
 </html>
